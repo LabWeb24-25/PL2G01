@@ -1,0 +1,61 @@
+﻿<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email Confirmado</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh; /* Para centralizar verticalmente */
+        }
+
+        h1 {
+            font-size: 3em;
+            color: #28a745; /* Verde para a confirmação */
+            margin: 0;
+        }
+
+        p {
+            font-size: 1.5em;
+            color: #333;
+            margin: 10px 0 20px 0;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+            button:hover {
+                background-color: #0056b3;
+            }
+    </style>
+</head>
+<body>
+
+    <h1>Email Confirmado</h1>
+    <p>Obrigado pela confirmação</p>
+    <button onclick="goToHomePage()">Voltar para a página principal</button>
+
+    <script>
+        function goToHomePage() {
+            // Aqui você pode alterar o URL para a página principal da sua aplicação
+            window.location.href = 'index.html'; // Substitua 'index.html' pelo caminho correto
+        }
+    </script>
+
+</body>
+</html>
