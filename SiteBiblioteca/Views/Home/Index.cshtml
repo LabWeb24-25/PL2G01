@@ -57,20 +57,29 @@
 
         .image {
             display: flex; /* Flexbox para alinhar a imagem */
-            justify-content: center; /* Centraliza a imagem horizontalmente */
-            margin: 50px 0; /* Margem acima e abaixo da imagem */
+            justify-content: start; /* Centraliza a imagem horizontalmente */
+            margin: -150px 120px; /* Margem acima e abaixo da imagem */
         }
 
             .image img {
                 max-width: 100%; /* Garante que a imagem não exceda o container */
                 height: auto; /* Mantém a proporção da imagem */
-            }
+            } 
 
         .buttons {
             margin-left: auto; /* Alinha os botões à direita */
             display: flex; /* Usar flexbox para alinhar os botões */
             gap: 10px; /* Espaço entre os botões */
         }
+
+/*         .ret {
+            border: 1px solid #FFFFFF;
+            padding: 200px;
+            height: auto;
+            background-color: #505050;
+            align-content: center;
+            /* margin: 700px 500px */
+        } */
     </style>
 </head>
 <body>
@@ -79,7 +88,7 @@
         <h1>Bem-vindo à biblioteca!</h1>
 
         <div class="search-bar">
-            <input type="text" placeholder="Procure um livro">
+            <input disabled type="text" placeholder="Procure um livro">
             <button disabled>Pesquisar</button>
         </div>
         <div class="buttons">
@@ -91,6 +100,10 @@
     <div class="image">
         <img src="~/img/biblioteca.png" alt="Imagem da Biblioteca" />
     </div>
+
+  @*   <div>
+        <rectangle class="ret"></rectangle>
+    </div> *@
 
 @*     <div class="book-container">
         @foreach (var livro in Model)
