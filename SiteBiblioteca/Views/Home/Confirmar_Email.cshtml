@@ -1,0 +1,28 @@
+﻿@{
+    ViewData["Title"] = "Confirmar Email";
+}
+
+<div style="display: flex; justify-content: center; align-items: center; height: 100vh; background-color: #ffffff;">
+    <div style="width: 400px; text-align: center; padding: 20px; border: 1px solid #000000; border-radius: 5px;">
+        <h2>Por favor, confirme o seu email</h2>
+
+        <p style="font-size: 16px; margin-bottom: 30px;">
+            Aceda à sua conta de email para concluir <br /> o processo de confirmação
+        </p>
+
+        <div style="display: flex; justify-content: space-around;">
+            <form method="post" action="/home/EnviarNovamente" style="margin: 0;">
+                <button type="submit" style="padding: 10px 20px; background-color: #f0f0f0; border: 1px solid #000; border-radius: 5px;">
+                    Enviar novamente
+                </button>
+            </form>
+
+            <form method="post" action="/home/AlterarEmail" style="margin: 0;">
+                <button type="submit" style="padding: 10px 20px; background-color: #f0f0f0; border: 1px solid #000; border-radius: 5px;">
+                    Alterar endereço de email
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+
