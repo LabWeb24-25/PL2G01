@@ -6,3 +6,99 @@
     <h1 class="display-4">Welcome</h1>
     <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
 </div>
+@{
+    ViewData["Title"] = "Registar";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+</div>
+
+<div class="container mt-5">
+    <h1 class="text-center">Registar</h1>
+    <form method="post">
+        <div class="mb-3">
+            <label for="nome" class="form-label">Nome</label>
+            <input type="text" id="nome" name="nome" class="form-control" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="username" class="form-label">Username</label>
+            <input type="text" id="username" name="username" class="form-control" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="email" class="form-label">Email</label>
+            <input type="email" id="email" name="email" class="form-control" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="contacto" class="form-label">Contacto</label>
+            <input type="text" id="contacto" name="contacto" class="form-control" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="morada" class="form-label">Morada</label>
+            <input type="text" id="morada" name="morada" class="form-control" required>
+        </div>
+
+        <div class="mb-3 password-container">
+            <label for="codigo_acesso" class="form-label">Código de Acesso</label>
+            <div class="input-group">
+                <input type="password" id="codigo_acesso" name="codigo_acesso" class="form-control" required>
+                <button type="button" class="btn btn-outline-secondary" onclick="togglePassword('codigo_acesso')">👁️</button>
+            </div>
+        </div>
+
+        <div class="mb-3 password-container">
+            <label for="confirm_codigo_acesso" class="form-label">Confirmar Código de Acesso</label>
+            <div class="input-group">
+                <input type="password" id="confirm_codigo_acesso" name="confirm_codigo_acesso" class="form-control" required>
+                <button type="button" class="btn btn-outline-secondary" onclick="togglePassword('confirm_codigo_acesso')">👁️</button>
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <label for="tipo" class="form-label">Tipo</label>
+            <select id="tipo" name="tipo" class="form-select">
+                <option value="leitor">Leitor</option>
+                <option value="bibliotecario">Bibliotecário</option>
+            </select>
+        </div>
+
+        <button type="submit" class="btn btn-primary w-100">Registar</button>
+    </form>
+</div>
+
+@section Scripts {
+    <script>
+        function togglePassword(id) {
+            const passwordField = document.getElementById(id);
+            if (passwordField.type === "password") {
+                passwordField.type = "text";
+            } else {
+                passwordField.type = "password";
+            }
+        }
+    </script>
+}
+
+<style>
+    .container {
+        max-width: 400px;
+        padding: 20px;
+        background-color: #f8f9fa;
+        border-radius: 8px;
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    .password-container {
+        position: relative;
+    }
+
+    .btn-outline-secondary {
+        border-left: none;
+        cursor: pointer;
+    }
+</style>
