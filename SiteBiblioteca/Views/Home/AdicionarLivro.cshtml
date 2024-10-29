@@ -1,0 +1,60 @@
+﻿@{
+    ViewData["Title"] = "Adicionar Livro";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Adicionar Livro</h1>
+    <p>Insira os detalhes do livro que deseja adicionar.</p>
+</div>
+
+<div class="container mt-5">
+    <h1 class="text-center">Adicionar Livro</h1>
+    <form method="post" enctype="multipart/form-data">
+        <div class="mb-3">
+            <label for="isbn" class="form-label">ISBN</label>
+            <input type="text" id="isbn" name="isbn" class="form-control" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="titulo" class="form-label">Título</label>
+            <input type="text" id="titulo" name="titulo" class="form-control" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="autor" class="form-label">Autor</label>
+            <input type="text" id="autor" name="autor" class="form-control" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="genero" class="form-label">Género</label>
+            <input type="text" id="genero" name="genero" class="form-control" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="preco" class="form-label">Preço</label>
+            <input type="number" id="preco" name="preco" class="form-control" required step="0.01">
+        </div>
+
+        <div class="mb-3">
+            <label for="numero_exemplares" class="form-label">Número de Exemplares</label>
+            <input type="number" id="numero_exemplares" name="numero_exemplares" class="form-control" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="capa" class="form-label">Adicionar Foto da Capa</label>
+            <input type="file" id="capa" name="capa" class="form-control" accept="image/*" required>
+        </div>
+
+        <button type="submit" class="btn btn-primary w-100">Adicionar Livro</button>
+    </form>
+</div>
+
+<style>
+    .container {
+        max-width: 400px;
+        padding: 20px;
+        background-color: #f8f9fa;
+        border-radius: 8px;
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    }
+</style>
