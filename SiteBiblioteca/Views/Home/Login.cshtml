@@ -1,0 +1,110 @@
+﻿<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Página de Login</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 400px;
+            margin: auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        input[type="text"], input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+            button:hover {
+                background-color: #218838;
+            }
+
+        .register-link, .recover-link {
+            display: block;
+            text-align: center;
+            margin-top: 10px;
+            color: #007bff;
+            text-decoration: none;
+        }
+
+            .register-link:hover, .recover-link:hover {
+                text-decoration: underline;
+            }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Login</h1>
+
+        <div class="form-group">
+            <label for="username">Nome de Utilizador:</label>
+            <input type="text" id="username" placeholder="Digite seu nome">
+        </div>
+
+        <div class="form-group">
+            <label for="password">Código de Acesso:</label>
+            <input type="password" id="password" placeholder="Digite seu código de acesso">
+        </div>
+
+        <button onclick="login()">Entrar</button>
+
+        <a href="register.html" class="register-link">Ainda não tens conta? Regista-te</a>
+
+        <a href="recover.html" class="recover-link">Esqueceu-se do código de acesso? Recuperar Código</a>
+    </div>
+
+    <script>
+        function login() {
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            if (username.trim() === '' || password.trim() === '') {
+                alert('Por favor, preencha todos os campos.');
+            } else {
+                alert('Login realizado com sucesso!');
+                // Aqui você pode adicionar a lógica para processar o login
+            }
+        }
+    </script>
+
+</body>
+</html>
