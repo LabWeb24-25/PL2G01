@@ -112,7 +112,7 @@ namespace SiteBiblioteca.Areas.Identity.Pages.Account
 
             [Required]
             [Display(Name = "Contact")]
-            public string Contact { get; set; }
+            public string PhoneNumber { get; set; }
 
             [Required]
             [Display(Name = "Address")]
