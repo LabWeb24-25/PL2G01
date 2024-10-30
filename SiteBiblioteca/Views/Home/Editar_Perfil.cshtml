@@ -1,0 +1,62 @@
+﻿@{
+    ViewData["Title"] = "Editar Perfil";
+}
+
+<div style="max-width: 800px; margin: 0 auto; background-color: #666666; padding: 20px; border-radius: 5px; color: #ffffff;">
+    <h2>Editar Perfil</h2>
+
+    <form method="post" action="/home/SalvarPerfil">
+        <div style="display: flex;">
+            <!-- Left side fields -->
+            <div style="flex: 1; padding-right: 20px;">
+                <div style="margin-bottom: 15px;">
+                    <label for="username">Username:</label>
+                    <input type="text" id="username" name="Username" value="Jota" style="width: 100%; padding: 8px;" />
+                </div>
+
+                <div style="margin-bottom: 15px;">
+                    <label for="nome">Nome:</label>
+                    <input type="text" id="nome" name="Nome" value="João Teixeira Lopes" style="width: 100%; padding: 8px;" />
+                </div>
+
+                <div style="margin-bottom: 15px;">
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="Email" value="joaoteixeiralopes@gmail.com" style="width: 100%; padding: 8px;" />
+                </div>
+
+                <div style="margin-bottom: 15px;">
+                    <label for="morada">Morada:</label>
+                    <input type="text" id="morada" name="Morada" value="Rua dos Abutres N.º 10" style="width: 100%; padding: 8px;" />
+                </div>
+
+                <div style="margin-bottom: 15px;">
+                    <label for="contactos">Contactos:</label>
+                    <input type="text" id="contactos" name="Contactos" value="912883209" style="width: 100%; padding: 8px;" />
+                </div>
+            </div>
+
+            <!-- Right side profile picture -->
+            <div style="flex: 0.5; text-align: center;">
+                <div style="margin-bottom: 15px;">
+                    <img src="~/images/profile-placeholder.png" alt="Foto de Perfil" style="width: 100px; height: 100px; border-radius: 50%; background-color: #ffffff;" />
+                </div>
+                <div style="margin-bottom: 15px;">
+                    <button type="button" style="padding: 10px; background-color: #cccccc; border: none; border-radius: 5px;">
+                        Carregar Nova Foto de Perfil
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Buttons -->
+        <div style="text-align: right;">
+            <button type="button" onclick="window.location.href='/home'" style="padding: 10px 20px; background-color: #888888; color: #ffffff; border: none; border-radius: 5px; margin-right: 10px;">
+                Cancelar
+            </button>
+            <button type="submit" style="padding: 10px 20px; background-color: #4CAF50; color: #ffffff; border: none; border-radius: 5px;">
+                Guardar
+            </button>
+        </div>
+    </form>
+</div>
+
