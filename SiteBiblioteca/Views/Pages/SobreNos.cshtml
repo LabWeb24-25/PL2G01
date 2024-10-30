@@ -27,7 +27,8 @@
         margin: 10px;
         box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
         flex: 1 1 300px; /* Permite que a caixa cresça e ocupe espaço disponível */
-        max-width: 350px; /* Limita a largura máxima da caixa */
+        max-width: 500px; /* Limita a largura máxima da caixa */
+        text-align: center;
     }
 
     .header {
@@ -40,27 +41,25 @@
 
     .social-media {
         display: flex;
-        flex-direction: column;
+        justify-content: center; /* Centraliza os ícones */
         align-items: center;
-        gap: 10px;
+        gap: 50px; /* Espaço entre os ícones sociais */
     }
 
-        .social-media div {
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-
     .social-icon {
-        width: 30px;
-        height: 30px;
-        background-color: #fff;
-        border: 1px solid #000;
         display: flex;
-        justify-content: center;
-        align-items: center;
-        font-size: 20px;
-        cursor: pointer;
+        align-items: center; /* Centraliza verticalmente */
+        cursor: pointer; /* Muda o cursor para indicar interatividade */
+        font-size: 30px;
+    }
+
+    .social-img {
+        width: 30px; /* Largura do ícone do YouTube */
+        height: 30px; /* Altura do ícone do YouTube */
+    }
+
+    .social-icon-i {
+        font-size: 30px; /* Tamanho da fonte dos ícones Font Awesome */
     }
 
     .map {
@@ -80,6 +79,10 @@
         }
 </style>
 
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fi-css@latest/dist/fi.min.css">
+<link rel="stylesheet" href="https://cdn.flaticon.com/icons/css/flat-icon.css">
+
 <div class="container">
     <!-- Secção de Contactos -->
     <div class="box">
@@ -92,17 +95,6 @@
         </p>
     </div>
 
-    <!-- Secção de Horário de Funcionamento -->
-    <div class="box">
-        <div class="header">Horário de Funcionamento</div>
-        <p>
-            Segunda a Sexta-Feira<br>
-            9h00 às 18h00<br>
-            Sábado<br>
-            14h30 às 18h30
-        </p>
-    </div>
-
     <!-- Secção de Localização -->
     <div class="box map">
         <div class="header">Localização da Biblioteca</div>
@@ -112,11 +104,34 @@
     <!-- Secção de Redes Sociais -->
     <div class="box">
         <div class="header">Redes Sociais</div>
-        <div class="social-media">
-            <div><div class="social-icon">▶</div>Youtube</div>
-            <div><div class="social-icon">X</div>X</div>
-            <div><div class="social-icon">📷</div>Instagram</div>
-            <div><div class="social-icon">🎵</div>Tiktok</div>
-        </div>
+        <p>
+            <div class="social-media">
+                <div class="social-icon">
+                    <img src="~/img/youtube-symbol.png" alt="Youtube" class="social-img" />
+                </div>
+                <div class="social-icon">
+                    <div>𝕏</div>
+                </div>
+                <div class="social-icon">
+                    <i class="fab fa-instagram social-icon-i"></i>
+                </div>
+                <div class="social-icon">
+                    <i class="fab fa-tiktok social-icon-i"></i>
+                </div>
+            </div>
+        </p>
+    </div>
+
+    <!-- Secção de Horário de Funcionamento -->
+    <div class="box">
+        <div class="header">Horário de Funcionamento</div>
+        <p>
+            Segunda a Sexta-Feira<br>
+            9h00 às 18h00<br>
+            Sábado<br>
+            14h30 às 18h30<br>
+            Domingo<br>
+            15h00 às 18h00
+        </p>
     </div>
 </div>
