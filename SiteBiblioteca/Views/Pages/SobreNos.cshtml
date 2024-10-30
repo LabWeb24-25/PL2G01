@@ -1,0 +1,122 @@
+﻿@{
+    ViewData["Title"] = "Sobre Nós";
+}
+
+<style>
+    /* Estilos gerais da página */
+    body, html {
+        height: 100%;
+        margin: 0;
+        background-color: #666;
+        font-family: Arial, sans-serif;
+        color: #000;
+    }
+
+    .container {
+        display: flex;
+        justify-content: space-around;
+        align-items: flex-start;
+        padding: 20px;
+        flex-wrap: wrap; /* Permitir que os itens se movam para a linha seguinte */
+    }
+
+    .box {
+        background-color: #fff;
+        border: 1px solid #000;
+        padding: 15px;
+        margin: 10px;
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+        flex: 1 1 300px; /* Permite que a caixa cresça e ocupe espaço disponível */
+        max-width: 350px; /* Limita a largura máxima da caixa */
+    }
+
+    .header {
+        background-color: #ddd;
+        border: 1px solid #000;
+        padding: 5px;
+        text-align: center;
+        font-weight: bold;
+    }
+
+    .social-media {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+    }
+
+        .social-media div {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+    .social-icon {
+        width: 30px;
+        height: 30px;
+        background-color: #fff;
+        border: 1px solid #000;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 20px;
+        cursor: pointer;
+    }
+
+    .map {
+        text-align: center;
+    }
+
+        .map img {
+            width: 100%; /* Faz com que a imagem ocupe a largura total da caixa */
+            height: auto; /* Mantém a proporção da imagem */
+            max-width: 200px; /* Limita a largura máxima da imagem */
+            border: 1px solid #000;
+        }
+
+        .map a {
+            color: #0000ff;
+            text-decoration: underline;
+        }
+</style>
+
+<div class="container">
+    <!-- Secção de Contactos -->
+    <div class="box">
+        <div class="header">Contactos</div>
+        <p>
+            Biblioteca Fixe<br>
+            Av. Folhadela<br>
+            Telefone: 255 389 141<br>
+            E-mail: biblioteca@cm-folhadela.pt
+        </p>
+    </div>
+
+    <!-- Secção de Horário de Funcionamento -->
+    <div class="box">
+        <div class="header">Horário de Funcionamento</div>
+        <p>
+            Segunda a Sexta-Feira<br>
+            9h00 às 18h00<br>
+            Sábado<br>
+            14h30 às 18h30
+        </p>
+    </div>
+
+    <!-- Secção de Localização -->
+    <div class="box map">
+        <div class="header">Localização da Biblioteca</div>
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2709.7001693479933!2d-8.203828324467123!3d41.367215297247036!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd24eb95167d858f%3A0x6d5e1c16d47e8e3f!2sBiblioteca%20Municipal%20de%20Felgueiras!5e1!3m2!1spt-PT!2spt!4v1730303729390!5m2!1spt-PT!2spt" width="400" height="300" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+    </div>
+
+    <!-- Secção de Redes Sociais -->
+    <div class="box">
+        <div class="header">Redes Sociais</div>
+        <div class="social-media">
+            <div><div class="social-icon">▶</div>Youtube</div>
+            <div><div class="social-icon">X</div>X</div>
+            <div><div class="social-icon">📷</div>Instagram</div>
+            <div><div class="social-icon">🎵</div>Tiktok</div>
+        </div>
+    </div>
+</div>
