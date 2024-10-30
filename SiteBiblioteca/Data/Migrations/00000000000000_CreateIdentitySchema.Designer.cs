@@ -114,6 +114,15 @@ namespace SiteBiblioteca.Data.Migrations
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("bit");
 
+                    b.Property<string>("UserType")
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("Adress")
+                        .HasColumnType("nvarchar(256)"); 
+                    
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
 
