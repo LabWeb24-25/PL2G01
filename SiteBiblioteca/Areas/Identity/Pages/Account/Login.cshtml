@@ -1,0 +1,78 @@
+﻿@page
+@model LoginModel
+@{
+    ViewData["Title"] = "Login";
+}
+
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"]</title>
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #2d2d2d;
+        }
+
+        .form-container {
+            background-color: #ffffff;
+            padding: 20px; /* Padding interno */
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+            width: 400px; /* Largura fixa */
+            height: auto; /* Altura automática para se ajustar ao conteúdo */
+            min-height: 300px; /* Altura mínima ajustada para 300px */
+            max-height: 600px; /* Altura máxima ajustada para 600px */
+            box-sizing: border-box; /* Inclui padding e borda nas dimensões totais */
+            margin: 20px auto; /* Centraliza o formulário */
+            overflow-y: auto; /* Permite rolagem vertical se o conteúdo exceder a altura */
+        }
+
+        h2 {
+            color: #333;
+            text-align: center;
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            border: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <h2>Login</h2>
+        <hr />
+        <form id="loginForm" asp-route-returnUrl="@Model.ReturnUrl" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger mb-3" role="alert"></div>
+
+            <!-- Username/Email -->
+            <div class="form-floating mb-3">
+                <input asp-for="Input.Email" class="form-control" placeholder="Email" required />
+                <label asp-for="Input.Email">Email</label>
+                <span asp-validation-for="Input.Email" class="text-danger"></span>
+            </div>
+
+            <!-- Código de Acesso -->
+            <div class="form-floating mb-3">
+                <input asp-for="Input.Password" type="password" class="form-control" placeholder="Código de Acesso" required />
+                <label asp-for="Input.Password">Código de Acesso</label>
+                <span asp-validation-for="Input.Password" class="text-danger"></span>
+            </div>
+
+            <!-- Botão de Login -->
+            <button id="loginSubmit" type="submit" class="btn btn-primary w-100">Login</button>
+        </form>
+    </div>
+
+    @section Scripts {
+        <partial name="_ValidationScriptsPartial" />
+    }
+</body>
+</html>
