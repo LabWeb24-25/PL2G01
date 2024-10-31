@@ -2,14 +2,14 @@
 
 namespace SiteBiblioteca.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController2 : Controller
     {
         public IActionResult Index()
         {
             return View();
         }
 
-        public IActionResult EditarPerfil()
+        public IActionResult EditarPerfil2()
         {
             return View();
         }
