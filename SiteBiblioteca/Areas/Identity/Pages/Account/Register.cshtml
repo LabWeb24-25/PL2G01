@@ -4,67 +4,107 @@
     ViewData["Title"] = "Registar";
 }
 
-<h1>@ViewData["Title"]</h1>
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"]</title>
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #2d2d2d;
+        }
 
-<div class="row">
-    <div class="col-md-4">
+        .form-container {
+            background-color: #ffffff;
+            padding: 20px; /* Padding interno */
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+            width: 400px; /* Largura fixa */
+            height: auto; /* Altura automática para se ajustar ao conteúdo */
+            min-height: 300px; /* Altura mínima ajustada para 300px */
+            max-height: 600px; /* Altura máxima ajustada para 600px */
+            box-sizing: border-box; /* Inclui padding e borda nas dimensões totais */
+            margin: 20px auto; /* Centraliza o formulário */
+            overflow-y: auto; /* Permite rolagem vertical se o conteúdo exceder a altura */
+        }
+
+
+        h2 {
+            color: #333;
+            text-align: center;
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            border: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <h2>Registar</h2>
+        <hr />
         <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post">
-            <h2>Registar</h2>
-            <hr />
-            <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
+            <div asp-validation-summary="ModelOnly" class="text-danger mb-3" role="alert"></div>
 
             <!-- Nome -->
             <div class="form-floating mb-3">
-                <input asp-for="Input.Name" class="form-control" placeholder="Nome" aria-required="true" />
+                <input asp-for="Input.Name" class="form-control" placeholder="Nome" required />
                 <label asp-for="Input.Name">Nome</label>
                 <span asp-validation-for="Input.Name" class="text-danger"></span>
             </div>
 
             <!-- Username -->
             <div class="form-floating mb-3">
-                <input asp-for="Input.Username" class="form-control" placeholder="Username" aria-required="true" />
+                <input asp-for="Input.Username" class="form-control" placeholder="Username" required />
                 <label asp-for="Input.Username">Username</label>
                 <span asp-validation-for="Input.Username" class="text-danger"></span>
             </div>
 
             <!-- Email -->
             <div class="form-floating mb-3">
-                <input asp-for="Input.Email" class="form-control" autocomplete="username" placeholder="name@example.com" aria-required="true" />
+                <input asp-for="Input.Email" class="form-control" autocomplete="username" placeholder="name@example.com" required />
                 <label asp-for="Input.Email">Email</label>
                 <span asp-validation-for="Input.Email" class="text-danger"></span>
             </div>
 
             <!-- Contacto -->
             <div class="form-floating mb-3">
-                <input asp-for="Input.Contact" class="form-control" placeholder="Contacto" aria-required="true" />
+                <input asp-for="Input.Contact" class="form-control" placeholder="Contacto" required />
                 <label asp-for="Input.Contact">Contacto</label>
                 <span asp-validation-for="Input.Contact" class="text-danger"></span>
             </div>
 
             <!-- Morada -->
             <div class="form-floating mb-3">
-                <input asp-for="Input.Address" class="form-control" placeholder="Morada" aria-required="true" />
+                <input asp-for="Input.Address" class="form-control" placeholder="Morada" required />
                 <label asp-for="Input.Address">Morada</label>
                 <span asp-validation-for="Input.Address" class="text-danger"></span>
             </div>
 
             <!-- Código de Acesso -->
             <div class="form-floating mb-3">
-                <input asp-for="Input.Password" type="password" class="form-control" placeholder="Código de Acesso" aria-required="true" />
+                <input asp-for="Input.Password" type="password" class="form-control" placeholder="Código de Acesso" required />
                 <label asp-for="Input.Password">Código de Acesso</label>
                 <span asp-validation-for="Input.Password" class="text-danger"></span>
             </div>
 
             <!-- Confirmar Código de Acesso -->
             <div class="form-floating mb-3">
-                <input asp-for="Input.ConfirmPassword" type="password" class="form-control" placeholder="Confirmar Código de Acesso" aria-required="true" />
+                <input asp-for="Input.ConfirmPassword" type="password" class="form-control" placeholder="Confirmar Código de Acesso" required />
                 <label asp-for="Input.ConfirmPassword">Confirmar Código de Acesso</label>
                 <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
             </div>
 
-            <!-- Tipo de Usuário (Leitor ou Bibliotecário) -->
+            <!-- Tipo de Utilizador -->
             <div class="mb-3">
-                <label for="UserType" class="form-label">Tipo de Usuário</label>
+                <label for="UserType" class="form-label">Tipo de Utilizador</label>
                 <select asp-for="Input.UserType" class="form-select">
                     <option value="Leitor">Leitor</option>
                     <option value="Bibliotecario">Bibliotecário</option>
@@ -72,12 +112,13 @@
                 <span asp-validation-for="Input.UserType" class="text-danger"></span>
             </div>
 
-            <!-- Botão de Registro -->
-            <button id="registerSubmit" type="submit" class="w-100 btn btn-lg btn-primary">Registrar</button>
+            <!-- Botão de Registo -->
+            <button id="registerSubmit" type="submit" class="btn btn-primary w-100">Registar</button>
         </form>
     </div>
-</div>
 
-@section Scripts {
-    <partial name="_ValidationScriptsPartial" />
-}
+    @section Scripts {
+        <partial name="_ValidationScriptsPartial" />
+    }
+</body>
+</html>
