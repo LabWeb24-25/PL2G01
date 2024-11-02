@@ -8,101 +8,55 @@
 <head>
     <meta charset="UTF-8">
     <title>@ViewData["Title"]</title>
-    <style>
-        /* Estilo principal para centralizar e estilizar o perfil */
-        body {
-            background-color: #4f4f4f;
-            font-family: Arial, sans-serif;
-            color: white;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-        }
-
-        /* Container principal do perfil */
-        .container {
-            width: 500px;
-            padding: 20px;
-            background-color: #3d3d3d;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-            position: relative;
-        }
-
-        /* Estilo para as informações do perfil */
-        .profile-info {
-            border: 1px solid white;
-            padding: 20px;
-            padding-top: 60px; /* Para dar espaço à imagem no topo */
-            position: relative;
-        }
-
-        .profile-info p {
-            margin: 10px 0;
-        }
-
-        /* Estilo para a foto de perfil dentro do retângulo branco */
-        .profile-picture {
-            width: 100px;
-            height: 100px;
-            background-color: white;
-            border: 1px solid #ccc;
-            position: absolute;
-            top: -30px;
-            right: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 10px;
-        }
-
-        .profile-picture img {
-            max-width: 90%;
-            max-height: 90%;
-            border-radius: 5px;
-        }
-
-        /* Estilo para os botões */
-        .buttons {
-            margin-top: 20px;
-            text-align: center;
-        }
-
-        .buttons button {
-            margin: 0 5px;
-            padding: 10px 20px;
-            background-color: #2c2c2c;
-            border: 1px solid white;
-            color: white;
-            cursor: pointer;
-            border-radius: 5px;
-            font-weight: bold;
-        }
-
-        .buttons button:hover {
-            background-color: #555;
-        }
-    </style>
 </head>
 <body>
-    <div class="container">
+    <div style="max-width: 800px; margin: 0 auto; background-color: #666666; padding: 20px; border-radius: 5px; color: #ffffff;">
         <h2>Perfil de Utilizador</h2>
-        <div class="profile-info">
-            <div class="profile-picture">
-                <img src="~/images/user-placeholder.png" alt="Foto de Perfil" />
+
+        <div style="display: flex;">
+            <!-- Retângulo com informações do usuário -->
+            <div style="flex: 1; padding: 20px; background-color: #ffffff; color: #000000; border: 1px solid #ffffff; border-radius: 5px;">
+                <div style="margin-bottom: 15px;">
+                    <p><strong>Username:</strong> Usuário Anônimo</p>
+                </div>
+
+                <div style="margin-bottom: 15px;">
+                    <p><strong>Nome:</strong> Nome Completo (Exemplo)</p>
+                </div>
+
+                <div style="margin-bottom: 15px;">
+                    <p><strong>Email:</strong> email@exemplo.com</p>
+                </div>
+
+                <div style="margin-bottom: 15px;">
+                    <p><strong>Morada:</strong> Endereço (Exemplo)</p>
+                </div>
+
+                <div style="margin-bottom: 15px;">
+                    <p><strong>Contactos:</strong> Contato (Exemplo)</p>
+                </div>
+
+                <div style="margin-bottom: 15px;">
+                    <p><strong>Email Confirmado:</strong> Não</p>
+                </div>
             </div>
-            <p><strong>Username:</strong> Usuário Anônimo</p>
-            <p><strong>Nome:</strong> Nome Completo (Exemplo)</p>
-            <p><strong>Email:</strong> email@exemplo.com</p>
-            <p><strong>Morada:</strong> Endereço (Exemplo)</p>
-            <p><strong>Contactos:</strong> Contato (Exemplo)</p>
-            <p><strong>Email Confirmado:</strong> Não</p>
+
+            <!-- Lado direito com a foto de perfil -->
+            <div style="flex: 0.5; text-align: center; padding-left: 20px;">
+                <div style="margin-bottom: 15px;">
+                    <img src="~/images/profile-placeholder.png" alt="Foto de Perfil" style="width: 100px; height: 100px; border-radius: 50%; background-color: #ffffff;" />
+                </div>
+            </div>
         </div>
-        <div class="buttons">
-            <button onclick="location.href='@Url.Page("/Account/Manage/EditProfile")'">Editar Perfil</button>
-            <button onclick="location.href='@Url.Page("/Account/Manage/ConfirmEmail")'">Confirmar Email</button>
+
+        <!-- Botões -->
+        <div style="text-align: right; margin-top: 20px;">
+            <button onclick="location.href='@Url.Page("/Account/Manage/EditProfile")'" style="padding: 10px 20px; background-color: #888888; color: #ffffff; border: none; border-radius: 5px; margin-right: 10px;">
+                Editar Perfil
+            </button>
+            <button onclick="location.href='@Url.Page("/Account/Manage/ConfirmEmail")'" style="padding: 10px 20px; background-color: #4CAF50; color: #ffffff; border: none; border-radius: 5px;">
+                Confirmar Email
+            </button>
         </div>
     </div>
 </body>
