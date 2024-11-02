@@ -2,6 +2,9 @@
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Authorization;
+
+[AllowAnonymous] // Adicione esta linha
 
 public class IndexModel : PageModel
 {
@@ -71,6 +74,21 @@ public class IndexModel : PageModel
 
     public async Task<IActionResult> OnGetAsync()
     {
+        if (!User.Identity.IsAuthenticated)
+        {
+            Username = "Usuário Anônimo";
+            Input = new InputModel
+            {
+                FullName = "Nome Completo (Exemplo)",
+                Email = "email@exemplo.com",
+                Address = "Endereço (Exemplo)",
+                Contact = "Contato (Exemplo)",
+                IsEmailConfirmed = false
+            };
+
+            return Page();
+        }
+
         var user = await _userManager.GetUserAsync(User);
         if (user == null)
         {
@@ -80,6 +98,7 @@ public class IndexModel : PageModel
         await LoadAsync(user);
         return Page();
     }
+
 
     public async Task<IActionResult> OnPostAsync()
     {
