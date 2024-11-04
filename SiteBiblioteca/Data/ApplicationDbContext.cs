@@ -9,5 +9,6 @@ namespace SiteBiblioteca.Data
             : base(options)
         {
         }
+        public DbSet<SiteBiblioteca.Models.User> Adicional { get; set; }
     }
 }
