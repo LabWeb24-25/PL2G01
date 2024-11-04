@@ -2,27 +2,25 @@
 @inject SignInManager<IdentityUser> SignInManager
 @inject UserManager<IdentityUser> UserManager
 
-<ul class="navbar-nav">
 @if (SignInManager.IsSignedIn(User))
 {
-    <li class="search-bar">
+    <div class="search-bar">
         <input type="text" placeholder="Procure um livro">
         <button>Pesquisar</button>
-    </li>
-    <li class="buttons">
+    </div>
+    <div class="buttons">
         <button onclick="location.href='@Url.Action("SobreNos", "Pages")'">Sobre nós</button>
         <button onclick="location.href='Identity/Account/Manage/EditarPerfil'">Perfil</button>
-    </li>
+    </div>
 }
 else
 {
-    <li class="search-bar">
+    <div class="search-bar">
         <input disabled type="text" placeholder="Procure um livro">
         <button disabled>Pesquisar</button>
-    </li>
-    <li class="buttons">
+    </div>
+    <div class="buttons">
         <button onclick="location.href='@Url.Action("SobreNos", "Pages")'">Sobre nós</button>
         <button onclick="location.href='Identity/Account/Login'">Login</button>
-    </li>
+    </div>
 }
-</ul>
