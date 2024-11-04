@@ -1,0 +1,42 @@
+﻿@{
+    ViewData["Title"] = "Perfil de Utilizador";
+}
+
+<div style="max-width: 800px; margin: 0 auto; background-color: #666666; padding: 20px; border-radius: 5px; color: #ffffff;">
+    <h2 style="text-align: center; color: #ffffff;">Perfil de Utilizador</h2>
+
+    <div style="display: flex;">
+        <!-- Left side fields -->
+        <div style="flex: 1; padding-right: 20px; background-color: #ffffff; color: #000; padding: 20px; border-radius: 5px;">
+            <p><strong>Username:</strong> Jota</p>
+            <p><strong>Nome:</strong> João Teixeira Lopes</p>
+            <p><strong>Email:</strong> joaoteixeiralopes@gmail.com</p>
+            <p><strong>Morada:</strong> Rua dos Abutres N.º 10</p>
+            <p><strong>Contactos:</strong> 912883209</p>
+            <p><strong>Email Confirmado:</strong> Não</p>
+        </div>
+
+        <!-- Right side profile picture and buttons -->
+        <div style="flex: 0.5; text-align: center; padding-left: 20px;">
+            <div style="margin-bottom: 15px;">
+                <img src="~/images/profile-placeholder.png" alt="Foto de Perfil" style="width: 100px; height: 100px; border-radius: 50%; background-color: #ffffff;" />
+            </div>
+            <div style="margin-bottom: 10px;">
+                <button type="button" onclick="window.location.href='/home/EditarPerfil'" style="padding: 10px; background-color: #cccccc; color: #000; border: none; border-radius: 5px;">
+                    Editar Perfil
+                </button>
+            </div>
+            <div>
+                <button type="button" onclick="confirmarEmail()" style="padding: 10px; background-color: #cccccc; color: #000; border: none; border-radius: 5px;">
+                    Confirmar Email
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function confirmarEmail() {
+        alert("Um email de confirmação foi enviado para o seu endereço.");
+    }
+</script>
