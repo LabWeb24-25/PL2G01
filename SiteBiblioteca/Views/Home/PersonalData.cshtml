@@ -1,8 +1,4 @@
-﻿@{
-    ViewData["Title"] = "Perfil de Utilizador";
-}
-
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="pt">
 <head>
     <meta charset="UTF-8">
@@ -27,58 +23,71 @@
             padding: 20px;
             border-radius: 5px;
             color: #ffffff;
+            position: relative;
         }
 
-        /* Título centralizado */
-        h2 {
-            text-align: center;
-            color: #ffffff;
+        /* Título e logo em linha */
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            gap: 10px;
+            margin-bottom: 20px;
         }
 
-        /* Estilo do link de voltar */
-        .back-home {
-            display: inline-block;
-            margin-bottom: 15px;
-            color: #ffffff;
-            text-decoration: none;
-            font-weight: bold;
-        }
+            /* Logo */
+            .header img {
+                width: 40px; /* Ajuste o tamanho conforme necessário */
+                height: auto;
+                cursor: pointer;
+                margin-right: 150px;
+            }
+
+            /* Título */
+            .header h2 {
+                color: #ffffff;
+                margin-left: -150px;
+            }
 
         /* Conteúdo do perfil */
+        .content-wrapper {
+            display: flex;
+            gap: 20px;
+        }
+
         .profile-content {
             display: flex;
             background-color: #ffffff;
             color: #000;
             padding: 20px;
             border-radius: 5px;
+            align-items: flex-start;
+            gap: 20px;
+            flex: 1;
         }
 
-        /* Informações do usuário */
         .user-info {
             flex: 1;
-            padding-right: 20px;
         }
 
-        /* Imagem e botões */
-        .profile-picture-container {
-            text-align: center;
-        }
-
-        /* Estilo da imagem de perfil */
         .profile-picture {
             width: 100px;
             height: 100px;
             border-radius: 50%;
-            background-color: #ffffff;
-            margin-bottom: 15px;
+            background-color: #cccccc;
         }
 
-        /* Botões */
+        /* Container dos botões */
+        .button-container {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-left: 20px;
+        }
+
         .button {
-            display: block;
-            width: 100%;
             padding: 10px;
-            margin-bottom: 10px;
+            width: 150px;
             background-color: #cccccc;
             color: #000;
             border: none;
@@ -107,43 +116,39 @@
 </head>
 <body>
     <!-- Container Principal -->
-    <div class="main-container"> 
-        <!-- Link para voltar à página inicial -->
-        <img src="/img/logo.png" onclick="href='/home'" />
+    <div class="main-container">
+        <!-- Logo e Título alinhados horizontalmente -->
+        <div class="header">
+            <img src="/img/logo.png" onclick="location.href='/'" alt="Logotipo" />
+            <h2>Perfil de Utilizador</h2>
+        </div>
 
-        <!-- Título -->
-        <h2>Perfil de Utilizador</h2>
+        <!-- Conteúdo do Perfil e Botões -->
+        <div class="content-wrapper">
+            <!-- Conteúdo do Perfil -->
+            <div class="profile-content">
+                <!-- Informações do usuário -->
+                <div class="user-info">
+                    <p><strong>Username:</strong> Jota</p>
+                    <p><strong>Nome:</strong> João Teixeira Lopes</p>
+                    <p><strong>Email:</strong> joaoteixeiralopes@gmail.com</p>
+                    <p><strong>Morada:</strong> Rua dos Abutres N.º 10</p>
+                    <p><strong>Contactos:</strong> 912883209</p>
+                    <p><strong>Email Confirmado:</strong> Não</p>
+                </div>
 
-        <!-- Conteúdo do Perfil -->
-        <div class="profile-content">
-            <!-- Informações do usuário -->
-            <div class="user-info">
-                <p><strong>Username:</strong> Jota</p>
-                <p><strong>Nome:</strong> João Teixeira Lopes</p>
-                <p><strong>Email:</strong> joaoteixeiralopes@gmail.com</p>
-                <p><strong>Morada:</strong> Rua dos Abutres N.º 10</p>
-                <p><strong>Contactos:</strong> 912883209</p>
-                <p><strong>Email Confirmado:</strong> Não</p>
+                <!-- Imagem de perfil -->
+                <div class="profile-picture-container">
+                    <img src="~/images/profile-placeholder.png" alt="Foto de Perfil" class="profile-picture" />
+                </div>
             </div>
 
-            <!-- Imagem e botões -->
-            <div class="profile-picture-container">
-                <img src="~/images/profile-placeholder.png" alt="Foto de Perfil" class="profile-picture" />
+            <!-- Botões fora do container de informações -->
+            <div class="button-container">
                 <button class="button" onclick="window.location.href='/home/EditarPerfil'">Editar Perfil</button>
                 <button class="button" onclick="confirmarEmail()">Confirmar Email</button>
             </div>
         </div>
     </div>
-
-    <!-- Rodapé -->
-    <div class="footer">
-        © 2024 - SiteBiblioteca - <a href="/privacy">Privacy</a>
-    </div>
-
-    <script>
-        function confirmarEmail() {
-            alert("Um email de confirmação foi enviado para o seu endereço.");
-        }
-    </script>
 </body>
 </html>
