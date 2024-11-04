@@ -1,0 +1,144 @@
+﻿@page
+@{
+    ViewData["Title"] = "Editar Perfil";
+}
+
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"]</title>
+    <style>
+        /* Estilização da página */
+        html, body {
+            height: 100%;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #2d2d2d;
+            font-family: Arial, sans-serif;
+        }
+
+        /* Container principal */
+        .main-container {
+            background-color: #666666;
+            padding: 20px;
+            border-radius: 5px;
+            color: #ffffff;
+            width: 600px;
+        }
+
+        /* Título e logo */
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+            .header img {
+                width: 50px;
+                cursor: pointer;
+            }
+
+            .header h2 {
+                margin: 0;
+            }
+
+        /* Formulário de edição de perfil */
+        .form-container {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        label {
+            color: #fff;
+        }
+
+        input[type="text"], input[type="email"] {
+            width: 100%;
+            padding: 8px;
+            border: none;
+            border-radius: 5px;
+        }
+
+        .profile-picture {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 10px;
+        }
+
+            .profile-picture img {
+                width: 100px;
+                height: 100px;
+                border-radius: 50%;
+                background-color: #cccccc;
+                margin-bottom: 10px;
+            }
+
+        .button-container {
+            display: flex;
+            gap: 10px;
+            justify-content: flex-start;
+        }
+
+        .button {
+            padding: 10px;
+            background-color: #cccccc;
+            color: #000;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+            .button:hover {
+                background-color: #bbbbbb;
+            }
+    </style>
+</head>
+<body>
+    <!-- Container Principal -->
+    <div class="main-container">
+        <!-- Logo e Título -->
+        <div class="header">
+            <img src="/img/logo.png" alt="Logotipo" />
+            <h2>Editar Perfil</h2>
+        </div>
+
+        <!-- Formulário de Edição -->
+        <div class="form-container">
+            <label for="username">Username:</label>
+            <input type="text" id="username" value="Jota" />
+
+            <label for="nome">Nome:</label>
+            <input type="text" id="nome" value="João Teixeira Lopes" />
+
+            <label for="email">Email:</label>
+            <input type="email" id="email" value="joaoteixeiralopes@gmail.com" />
+
+            <label for="morada">Morada:</label>
+            <input type="text" id="morada" value="Rua dos Abutres N.º 10" />
+
+            <label for="contactos">Contactos:</label>
+            <input type="text" id="contactos" value="912883209" />
+
+            <!-- Imagem de perfil -->
+            <div class="profile-picture">
+                <img src="~/img/profile-placeholder.png" alt="Foto de Perfil" />
+                <button class="button">Carregar Nova Foto de Perfil</button>
+            </div>
+
+            <!-- Botões -->
+            <div class="button-container">
+                <button class="button">Cancelar</button>
+                <button class="button">Guardar</button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
