@@ -8,5 +8,10 @@ namespace SiteBiblioteca.Controllers
         {
             return View();
         }
+
+        public IActionResult RecuperarCodigoEmail()
+        {
+            return View();
+        }
     }
 }
