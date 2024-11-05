@@ -41,9 +41,6 @@ namespace SiteBiblioteca.Data.Migrations
                     LockoutEnd = table.Column<DateTimeOffset>(nullable: true),
                     LockoutEnabled = table.Column<bool>(nullable: false),
                     AccessFailedCount = table.Column<int>(nullable: false),
-                    UserType = table.Column<string>(nullable: false),
-                    Name = table.Column<string>(nullable: false),
-                    Adress = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {

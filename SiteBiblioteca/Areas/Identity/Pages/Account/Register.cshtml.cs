@@ -142,32 +142,21 @@ namespace SiteBiblioteca.Areas.Identity.Pages.Account
                 {
                     _logger.LogInformation("User created a new account with password.");
 
-                    User _user = new User { UserType = Input.UserType, Name = Input.Name, Contact = Input.Contact, Address = Input.Address, Username = Input.Username};
+                    // Criação da informação adicional e salvamento no banco de dados
+                    User _user = new User
+                    {
+                        UserType = Input.UserType,
+                        Name = Input.Name,
+                        Contact = Input.Contact,
+                        Address = Input.Address,
+                        Email = Input.Email
+                    };
 
                     _dbcontext.Adicional.Add(_user);
                     _dbcontext.SaveChanges();
 
-                    var userId = await _userManager.GetUserIdAsync(user);
-                    var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-                    code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
-                    var callbackUrl = Url.Page(
-                        "/Account/ConfirmEmail",
-                        pageHandler: null,
-                        values: new { area = "Identity", userId = userId, code = code, returnUrl = returnUrl },
-                        protocol: Request.Scheme);
-
-                    await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
-                        $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
-
-                    if (_userManager.Options.SignIn.RequireConfirmedAccount)
-                    {
-                        return RedirectToPage("RegisterConfirmation", new { email = Input.Email, returnUrl = returnUrl });
-                    }
-                    else
-                    {
-                        await _signInManager.SignInAsync(user, isPersistent: false);
-                        return LocalRedirect(returnUrl);
-                    }
+                    // Redirecionar para a página de login após o registo bem-sucedido
+                    return RedirectToPage("/Account/Login");
                 }
                 foreach (var error in result.Errors)
                 {
@@ -175,7 +164,7 @@ namespace SiteBiblioteca.Areas.Identity.Pages.Account
                 }
             }
 
-            // If we got this far, something failed, redisplay form
+            // Se chegarmos até aqui, algo falhou, reexibir o formulário
             return Page();
         }
 

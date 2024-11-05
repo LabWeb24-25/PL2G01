@@ -19,6 +19,6 @@ namespace SiteBiblioteca.Models
         public string? Address { get; set; }
 
         [Required]
-        public string? Username { get; set; }
+        public string? Email { get; set; }
     }
 }
