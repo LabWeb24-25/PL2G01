@@ -1,37 +1,139 @@
-﻿@{
-    ViewData["Title"] = "Criar Administrador";
-}
+﻿<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"]</title>
+    <style>
+        /* Estilização da página */
+        html, body {
+            height: 100%;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #2d2d2d;
+            font-family: Arial, sans-serif;
+        }
 
-<div style="display: flex; justify-content: center; align-items: center; height: 100vh; background-color: #666666;">
-    <div style="width: 500px; padding: 20px; background-color: #ffffff; border-radius: 5px;">
-        <h2 style="text-align: center;">Criar Administrador</h2>
+        /* Container principal */
+        .main-container {
+            background-color: #666666;
+            padding: 20px;
+            border-radius: 5px;
+            color: #ffffff;
+            width: 600px;
+            display: flex;
+            gap: 20px;
+        }
 
-        <form method="post" action="/home/CriarAdministrador">
-            <div style="margin-bottom: 15px;">
-                <label for="username" style="display: block; margin-bottom: 5px;">Username</label>
-                <input type="text" id="username" name="Username" style="width: 100%; padding: 8px;" required />
+        /* Div para campos de texto */
+        .form-fields {
+            flex: 2;
+        }
+
+        /* Div para a foto e botões */
+        .profile-section {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .form-container {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        label {
+            color: #fff;
+        }
+
+        input[type="text"], input[type="email"] {
+            width: 100%;
+            padding: 8px;
+            border: none;
+            border-radius: 5px;
+        }
+
+        .profile-picture {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+            .profile-picture img {
+                width: 100px;
+                height: 100px;
+                border-radius: 50%;
+                background-color: #cccccc;
+                margin-bottom: 10px;
+            }
+
+        .button-container {
+            display: flex;
+            gap: 10px;
+        }
+
+        .button {
+            padding: 10px;
+            background-color: #cccccc;
+            color: #000;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+            .button:hover {
+                background-color: #bbbbbb;
+            }
+
+        /* Logo */
+        .logo {
+            width: 40px;
+            height: auto;
+            cursor: pointer;
+            margin-right: 20px;
+            margin-bottom: 20px;
+        }
+
+    </style>
+</head>
+<body>
+    <!-- Container Principal -->
+    <div class="main-container">
+        <!-- Div de Campos -->
+        <div class="form-fields">
+            <div style="display: flex; align-items: center; gap: 10px;">
+                <img class="logo" src="/img/logo.png" onclick="location.href='/'" alt="Logotipo" style="width: 50px; cursor: pointer;" />
+                <h2 style="margin: 0;">Criar Conta</h2>
             </div>
 
-            <div style="margin-bottom: 15px;">
-                <label for="nome" style="display: block; margin-bottom: 5px;">Nome</label>
-                <input type="text" id="nome" name="Nome" style="width: 100%; padding: 8px;" required />
-            </div>
+            <div class="form-container">
+                <label for="username">Username:</label>
+                <input type="text" id="username" name="username" />
 
-            <div style="margin-bottom: 15px;">
-                <label for="email" style="display: block; margin-bottom: 5px;">Email</label>
-                <input type="email" id="email" name="Email" style="width: 100%; padding: 8px;" required />
-            </div>
+                <label for="nome">Nome:</label>
+                <input type="text" id="nome" name="nome" />
 
-            <div style="display: flex; justify-content: space-between;">
-                <button type="button" onclick="window.location.href='@Url.Action("Index", "Home")'" style="padding: 10px 20px; background-color: #f0f0f0; border: 1px solid #000; border-radius: 5px;">
-                    Cancelar
-                </button>
-
-                <button type="submit" style="padding: 10px 20px; background-color: #333333; color: #ffffff; border: none; border-radius: 5px;">
-                    Criar
-                </button>
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" />
             </div>
-        </form>
+        </div>
+
+        <!-- Div de Imagem e Botões -->
+        <div class="profile-section">
+            <div class="profile-picture">
+                <img src="~/img/profile-placeholder.png" alt="Foto de Perfil" />
+                <button class="button">Carregar Nova Foto de Perfil</button>
+            </div>
+            <div class="button-container">
+                <button class="button">Cancelar</button>
+                <button class="button">Criar</button>
+            </div>
+        </div>
     </div>
-</div>
-
+</body>
+</html>
