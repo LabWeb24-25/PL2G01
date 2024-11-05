@@ -11,6 +11,7 @@
             margin: 0;
             padding: 20px;
         }
+
         .container {
             max-width: 500px;
             margin: auto;
@@ -19,22 +20,30 @@
             border-radius: 5px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
-        h1 {
-            text-align: center;
-            color: #d9534f; /* Vermelho para o aviso */
+
+        .image {
+            height: 70px;
+            width: 70px;
+            display: block; /* Torna a imagem um bloco */
+            margin: 0 auto; /* Centraliza horizontalmente */
         }
+
         .warning {
             font-size: 1.2em;
             color: #d9534f;
             margin-bottom: 20px;
+            text-align: center; /* Centraliza o texto */
         }
+
         .form-group {
             margin-bottom: 15px;
         }
+
         label {
             display: block;
             margin-bottom: 5px;
         }
+
         textarea {
             width: 100%;
             height: 100px;
@@ -43,6 +52,7 @@
             border: 1px solid #ccc;
             resize: none;
         }
+
         button {
             width: 100%;
             padding: 10px;
@@ -53,36 +63,35 @@
             font-size: 16px;
             cursor: pointer;
         }
-        button:hover {
-            background-color: #c9302c;
-        }
+
+            button:hover {
+                background-color: #c9302c;
+            }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <h1>Banir Utilizador</h1>
-    <p class="warning">ATENÇÃO: Este utilizador será banido!</p>
-    
-    <div class="form-group">
-        <label for="reason">Motivo do Banimento:</label>
-        <textarea id="reason" placeholder="Insira o motivo do banimento aqui..."></textarea>
-    </div>
-    
-    <button onclick="confirmBan()">Confirmar Banimento</button>
-</div>
+    <div class="container">
+        <img class="image" src ="~/img/UserLocked.png"/>
+        <p class="warning">Banimento de</p>
 
-<script>
-    function confirmBan() {
-        const reason = document.getElementById('reason').value;
-        if (reason.trim() === '') {
-            alert('Por favor, insira um motivo para o banimento.');
-        } else {
-            alert('Utilizador banido com sucesso!\nMotivo: ' + reason);
-            // Aqui você pode adicionar a lógica para processar o banimento
+        <div class="form-group">
+            <label for="reason">Motivo do Banimento:</label>
+            <textarea id="reason" placeholder="Insira o motivo do banimento aqui..."></textarea>
+        </div>
+
+        <button onclick="confirmBan()">Confirmar Banimento</button>
+    </div>
+
+    <!--FALTA O IF PARA O BOTAO REALMENTE FUNCIONAR E VOLTAR PARA A PAGINA ANTERIOR-->
+    <script>
+        function confirmBan() {
+            const reason = document.getElementById('reason').value;
+            if (reason.trim() === '') {
+                alert('Por favor, insira um motivo para o banimento.');
+            } 
         }
-    }
-</script>
+    </script>
 
 </body>
 </html>
