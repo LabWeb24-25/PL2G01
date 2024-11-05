@@ -1,0 +1,37 @@
+﻿<!-- Contêiner principal da página -->
+<div style="max-width: 1200px; margin: 0 auto; padding: 20px; background-color: #cccccc; border-radius: 5px;">
+    <h2>Notificações de Empréstimo</h2>
+
+    <!-- Contêiner Flexível para Tabela e Calendário -->
+    <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+
+        <!-- Tabela de Notificações -->
+        <table style="width: 75%; border-collapse: collapse; background-color: #ffffff;">
+            <thead>
+                <tr style="background-color: #eeeeee;">
+                    <th style="padding: 10px; border: 1px solid #cccccc;">Username</th>
+                    <th style="padding: 10px; border: 1px solid #cccccc;">Livro</th>
+                    <th style="padding: 10px; border: 1px solid #cccccc;">Data de Requisição</th>
+                    <th style="padding: 10px; border: 1px solid #cccccc;">Data de Devolução</th>
+                    <th style="padding: 10px; border: 1px solid #cccccc;">Estado</th>
+                </tr>
+            </thead>
+            <!-- ISTO ESTA COMPLETAMENTE MAL-->
+            <tbody>
+                <!-- Exemplo de Linha (remova esta linha para usar dados dinâmicos) -->
+                <tr>
+                    <td style="padding: 10px; border: 1px solid #cccccc;">exemplo_username</td>
+                    <td style="padding: 10px; border: 1px solid #cccccc;">Exemplo de Livro</td>
+                    <td style="padding: 10px; border: 1px solid #cccccc;">01/01/2024</td>
+                    <td style="padding: 10px; border: 1px solid #cccccc;">15/01/2024</td>
+                    <td style="padding: 10px; border: 1px solid #cccccc;">Pendente</td>
+                </tr>
+            </tbody>
+        </table> 
+
+        <!-- Calendário -->
+        <div style="margin-left: 20px;">
+            <iframe src="https://www.timeanddate.com/scripts/free-widget.aspx?id=ijh28w3i&theme=basic&cols=1" width="200" height="250" frameborder="0" style="border:1px solid #cccccc;"></iframe>
+        </div>
+    </div>
+</div>
