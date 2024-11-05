@@ -1,0 +1,77 @@
+﻿@page
+@model SiteBiblioteca.Views.Home.RecuperarCodigoEmailModel
+@{
+}
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recuperar Código de Acesso</title>
+    <style>
+        /* Estilos para a página */
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background-color: #555555; /* Fundo cinzento */
+            font-family: Arial, sans-serif;
+        }
+
+        /* Estilos para o formulário */
+        .form-container {
+            background-color: #ffffff; /* Fundo branco */
+            max-width: 500px;
+            width: 100%; /* Para ocupar a largura máxima até 500px */
+            padding: 40px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+            border-radius: 5px;
+            text-align: center;
+            box-sizing: border-box; /* Garante que padding não afete a largura total */
+            margin: auto; /* Garante que o elemento está centralizado horizontalmente */
+        }
+
+            .form-container h2 {
+                font-size: 18px;
+                margin-bottom: 20px;
+                color: #333333;
+            }
+
+            .form-container input[type="email"] {
+                width: 100%;
+                padding: 10px;
+                margin-bottom: 15px;
+                border: 1px solid #ccc;
+                border-radius: 3px;
+                box-sizing: border-box;
+            }
+
+            .form-container button {
+                width: 100%;
+                padding: 10px;
+                background-color: #333333; /* Cor do botão */
+                color: #ffffff;
+                border: none;
+                border-radius: 3px;
+                cursor: pointer;
+                font-size: 14px;
+                font-weight: bold;
+            }
+
+                .form-container button:hover {
+                    background-color: #555555; /* Cor do botão ao passar o mouse */
+                }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <h2>Recuperar Código de Acesso</h2>
+        <input type="email" placeholder="Email">
+        <button>Recuperar Código de Acesso</button>
+    </div>
+</body>
+</html>
+
