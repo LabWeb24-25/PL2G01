@@ -23,7 +23,7 @@ namespace SiteBiblioteca.Controllers
             return View();
         }
 
-        public IActionResult Bloquear()
+        public IActionResult UtilizadorBloqueado()
         {
             return View();
         }
