@@ -10,6 +10,9 @@ namespace SiteBiblioteca.Models
         public string? UserType { get; set; }
 
         [Required]
+        public string? image { get; set; }
+
+        [Required]
         public string? Name { get; set; }
 
         [Required]
