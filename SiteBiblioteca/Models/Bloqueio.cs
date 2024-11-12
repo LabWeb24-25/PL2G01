@@ -1,19 +1,18 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SiteBiblioteca.Models
 {
     public class Bloqueio
     {
-        [Key]
         public int userId { get; set; }
 
-        [Key]
         public int adminId { get; set; }
 
-        [Key]
         public DateTime dataBloqueio { get; set; }
 
         [Required]
-        public string? motivo { get; set; } 
+        public string? motivo { get; set; }
     }
 }

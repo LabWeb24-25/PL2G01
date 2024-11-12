@@ -3,7 +3,7 @@ using SiteBiblioteca.Models;
 
 namespace SiteBiblioteca.Models
 {
-    public class Livros
+    public class Livro
     {
         [Key]
         [Required]
