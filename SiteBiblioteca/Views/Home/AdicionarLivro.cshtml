@@ -121,8 +121,50 @@
                 <label for="autor">Autor:</label>
                 <input type="text" id="autor" />
 
-                <label for="genero">Género:</label>
-                <input type="text" id="genero" />
+                <label for="genero-livro">Género:</label>
+                <select id="genero-livro" name="genero-livro">
+                    <!-- Gêneros de Ficção -->
+                    <optgroup label="Ficção">
+                        <option value="romance">Romance</option>
+                        <option value="aventura">Aventura</option>
+                        <option value="fantasia">Fantasia</option>
+                        <option value="ficcao-cientifica">Ficção Científica</option>
+                        <option value="terror">Terror</option>
+                        <option value="misterio-policial">Mistério/Policial</option>
+                        <option value="drama">Drama</option>
+                        <option value="distopia-utopia">Distopia/Utopia</option>
+                    </optgroup>
+
+                    <!-- Gêneros de Não-Ficção -->
+                    <optgroup label="Não-Ficção">
+                        <option value="biografias-memorias">Biografias e Memórias</option>
+                        <option value="historia">História</option>
+                        <option value="ciencia-tecnologia">Ciência e Tecnologia</option>
+                        <option value="autoajuda">Autoajuda e Desenvolvimento Pessoal</option>
+                        <option value="psicologia-filosofia">Psicologia e Filosofia</option>
+                        <option value="viagens-aventura">Viagens e Aventura</option>
+                        <option value="arte-design">Arte e Design</option>
+                        <option value="religiao-espiritualidade">Religião e Espiritualidade</option>
+                    </optgroup>
+
+                    <!-- Gêneros Infantis e Jovens -->
+                    <optgroup label="Infantis e Jovens">
+                        <option value="contos-fadas">Contos de Fadas e Fábulas</option>
+                        <option value="literatura-juvenil">Literatura Juvenil</option>
+                        <option value="livros-educativos">Livros Educativos</option>
+                        <option value="quadrinhos-graphic-novels">Quadrinhos e Graphic Novels</option>
+                    </optgroup>
+
+                    <!-- Gêneros Acadêmicos e Técnicos -->
+                    <optgroup label="Acadêmicos e Técnicos">
+                        <option value="manuais-didaticos">Manuais e Didáticos</option>
+                        <option value="ciencias-sociais">Ciências Sociais</option>
+                        <option value="literatura-cientifica">Literatura Científica</option>
+                        <option value="engenharia-computacao">Engenharia e Computação</option>
+                        <option value="direito-politicas">Direito e Políticas Públicas</option>
+                    </optgroup>
+                </select>
+
 
                 <label for="preco">Preço:</label>
                 <input type="number" id="preco" />
