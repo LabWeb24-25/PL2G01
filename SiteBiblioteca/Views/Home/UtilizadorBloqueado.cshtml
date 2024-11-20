@@ -39,18 +39,24 @@
             margin-bottom: 20px;
         }
 
-        .form-group {
+        .form-group1{
+            text-align: center; /* Centraliza horizontalmente o texto */
+        }
+
+        .form-group2 {
             margin-bottom: 15px;
+            text-align: left; /* Alinha o conteúdo do grupo à esquerda */
         }
 
         label {
             display: block;
             margin-bottom: 5px;
+            font-weight: bold;
         }
 
         .readonly-box {
             width: 100%;
-            height: 100px;
+            height: auto;
             padding: 10px;
             border-radius: 5px;
             border: 1px solid #ccc;
@@ -60,6 +66,18 @@
             resize: none;
             text-align: left;
         }
+
+        a {
+            color: #007bff;
+            text-decoration: none;
+            font-size: 0.9em;
+            display: block;
+            margin-top: 10px;
+        }
+
+            a:hover {
+                text-decoration: underline;
+            }
 
         button {
             width: 100%;
@@ -84,10 +102,19 @@
         <img class="image" src="~/img/Aloquete.png" />
         <p class="warning">Banimento de Utilizador</p>
 
-        <div class="form-group">
-            <label for="reason">Motivo do Banimento:</label>
+        <!-- Data de bloqueio -->
+        <div class="form-group1">
+            <label for="data-bloqueio">Data de Bloqueio: 14 de novembro de 2024</label>
+        </div>
+
+        <!-- Motivo do bloqueio -->
+        <div class="form-group2">
+            <label for="reason">Motivo de Bloqueio:</label>
             <div id="reason" class="readonly-box">Violação dos termos de uso da plataforma.</div>
         </div>
+
+        <!-- Link de suporte -->
+        <a href="mailto:suporte@biblioteca_fixe.com">Entre em contacto com o suporte para mais informações</a>
 
         <button onclick="voltarPaginaPrincipal()">Voltar para a página principal</button>
     </div>
@@ -98,8 +125,6 @@
             if (reason.trim() === '') {
                 alert('Por favor, insira um motivo para o banimento.');
             } else {
-                // Aqui adiciona a navegação para a página principal ou anterior, por exemplo:
-                // window.location.href = 'pagina_principal.html';
                 alert('Voltando para a página principal...');
             }
         }
