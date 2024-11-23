@@ -31,12 +31,5 @@ namespace SiteBiblioteca.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
-
-        public IActionResult SobreLivro(string name)
-        {
-            var livro = _context.livros.FirstOrDefault(x => x.Name == name);
-
-            return View();
-        }
     }
 }

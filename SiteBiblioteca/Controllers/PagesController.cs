@@ -26,5 +26,12 @@ namespace SiteBiblioteca.Controllers
         {
             return View();
         }
+
+        public IActionResult SobreLivro(string ISBN)
+        {
+            var livro = _context.livros.FirstOrDefault(x => x.ISBN == ISBN);
+
+            return View();
+        }
     }
 }
