@@ -17,8 +17,7 @@ namespace SiteBiblioteca.Controllers
 
         public IActionResult SobreNos()
         {
-            // Busca um registro específico ou o primeiro registro da tabela
-            var dadosBiblioteca = _context._dadosBiblioteca.FirstOrDefault();
+            var dadosBiblioteca = _context._dadosBiblioteca.FirstOrDefault(); //buscar registo da primeira linha da tabela dadosBiblioteca
 
             return View(dadosBiblioteca);
         }
