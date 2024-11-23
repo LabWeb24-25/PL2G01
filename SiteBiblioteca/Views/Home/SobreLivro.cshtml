@@ -1,0 +1,39 @@
+﻿@model SiteBiblioteca.Models.Livros // Define o modelo a ser usado na view
+
+<div class="livro-detalhes">
+    <!-- Logo da biblioteca -->
+    <div class="logo">
+        <img src="~/images/logo-biblioteca.png" alt="Logo da Biblioteca" />
+    </div>
+
+    <!-- Informação principal -->
+    <div class="livro-info">
+        <h1>@Model.Titulo</h1>
+        <div class="livro-capa">
+            <img src="~/images/@Model.Capa" alt="Capa do Livro: @Model.Titulo" />
+        </div>
+
+        <!-- Características -->
+        <div class="livro-caracteristicas">
+            <h2>Características:</h2>
+            <p>@Model.Descricao</p>
+            <ul>
+                <li><strong>Autor:</strong> @Model.Autor</li>
+                <li><strong>Gênero:</strong> @Model.Genero</li>
+                <li><strong>Preço:</strong> @String.Format("{0:C}", Model.Preco)</li>
+                <li><strong>Número de Exemplares:</strong> @Model.NumeroExemplares</li>
+                <li><strong>ISBN:</strong> @Model.ISBN</li>
+            </ul>
+
+            <!-- Botão para requisitar -->
+            @if (Model.NumeroExemplares > 0)
+            {
+                <button class="btn-requisitar">Requisitar</button>
+            }
+            else
+            {
+                <span class="fora-de-stock">Fora de stock!</span>
+            }
+        </div>
+    </div>
+</div>
