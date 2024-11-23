@@ -19,7 +19,7 @@ namespace SiteBiblioteca.Models
         public string? genero { get; set; }
 
         [Required]
-        public float preco { get; set; }
+        public double preco { get; set; }
 
         [Required]
         public int numExemplares { get; set; }

@@ -302,6 +302,24 @@ namespace SiteBiblioteca.Data.Migrations
                     b.ToTable("AdministradoresCriados");
                 });
 
+            modelBuilder.Entity("SiteBiblioteca.Models.DadosBiblioteca", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("contactos")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("horario")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("_dadosBiblioteca");
+                });
+
             modelBuilder.Entity("SiteBiblioteca.Models.Livro", b =>
                 {
                     b.Property<string>("ISBN")
@@ -321,8 +339,8 @@ namespace SiteBiblioteca.Data.Migrations
                     b.Property<int>("numExemplares")
                         .HasColumnType("int");
 
-                    b.Property<float>("preco")
-                        .HasColumnType("real");
+                    b.Property<double>("preco")
+                        .HasColumnType("float");
 
                     b.Property<string>("sinopse")
                         .IsRequired()

@@ -17,6 +17,7 @@ namespace SiteBiblioteca.Data
         public DbSet<CriarAdministrador> AdministradoresCriados { get; set; }
         public DbSet<Bloqueio> bloqueios { get; set; }
         public DbSet<Autor> autores { get; set; }
+        public DbSet<DadosBiblioteca> _dadosBiblioteca { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

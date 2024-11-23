@@ -1,4 +1,6 @@
-﻿@{
+﻿@model SiteBiblioteca.Models.DadosBiblioteca
+
+@{
     ViewData["Title"] = "Sobre Nós";
 }
 
@@ -88,10 +90,11 @@
     <div class="box">
         <div class="header">Contactos</div>
         <p>
-            Biblioteca Fixe<br>
+            @Model.contactos
+@*          Biblioteca Fixe<br>
             Av. Folhadela<br>
             Telefone: 255 389 141<br>
-            E-mail: biblioteca@cm-folhadela.pt
+            E-mail: biblioteca@cm-folhadela.pt *@
         </p>
     </div>
 
@@ -126,12 +129,13 @@
     <div class="box">
         <div class="header">Horário de Funcionamento</div>
         <p>
-            Segunda a Sexta-Feira<br>
+            @Model.horario
+@*          Segunda a Sexta-Feira<br>
             9h00 às 18h00<br>
             Sábado<br>
             14h30 às 18h30<br>
             Domingo<br>
-            15h00 às 18h00
+            15h00 às 18h00 *@
         </p>
     </div>
 </div>

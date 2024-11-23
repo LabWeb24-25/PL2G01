@@ -6,11 +6,24 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace SiteBiblioteca.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class addRestantesClasses : Migration
+    public partial class others : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateTable(
+                name: "_dadosBiblioteca",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    contactos = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    horario = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK__dadosBiblioteca", x => x.Id);
+                });
+
             migrationBuilder.CreateTable(
                 name: "Adicional",
                 columns: table => new
@@ -108,7 +121,7 @@ namespace SiteBiblioteca.Data.Migrations
                     titulo = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     autorId = table.Column<int>(type: "int", nullable: false),
                     genero = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    preco = table.Column<float>(type: "real", nullable: false),
+                    preco = table.Column<double>(type: "float", nullable: false),
                     numExemplares = table.Column<int>(type: "int", nullable: false),
                     sinopse = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     imagem = table.Column<string>(type: "nvarchar(max)", nullable: false)
@@ -133,6 +146,9 @@ namespace SiteBiblioteca.Data.Migrations
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "_dadosBiblioteca");
+
             migrationBuilder.DropTable(
                 name: "Adicional");
 
