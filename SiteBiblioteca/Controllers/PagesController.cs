@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using SiteBiblioteca.Data;
 using SiteBiblioteca.Models;
 
@@ -29,9 +30,11 @@ namespace SiteBiblioteca.Controllers
 
         public IActionResult SobreLivro(string ISBN)
         {
-            var livro = _context.livros.FirstOrDefault(x => x.ISBN == ISBN);
+            var livro = _context.livros
+                .Include(l => l.autor)
+                .FirstOrDefault(x => x.ISBN == ISBN);
 
-            return View();
+            return View(livro);
         }
     }
 }
