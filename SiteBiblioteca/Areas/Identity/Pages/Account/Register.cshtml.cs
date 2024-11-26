@@ -31,6 +31,7 @@ namespace SiteBiblioteca.Areas.Identity.Pages.Account
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
         private readonly Data.ApplicationDbContext _dbcontext;
+        private readonly RoleManager<IdentityRole> _roleManager;
 
         public RegisterModel(
             UserManager<IdentityUser> userManager,
@@ -38,7 +39,8 @@ namespace SiteBiblioteca.Areas.Identity.Pages.Account
             SignInManager<IdentityUser> signInManager,
             ILogger<RegisterModel> logger,
             IEmailSender emailSender,
-            Data.ApplicationDbContext dbcontext)
+            Data.ApplicationDbContext dbcontext,
+            RoleManager<IdentityRole> roleManager)
         {
             _userManager = userManager;
             _userStore = userStore;
@@ -47,6 +49,7 @@ namespace SiteBiblioteca.Areas.Identity.Pages.Account
             _logger = logger;
             _emailSender = emailSender;
             _dbcontext = dbcontext;
+            _roleManager = roleManager;
         }
 
         /// <summary>
@@ -107,9 +110,6 @@ namespace SiteBiblioteca.Areas.Identity.Pages.Account
             public string ConfirmPassword { get; set; }
 
             [Required]
-            public string UserType { get; set; }
-
-            [Required]
             public string Name { get; set; }
 
             [Required]
@@ -117,11 +117,15 @@ namespace SiteBiblioteca.Areas.Identity.Pages.Account
 
             [Required]
             public string Address { get; set; }
+
+            [Required]
+            public string Role { get; set; }
         }
 
 
         public async Task OnGetAsync(string returnUrl = null)
         {
+            ViewData["roles"] = _roleManager.Roles.ToList();
             ReturnUrl = returnUrl;
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
         }
@@ -142,15 +146,23 @@ namespace SiteBiblioteca.Areas.Identity.Pages.Account
                 {
                     _logger.LogInformation("User created a new account with password.");
 
+                    await _userManager.AddToRoleAsync(user, Input.Role);
+
                     // Criação da informação adicional e salvamento no banco de dados
                     User _user = new User
                     {
-                        UserType = Input.UserType,
+                        UserType = Input.Role,
                         Name = Input.Name,
                         Contact = Input.Contact,
                         Address = Input.Address,
-                        Email = Input.Email
+                        Email = Input.Email,
+                        image = "~/img/user.png"
                     };
+
+                    if(_user.UserType == "Leitor")
+                        _user.confirmado = true;
+                    else
+                        _user.confirmado = false;
 
                     _dbcontext.Adicional.Add(_user);
                     _dbcontext.SaveChanges();
@@ -165,6 +177,7 @@ namespace SiteBiblioteca.Areas.Identity.Pages.Account
             }
 
             // Se chegarmos até aqui, algo falhou, reexibir o formulário
+            ViewData["roles"] = _roleManager.Roles.ToList();
             return Page();
         }
 

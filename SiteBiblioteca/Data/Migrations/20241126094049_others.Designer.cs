@@ -12,7 +12,7 @@ using SiteBiblioteca.Data;
 namespace SiteBiblioteca.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20241123165444_others")]
+    [Migration("20241126094049_others")]
     partial class others
     {
         /// <inheritdoc />
@@ -412,6 +412,10 @@ namespace SiteBiblioteca.Data.Migrations
                     b.Property<string>("UserType")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool?>("confirmado")
+                        .IsRequired()
+                        .HasColumnType("bit");
 
                     b.Property<string>("image")
                         .IsRequired()

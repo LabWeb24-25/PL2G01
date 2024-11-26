@@ -104,12 +104,12 @@
 
             <!-- Tipo de Utilizador -->
             <div class="mb-3">
-                <label for="UserType" class="form-label">Tipo de Utilizador</label>
-                <select asp-for="Input.UserType" class="form-select">
+                <label for="Input.Role" class="form-label">Tipo de Utilizador</label>
+                <select asp-for="Input.Role" class="form-control">
                     <option value="Leitor">Leitor</option>
                     <option value="Bibliotecario">Bibliotecário</option>
                 </select>
-                <span asp-validation-for="Input.UserType" class="text-danger"></span>
+                <span asp-validation-for="Input.Role" class="text-danger"></span>
             </div>
 
             <!-- Botão de Registo -->

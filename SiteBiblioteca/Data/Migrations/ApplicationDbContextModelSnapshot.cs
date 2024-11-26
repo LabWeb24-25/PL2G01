@@ -410,6 +410,10 @@ namespace SiteBiblioteca.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool?>("confirmado")
+                        .IsRequired()
+                        .HasColumnType("bit");
+
                     b.Property<string>("image")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");

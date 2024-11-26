@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SiteBiblioteca.Data;
 using SiteBiblioteca.Models;
@@ -23,11 +24,13 @@ namespace SiteBiblioteca.Controllers
             return View(dadosBiblioteca);
         }
 
+        [Authorize(Roles = "Leitor")]
         public IActionResult RecuperarCodigoEmail()
         {
             return View();
         }
 
+        [Authorize(Roles = "Leitor")]
         public IActionResult SobreLivro(string ISBN)
         {
             var livro = _context.livros
