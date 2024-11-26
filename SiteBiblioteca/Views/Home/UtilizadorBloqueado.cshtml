@@ -37,21 +37,25 @@
             font-size: 1.2em;
             color: #d9534f;
             margin-bottom: 20px;
+            line-height: 1.5; /* Aumenta o espaçamento entre as linhas */
         }
 
-        .form-group1{
+        .form-group1 {
             text-align: center; /* Centraliza horizontalmente o texto */
+            line-height: 1.5; /* Aumenta o espaçamento entre as linhas */
         }
 
         .form-group2 {
             margin-bottom: 15px;
             text-align: left; /* Alinha o conteúdo do grupo à esquerda */
+            line-height: 1.5; /* Aumenta o espaçamento entre as linhas */
         }
 
         label {
             display: block;
             margin-bottom: 5px;
             font-weight: bold;
+            line-height: 1.5; /* Aumenta o espaçamento entre as linhas */
         }
 
         .readonly-box {
@@ -65,6 +69,7 @@
             overflow-y: auto;
             resize: none;
             text-align: left;
+            line-height: 1.5; /* Aumenta o espaçamento entre as linhas */
         }
 
         a {
@@ -73,6 +78,7 @@
             font-size: 0.9em;
             display: block;
             margin-top: 10px;
+            line-height: 1.5; /* Aumenta o espaçamento entre as linhas */
         }
 
             a:hover {
@@ -88,6 +94,7 @@
             border-radius: 5px;
             font-size: 16px;
             cursor: pointer;
+            line-height: 1.5; /* Aumenta o espaçamento entre as linhas */
         }
 
             button:hover {
@@ -99,22 +106,24 @@
 <body>
 
     <div class="container">
+        <label for="data-bloqueio"><br></br></label>
         <img class="image" src="~/img/Aloquete.png" />
-        <p class="warning">Banimento de Utilizador</p>
+        <p class="warning">Banimento de Utilizador<br></br></p>
 
         <!-- Data de bloqueio -->
         <div class="form-group1">
-            <label for="data-bloqueio">Data de Bloqueio: 14 de novembro de 2024</label>
+            <label for="data-bloqueio">Data de Bloqueio: 14 de novembro de 2024<br></br></label>
         </div>
 
         <!-- Motivo do bloqueio -->
         <div class="form-group2">
             <label for="reason">Motivo de Bloqueio:</label>
             <div id="reason" class="readonly-box">Violação dos termos de uso da plataforma.</div>
+            <label for="data-bloqueio"><br></br></label>
         </div>
 
         <!-- Link de suporte -->
-        <a href="mailto:suporte@biblioteca_fixe.com">Entre em contacto com o suporte para mais informações</a>
+        <a href="mailto:suporte@biblioteca_fixe.com">Entre em contacto com o suporte para mais informações<br></br></a>
 
         <button onclick="voltarPaginaPrincipal()">Voltar para a página principal</button>
     </div>
