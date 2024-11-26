@@ -1,4 +1,7 @@
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using SiteBiblioteca.Data;
 using SiteBiblioteca.Models;
 using System.Diagnostics;
 
@@ -7,10 +10,12 @@ namespace SiteBiblioteca.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly ApplicationDbContext _context;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, ApplicationDbContext context)
         {
             _logger = logger;
+            _context = context;
         }
 
         public IActionResult Index()
@@ -23,6 +28,7 @@ namespace SiteBiblioteca.Controllers
             return View();
         }
 
+        [Authorize(Roles = "Leitor")]
         public IActionResult UtilizadorBloqueado()
         {
             return View();
