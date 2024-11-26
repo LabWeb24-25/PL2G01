@@ -71,6 +71,13 @@
             display: flex; /* Usar flexbox para alinhar os botões */
             gap: 10px; /* Espaço entre os botões */
         }
+
+        #mytabs {
+            width: auto; /* Ajuste o tamanho conforme necessário */
+            position: absolute;
+            top: 25%;
+            left: 50%;
+        }
     </style>
 </head>
 <body>
@@ -85,6 +92,24 @@
         <img src="~/img/biblioteca.png" alt="Imagem da Biblioteca" />
     </div>
 
+    <hr/>
+    <div id="mytabs">
+        <ul>
+            <li><a href="#option1">Mais Relevantes</a></li>
+            <li><a href="#option2">Mais Requisitados</a></li>
+            <li><a href="#option3">Ver Mais</a></li>
+        </ul>
+        <div id="option1">
+            Teste1
+        </div>
+        <div id="option2">
+            Teste2
+        </div>
+        <div id="option3">
+            Teste3
+        </div>
+    </div>
+
 @*     <div class="book-container">
         @foreach (var livro in Model)
         {
@@ -96,3 +121,9 @@
     </div> *@
 </body>
 </html>
+
+@section Scripts {
+    <script>
+        $("#mytabs").tabs();
+    </script>
+}
