@@ -3,203 +3,145 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Biblioteca Fixe - Editar Livro</title>
+    <title>@ViewData["Title"]</title>
     <style>
-        /* Estilos gerais */
+        /* Estilização da página */
         html, body {
-            margin: 0;
-            padding: 0;
-            font-family: Arial, sans-serif;
-            background-color: #3d3d3d;
-            color: #ffffff;
-            display: flex;
-            justify-content: center;
-            align-items: center;
             height: 100%;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #2d2d2d;
+            font-family: Arial, sans-serif;
         }
 
         /* Container principal */
-        .container {
-            background-color: #555555;
-            width: 900px;
+        .main-container {
+            background-color: #666666;
             padding: 20px;
-            border-radius: 10px;
+            border-radius: 5px;
+            color: #ffffff;
+            width: 800px;
+            display: flex;
+            gap: 20px;
+        }
+
+        /* Div para campos de texto */
+        .form-fields {
+            flex: 2;
+        }
+
+        /* Div para a foto e botões */
+        .profile-section {
+            flex: 1;
             display: flex;
             flex-direction: column;
-            gap: 20px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-        }
-
-        /* Cabeçalho */
-        .header {
-            display: flex;
             align-items: center;
-            gap: 10px;
         }
 
-        .logo {
-            width: 50px;
-            height: auto;
-        }
-
-        h2 {
-            font-size: 24px;
-            margin: 0;
-        }
-
-        /* Formulário */
-        .form {
-            display: flex;
-            gap: 20px;
-        }
-
-        /* Área de inputs */
-        .form-fields {
-            flex: 3;
+        .form-container {
             display: flex;
             flex-direction: column;
             gap: 15px;
         }
 
         label {
-            font-size: 14px;
-            font-weight: bold;
+            color: #fff;
         }
 
-        input {
+        input[type="text"], input[type="email"] {
             width: 100%;
             padding: 8px;
             border: none;
             border-radius: 5px;
-            font-size: 14px;
-            box-sizing: border-box;
         }
 
-            input[type="text"], input[type="number"] {
-                background-color: #ffffff;
-                color: #000000;
-            }
-
-        /* Área de imagem */
-        .image-section {
-            flex: 1;
+        .profile-picture {
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 15px;
+            margin-bottom: 20px;
         }
 
-        .image-preview {
-            width: 150px;
-            height: 200px;
-            background-color: #cccccc;
-            border-radius: 5px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            overflow: hidden;
-        }
-
-            .image-preview img {
-                width: 100%;
-                height: 100%;
-                object-fit: cover;
+            .profile-picture img {
+                width: 100px;
+                height: 100px;
+                border-radius: 0%;
+                background-color: #cccccc;
+                margin-bottom: 10px;
             }
 
-        .upload-button {
-            padding: 10px;
-            background-color: #cccccc;
-            color: #000000;
-            border: none;
-            border-radius: 5px;
-            font-size: 14px;
-            cursor: pointer;
-            width: 150px;
-            text-align: center;
-        }
-
-            .upload-button:hover {
-                background-color: #bbbbbb;
-            }
-
-        /* Botões de ação */
-        .action-buttons {
+        .button-container {
             display: flex;
-            justify-content: flex-end;
             gap: 10px;
         }
 
-        .action-button {
-            padding: 10px 20px;
+        .button {
+            padding: 10px;
+            background-color: #cccccc;
+            color: #000;
             border: none;
             border-radius: 5px;
-            font-size: 14px;
             cursor: pointer;
         }
 
-        .cancel-button {
-            background-color: #999999;
-            color: #000000;
+            .button:hover {
+                background-color: #bbbbbb;
+            }
+
+        /* Logo */
+        .logo {
+            width: 40px; /* Ajuste o tamanho conforme necessário */
+            height: auto;
+            cursor: pointer;
+            margin-right: 20px;
+            margin-bottom: 20px;
         }
 
-        .save-button {
-            background-color: #66cc66;
-            color: #ffffff;
-        }
-
-        .cancel-button:hover {
-            background-color: #888888;
-        }
-
-        .save-button:hover {
-            background-color: #55aa55;
-        }
     </style>
 </head>
 <body>
-    <div class="container">
-        <!-- Cabeçalho -->
-        <div class="header">
-            <img class="logo" src="/img/logo.png" alt="Logo da Biblioteca">
-            <h2>Editar Livro</h2>
-        </div>
+    <!-- Container Principal -->
+    <div class="main-container">
+        <!-- Div de Campos -->
+        <div class="form-fields">
+            <div style="display: flex; align-items: center; gap: 10px;">
+                <img class="logo" src="/img/logo.png" onclick="location.href='/'" alt="Logotipo" style="width: 50px; cursor: pointer;" />
+                <h2 style="margin: 0;">Editar Livro</h2>
+            </div>
 
-        <!-- Formulário -->
-        <div class="form">
-            <!-- Campos de entrada -->
-            <div class="form-fields">
-                <label for="isbn">ISBN:</label>
-                <input type="text" id="isbn" value="978-0063303690">
+            <div class="form-container">
+                <label for="ISBN">ISBN:</label>
+                <input type="text" id="ISBN" />
 
                 <label for="titulo">Título:</label>
-                <input type="text" id="titulo" value="Genshin Impact Art Book">
+                <input type="text" id="titulo" />
 
                 <label for="autor">Autor:</label>
-                <input type="text" id="autor" value="HoYoVerse">
+                <input type="text" id="autor" />
 
                 <label for="genero">Género:</label>
-                <input type="text" id="genero" value="Infanto-Juvenil">
+                <input type="text" id="genero" />
 
                 <label for="preco">Preço:</label>
-                <input type="text" id="preco" value="19,99€">
+                <input type="number" id="preco" />
 
-                <label for="exemplares">Número de Exemplares:</label>
-                <input type="number" id="exemplares" value="0">
-            </div>
-
-            <!-- Imagem e botão de upload -->
-            <div class="image-section">
-                <div class="image-preview">
-                    <img src="https://via.placeholder.com/150x200" alt="Imagem do Livro">
-                </div>
-                <button class="upload-button">Carregar Imagem do Livro</button>
+                <label for="numexemplares">Número de Exemplares:</label>
+                <input type="number" id="numexemplares" />
             </div>
         </div>
 
-        <!-- Botões de ação -->
-        <div class="action-buttons">
-            <button class="action-button cancel-button">Cancelar</button>
-            <button class="action-button save-button">Guardar</button>
+        <!-- Div de Imagem e Botões -->
+        <div class="profile-section">
+            <div class="profile-picture">
+                <img src="~/img/book-placeholder.png" alt="Foto do Livro" />
+                <button class="button">Alterar capa do livro</button>
+            </div>
+            <div class="button-container">
+                <button class="button">Cancelar</button>
+                <button class="button">Guardar</button>
+            </div>
         </div>
     </div>
 </body>
