@@ -19,9 +19,11 @@ namespace SiteBiblioteca.Models
         public string? genero { get; set; }
 
         [Required]
-        public double preco { get; set; }
+        [Range(0, double.MaxValue, ErrorMessage = "O preço deve ser maior ou igual a 0.")]
+        public decimal preco { get; set; }
 
         [Required]
+        [Range(0, int.MaxValue, ErrorMessage = "O número de exemplares deve ser maior ou igual a 0.")]
         public int numExemplares { get; set; }
 
         [Required]

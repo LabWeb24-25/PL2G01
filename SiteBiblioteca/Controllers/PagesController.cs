@@ -46,10 +46,44 @@ namespace SiteBiblioteca.Controllers
             return View();
         }
 
-        [Authorize(Roles = "Bibliotecário")]
-        public IActionResult EditarLivro()
+        //[Authorize(Roles = "Bibliotecário")]
+        public IActionResult EditarLivro(string ISBN)
         {
-            return View();
+            var livro = _context.livros
+                .Include(l => l.autor)
+                .FirstOrDefault(x => x.ISBN == ISBN);
+            return View(livro);
+        }
+
+        [HttpPost]
+        public IActionResult GuardarEdicao(Livro model)
+        {
+            if (ModelState.IsValid)
+            {
+                var livroExistente = _context.livros.FirstOrDefault(l => l.ISBN == model.ISBN);
+
+                if (livroExistente != null)
+                {
+                    // Atualizar os dados do livro existente
+                    livroExistente.titulo = model.titulo;
+                    livroExistente.autor = model.autor;
+                    livroExistente.genero = model.genero;
+                    livroExistente.preco = model.preco;
+                    livroExistente.numExemplares = model.numExemplares;
+
+                    _context.SaveChanges();
+                }
+                else
+                {
+                    // Caso não exista, criar um novo livro
+                    _context.livros.Add(model);
+                    _context.SaveChanges();
+                }
+
+                return RedirectToAction("Index"); // Redirecionar para uma página específica
+            }
+
+            return View(model); // Retornar à mesma página em caso de erro
         }
     }
 }
