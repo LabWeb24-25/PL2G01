@@ -39,5 +39,17 @@ namespace SiteBiblioteca.Controllers
 
             return View(livro);
         }
+
+        [Authorize(Roles = "Bibliotecário")]
+        public IActionResult AdicionarLivro()
+        {
+            return View();
+        }
+
+        [Authorize(Roles = "Bibliotecário")]
+        public IActionResult EditarLivro()
+        {
+            return View();
+        }
     }
 }
