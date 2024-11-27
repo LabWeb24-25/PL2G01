@@ -26,6 +26,17 @@ namespace SiteBiblioteca.Controllers
             return View();
         }
 
+        public IActionResult AdicionarLivro()
+        {
+            return View();
+        }
+
+        public IActionResult EditarLivro()
+        {
+            return View();
+        }
+
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
