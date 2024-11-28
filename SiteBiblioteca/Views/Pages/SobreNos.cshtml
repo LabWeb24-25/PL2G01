@@ -5,144 +5,173 @@
 }
 
 <style>
-    /* Estilos gerais da página */
+    /* General page styles */
     body, html {
         height: 100%;
         margin: 0;
         background-color: #404040;
-        font-family: Arial, sans-serif;
-        color: #000;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        color: #333;
+        box-sizing: border-box;
     }
 
     .container {
         display: flex;
-        justify-content: space-around;
-        align-items: flex-start;
+        flex-wrap: wrap;
+        justify-content: space-between;
         padding: 20px;
-        flex-wrap: wrap; /* Permitir que os itens se movam para a linha seguinte */
+        gap: 20px;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
+    .logo {
+        vertical-align: middle; /* Alinha a imagem verticalmente no meio */
+        max-width: 50px; /* Limita o tamanho máximo da imagem */
+        height: auto; /* Mantém a proporção da imagem */
+    }
+
+    .container h1 {
+        display: inline-block; /* Faz com que o h1 fique ao lado da imagem */
+        margin: 0; /* Remove qualquer margem do h1 */
+        vertical-align: middle; /* Alinha o texto ao centro da imagem */
     }
 
     .box {
         background-color: #fff;
-        border: 1px solid #000;
-        padding: 15px;
-        margin: 10px;
-        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
-        flex: 1 1 300px; /* Permite que a caixa cresça e ocupe espaço disponível */
-        max-width: 500px; /* Limita a largura máxima da caixa */
+        border-radius: 8px;
+        padding: 20px;
+        box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+        flex: 1;
+        min-width: 280px;
+        max-width: 400px;
         text-align: center;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
 
+        .box:hover {
+            transform: translateY(-10px);
+            box-shadow: 0px 6px 18px rgba(0, 0, 0, 0.2);
+        }
+
     .header {
-        background-color: #ddd;
-        border: 1px solid #000;
-        padding: 5px;
-        text-align: center;
+        background-color: #0066cc;
+        color: #fff;
+        padding: 10px;
+        border-radius: 4px;
         font-weight: bold;
+        font-size: 18px;
+        margin-bottom: 15px;
     }
 
     .social-media {
         display: flex;
-        justify-content: center; /* Centraliza os ícones */
-        align-items: center;
-        gap: 50px; /* Espaço entre os ícones sociais */
+        justify-content: center;
+        gap: 20px;
     }
 
     .social-icon {
-        display: flex;
-        align-items: center; /* Centraliza verticalmente */
-        cursor: pointer; /* Muda o cursor para indicar interatividade */
-        font-size: 30px;
+        font-size: 35px;
+        transition: transform 0.3s ease;
+        color: #333;
     }
 
-    .social-img {
-        width: 30px; /* Largura do ícone do YouTube */
-        height: 30px; /* Altura do ícone do YouTube */
+        .social-icon:hover {
+            transform: scale(1.2);
+        }
+
+    .map img {
+        width: 100%;
+        max-width: 300px;
+        border-radius: 8px;
+        box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+        margin-bottom: 15px;
+    }
+
+    iframe {
+        border-radius: 8px;
+        width: 100%;
+        max-width: 400px;
+        height: 300px;
+        border: none;
+    }
+
+    .social-media a {
+        text-decoration: none;
+        color: inherit;
     }
 
     .social-icon-i {
-        font-size: 30px; /* Tamanho da fonte dos ícones Font Awesome */
+        font-size: 35px;
     }
 
-    .map {
-        text-align: center;
+    /* Adjustments for smaller screens using flex layout */
+    .container {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
     }
 
-        .map img {
-            width: 100%; /* Faz com que a imagem ocupe a largura total da caixa */
-            height: auto; /* Mantém a proporção da imagem */
-            max-width: 200px; /* Limita a largura máxima da imagem */
-            border: 1px solid #000;
-        }
-
-        .map a {
-            color: #0000ff;
-            text-decoration: underline;
-        }
-
-    /* Remove a estilização padrão dos links */
-    .social-media a {
-        text-decoration: none; /* Remove o sublinhado */
-        color: inherit; /* Herda a cor do elemento pai (não muda a cor) */
+    .box {
+        flex: 1 1 45%; /* Default to 2 items per row */
+        max-width: 500px;
     }
 
-    .social-icon {
-        display: inline-block;
-        margin: 10px;
-        /* Outras estilizações que você queira adicionar */
+    /* For very small screens, let the boxes take full width */
+    .box {
+        flex: 1 1 100%;
     }
 </style>
 
+<!-- External font and icons -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fi-css@latest/dist/fi.min.css">
 <link rel="stylesheet" href="https://cdn.flaticon.com/icons/css/flat-icon.css">
 
 <div class="container">
-    <!-- Secção de Contactos -->
+    <img src="~/img/logo.png" alt="Biblioteca" onclick="location.href='/'" class="logo"/>
+    <h1 style="color:white; margin-left: 10px;">Conhece-nos melhor!</h1>
+</div>
+
+<div class="container">
+    <!-- Contact Section -->
     <div class="box">
         <div class="header">Contactos</div>
-        <p>
-            @Model.contactos
-        </p>
+        <p>@Model.contactos</p>
     </div>
 
-    <!-- Secção de Localização -->
+    <!-- Location Section -->
     <div class="box map">
-        <!-- Imagem da biblioteca -->
-        <img src="~/img/biblioteca.png" alt="Imagem da Biblioteca">
         <div class="header">Localização da Biblioteca</div>
-        <iframe src="@Model.mapa" width="400" height="300" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        <img src="~/img/@Model.image" alt="Imagem da Biblioteca">
+        <iframe src="@Model.mapa" allowfullscreen="" loading="lazy"></iframe>
     </div>
 
-    <!-- Secção de Redes Sociais -->
+    <!-- Social Media Section -->
     <div class="box">
         <div class="header">Redes Sociais</div>
-        <p>
-            <div class="social-media">
-                <a class="social-icon" href="@Model.youtube" target="_blank">
-                    <i class="fab fa-youtube social-icon-i"></i>
-                </a>
-                <a class="social-icon" href="@Model.x" target="_blank">
-                    <i class="fab fa-x social-icon-i"></i>
-                </a>
-                <a class="social-icon" href="@Model.instagram" target="_blank">
-                    <i class="fab fa-instagram social-icon-i"></i>
-                </a>
-                <a class="social-icon" href="@Model.tiktok" target="_blank">
-                    <i class="fab fa-tiktok social-icon-i"></i>
-                </a>
-                <a class="social-icon" href="@Model.facebook" target="_blank">
-                    <i class="fab fa-facebook social-icon-i"></i>
-                </a>
-            </div>
-        </p>
+        <div class="social-media">
+            <a class="social-icon" href="@Model.youtube" target="_blank">
+                <i class="fab fa-youtube social-icon-i"></i>
+            </a>
+            <a class="social-icon" href="@Model.x" target="_blank">
+                <i class="fab fa-x social-icon-i"></i>
+            </a>
+            <a class="social-icon" href="@Model.instagram" target="_blank">
+                <i class="fab fa-instagram social-icon-i"></i>
+            </a>
+            <a class="social-icon" href="@Model.tiktok" target="_blank">
+                <i class="fab fa-tiktok social-icon-i"></i>
+            </a>
+            <a class="social-icon" href="@Model.facebook" target="_blank">
+                <i class="fab fa-facebook social-icon-i"></i>
+            </a>
+        </div>
     </div>
 
-    <!-- Secção de Horário de Funcionamento -->
+    <!-- Opening Hours Section -->
     <div class="box">
         <div class="header">Horário de Funcionamento</div>
-        <p>
-            @Model.horario
-        </p>
+        <p>@Model.horario</p>
     </div>
 </div>

@@ -7,6 +7,9 @@ namespace SiteBiblioteca.Models
         public string? Id { get; set; }
 
         [Required]
+        public string? image { get; set; }
+
+        [Required]
         public string? contactos { get; set; }
 
         [Required]
