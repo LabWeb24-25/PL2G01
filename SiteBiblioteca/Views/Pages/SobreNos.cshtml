@@ -9,7 +9,7 @@
     body, html {
         height: 100%;
         margin: 0;
-        background-color: #666;
+        background-color: #404040;
         font-family: Arial, sans-serif;
         color: #000;
     }
@@ -79,6 +79,18 @@
             color: #0000ff;
             text-decoration: underline;
         }
+
+    /* Remove a estilização padrão dos links */
+    .social-media a {
+        text-decoration: none; /* Remove o sublinhado */
+        color: inherit; /* Herda a cor do elemento pai (não muda a cor) */
+    }
+
+    .social-icon {
+        display: inline-block;
+        margin: 10px;
+        /* Outras estilizações que você queira adicionar */
+    }
 </style>
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
@@ -90,14 +102,16 @@
     <div class="box">
         <div class="header">Contactos</div>
         <p>
-            @Html.Raw(@Model.contactos)
+            @Model.contactos
         </p>
     </div>
 
     <!-- Secção de Localização -->
     <div class="box map">
+        <!-- Imagem da biblioteca -->
+        <img src="~/img/biblioteca.png" alt="Imagem da Biblioteca">
         <div class="header">Localização da Biblioteca</div>
-        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2709.7001693479933!2d-8.203828324467123!3d41.367215297247036!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd24eb95167d858f%3A0x6d5e1c16d47e8e3f!2sBiblioteca%20Municipal%20de%20Felgueiras!5e1!3m2!1spt-PT!2spt!4v1730303729390!5m2!1spt-PT!2spt" width="400" height="300" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        <iframe src="@Model.mapa" width="400" height="300" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
     </div>
 
     <!-- Secção de Redes Sociais -->
@@ -105,18 +119,21 @@
         <div class="header">Redes Sociais</div>
         <p>
             <div class="social-media">
-                <div class="social-icon">
-                    <img src="~/img/youtube-symbol.png" alt="Youtube" class="social-img" />
-                </div>
-                <div class="social-icon">
-                    <div>𝕏</div>
-                </div>
-                <div class="social-icon">
+                <a class="social-icon" href="@Model.youtube" target="_blank">
+                    <i class="fab fa-youtube social-icon-i"></i>
+                </a>
+                <a class="social-icon" href="@Model.x" target="_blank">
+                    <i class="fab fa-x social-icon-i"></i>
+                </a>
+                <a class="social-icon" href="@Model.instagram" target="_blank">
                     <i class="fab fa-instagram social-icon-i"></i>
-                </div>
-                <div class="social-icon">
+                </a>
+                <a class="social-icon" href="@Model.tiktok" target="_blank">
                     <i class="fab fa-tiktok social-icon-i"></i>
-                </div>
+                </a>
+                <a class="social-icon" href="@Model.facebook" target="_blank">
+                    <i class="fab fa-facebook social-icon-i"></i>
+                </a>
             </div>
         </p>
     </div>
@@ -125,7 +142,7 @@
     <div class="box">
         <div class="header">Horário de Funcionamento</div>
         <p>
-            @Html.Raw(@Model.horario)
+            @Model.horario
         </p>
     </div>
 </div>

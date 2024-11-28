@@ -1,4 +1,4 @@
-﻿@* @model IEnumerable<SiteBiblioteca.Models.Livro> *@
+﻿@model IEnumerable<Livro> 
 
 <!DOCTYPE html>
 <html lang="pt">
@@ -73,12 +73,61 @@
         }
 
         #mytabs {
-            width: auto; /* Ajuste o tamanho conforme necessário */
+            width: 800px; /* Ajuste o tamanho conforme necessário */
             position: absolute;
-            top: 25%;
-            left: 50%;
+            top: 45%; /* Posiciona no meio vertical */
+            left: 65%; /* Posiciona no meio horizontal */
+            transform: translate(-50%, -50%); /* Ajusta o deslocamento para centralizar perfeitamente */
+        }
+
+        .book-results {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .book-card {
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 15px;
+            text-align: center;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+            .book-card:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+            }
+
+        .book-image {
+            max-width: 100%;
+            max-height: 200px;
+            object-fit: contain;
+            margin-bottom: 10px;
+        }
+
+        .book-title {
+            font-size: 1.2em;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .book-author, .book-genre {
+            font-size: 1em;
+            color: #777;
+        }
+
+        .no-results {
+            text-align: center;
+            color: #888;
+            font-size: 1.2em;
         }
     </style>
+
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+
 </head>
 <body>
     <div class="header">
@@ -88,37 +137,35 @@
         <partial name="_LoginPartial" />
     </div>
 
-    <div class="image">
-        <img src="~/img/biblioteca.png" alt="Imagem da Biblioteca" />
-    </div>
+    <div class="relative bg-gray-800 min-h-screen">
+        <!-- Conteúdo dos Livros -->
+        <div class="relative z-10 p-6">
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+                @foreach (var livro in Model)
+                {
+                    <div class="bg-gray-700 rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
+                        <!-- Imagem da Capa -->
+                        <div>
+                            <img src="~/img/@livro.imagem" alt="@livro.titulo" class="w-full h-64 object-contain bg-white">
+                        </div>
 
-    <hr/>
-    <div id="mytabs">
-        <ul>
-            <li><a href="#option1">Mais Relevantes</a></li>
-            <li><a href="#option2">Mais Requisitados</a></li>
-            <li><a href="#option3">Ver Mais</a></li>
-        </ul>
-        <div id="option1">
-            Teste1
-        </div>
-        <div id="option2">
-            Teste2
-        </div>
-        <div id="option3">
-            Teste3
-        </div>
-    </div>
-
-@*     <div class="book-container">
-        @foreach (var livro in Model)
-        {
-            <div class="book">
-                <img src="~/img/@livro.Imagem" alt="@livro.Titulo">
-                <p>@livro.Titulo</p>
+                        <!-- Informações do Livro -->
+                        <div class="p-4">
+                            <h3 class="text-white font-semibold text-lg truncate">@livro.titulo</h3>
+                            <p class="text-gray-400 text-sm">Autor: <a class="text-blue-400" href="~/Pages/SobreAutor?id=@livro.autor.Id">@livro.autor?.Nome</a></p>
+                            <p class="text-gray-400 text-sm">Gênero: @livro.genero</p>
+                            <div class="mt-4">
+                                <button class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md text-sm font-medium"
+                                        onclick="window.location.href='/Pages/SobreLivro?ISBN=@livro.ISBN'">
+                                    Ver detalhes
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                }
             </div>
-        }
-    </div> *@
+        </div>
+    </div>
 </body>
 </html>
 

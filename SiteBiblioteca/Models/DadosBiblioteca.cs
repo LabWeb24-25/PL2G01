@@ -11,5 +11,18 @@ namespace SiteBiblioteca.Models
 
         [Required]
         public string? horario { get; set; }
+
+        [Required]
+        public string? mapa { get; set; }
+
+        public string? facebook { get; set; }
+
+        public string? x { get; set; }
+
+        public string? instagram { get; set; }
+
+        public string? youtube { get; set; }
+
+        public string? tiktok { get; set; }
     }
 }

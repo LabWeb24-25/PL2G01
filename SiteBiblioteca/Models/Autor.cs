@@ -12,5 +12,8 @@ namespace SiteBiblioteca.Models
 
         [Required]
         public string? Bibliografia { get; set; }
+
+        [Required]
+        public string? Imagem { get; set; }
     }
 }

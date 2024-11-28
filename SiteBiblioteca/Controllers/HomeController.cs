@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using SiteBiblioteca.Data;
 using SiteBiblioteca.Models;
 using System.Diagnostics;
@@ -18,7 +19,9 @@ namespace SiteBiblioteca.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            var livros = _context.livros.Include(l => l.autor).ToList();
+
+            return View(livros);
         }
 
         public IActionResult Privacy()
