@@ -1,0 +1,201 @@
+﻿@model SiteBiblioteca.Models.Autor
+
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"]</title>
+    <style>
+        /* Estilização da página */
+        html, body {
+            height: 100%;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #2d2d2d;
+            font-family: Arial, sans-serif;
+        }
+
+        /* Container principal */
+        .main-container {
+            background-color: #666666;
+            padding: 20px;
+            border-radius: 5px;
+            color: #ffffff;
+            width: 800px;
+            display: flex;
+            gap: 20px;
+        }
+
+        /* Div para campos de texto */
+        .form-fields {
+            flex: 2;
+        }
+
+        /* Div para a foto e botões */
+        .profile-section {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .form-container {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        label {
+            color: #fff;
+        }
+
+        input[type="text"], input[type="email"] {
+            width: 100%;
+            padding: 8px;
+            border: none;
+            border-radius: 5px;
+        }
+
+        .profile-picture {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+            .profile-picture img {
+                width: 100px;
+                height: 100px;
+                border-radius: 0%;
+                background-color: #cccccc;
+                margin-bottom: 10px;
+            }
+
+        .button-container {
+            display: flex;
+            gap: 10px;
+        }
+
+        .button {
+            padding: 10px;
+            background-color: #cccccc;
+            color: #000;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+            .button:hover {
+                background-color: #bbbbbb;
+            }
+
+        /* Logo */
+        .logo {
+            width: 40px; /* Ajuste o tamanho conforme necessário */
+            height: auto;
+            cursor: pointer;
+            margin-right: 20px;
+            margin-bottom: 20px;
+        }
+
+    </style>
+</head>
+<body>
+    <!-- Container Principal -->
+    <div class="main-container">
+        <!-- Div de Campos -->
+        <div class="form-fields">
+            <div style="display: flex; align-items: center; gap: 10px;">
+                <img class="logo" src="/img/logo.png" onclick="location.href='/'" alt="Logotipo" style="width: 50px; cursor: pointer;" />
+                <h2 style="margin: 0;">Adicionar Livro</h2>
+            </div>
+
+            <div class="form-container">
+                <label for="ISBN">ISBN:</label>
+                <input type="text" id="ISBN" />
+
+                <label for="titulo">Título:</label>
+                <input type="text" id="titulo" />
+
+                <label for="autor">Autor:</label>
+                <select type="text" id="autor">
+                    @foreach (autor in Model)
+                    {
+                        <option value="@autor.id">@autor.nome</option>
+                    }
+                </select>
+                
+
+                <label for="genero-livro">Género:</label>
+                <select id="genero-livro" name="genero-livro">
+                    <option value="" selected disabled></option>
+                    <!-- Gêneros de Ficção -->
+                    <option selected disabled>Escolha um género</option>
+                    <optgroup label="Ficção">
+                        <option value="romance">Romance</option>
+                        <option value="aventura">Aventura</option>
+                        <option value="fantasia">Fantasia</option>
+                        <option value="ficcao-cientifica">Ficção Científica</option>
+                        <option value="terror">Terror</option>
+                        <option value="misterio-policial">Mistério/Policial</option>
+                        <option value="drama">Drama</option>
+                        <option value="distopia-utopia">Distopia/Utopia</option>
+                    </optgroup>
+
+                    <!-- Gêneros de Não-Ficção -->
+                    <optgroup label="Não-Ficção">
+                        <option value="biografias-memorias">Biografias e Memórias</option>
+                        <option value="historia">História</option>
+                        <option value="ciencia-tecnologia">Ciência e Tecnologia</option>
+                        <option value="autoajuda">Autoajuda e Desenvolvimento Pessoal</option>
+                        <option value="psicologia-filosofia">Psicologia e Filosofia</option>
+                        <option value="viagens-aventura">Viagens e Aventura</option>
+                        <option value="arte-design">Arte e Design</option>
+                        <option value="religiao-espiritualidade">Religião e Espiritualidade</option>
+                    </optgroup>
+
+                    <!-- Gêneros Infantis e Jovens -->
+                    <optgroup label="Infantis e Jovens">
+                        <option value="contos-fadas">Contos de Fadas e Fábulas</option>
+                        <option value="literatura-juvenil">Literatura Juvenil</option>
+                        <option value="livros-educativos">Livros Educativos</option>
+                        <option value="quadrinhos-graphic-novels">Quadrinhos e Graphic Novels</option>
+                    </optgroup>
+
+                    <!-- Gêneros Acadêmicos e Técnicos -->
+                    <optgroup label="Acadêmicos e Técnicos">
+                        <option value="manuais-didaticos">Manuais e Didáticos</option>
+                        <option value="ciencias-sociais">Ciências Sociais</option>
+                        <option value="literatura-cientifica">Literatura Científica</option>
+                        <option value="engenharia-computacao">Engenharia e Computação</option>
+                        <option value="direito-politicas">Direito e Políticas Públicas</option>
+                    </optgroup>
+                </select>
+
+
+
+                <label for="preco">Preço:</label>
+                <input type="number" id="preco" />
+
+                <label for="numexemplares">Número de Exemplares:</label>
+                <input type="number" id="numexemplares" />
+            </div>
+        </div>
+
+        <!-- Div de Imagem e Botões -->
+        <div class="profile-section">
+            <div class="profile-picture">
+                <img src="~/img/book-placeholder.png" alt="Foto do Livro" />
+                <button class="button">Carregar Capa do Livro</button>
+            </div>
+            <div class="button-container">
+                <button class="button">Cancelar</button>
+                <button class="button">Criar</button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
