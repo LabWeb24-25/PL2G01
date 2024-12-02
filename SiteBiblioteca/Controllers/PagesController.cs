@@ -19,72 +19,42 @@ namespace SiteBiblioteca.Controllers
 
         public IActionResult SobreNos()
         {
-            var dadosBiblioteca = _context._dadosBiblioteca.FirstOrDefault(); //buscar registo da primeira linha da tabela dadosBiblioteca
+            var dadosBiblioteca = _context._dadosBiblioteca.FirstOrDefault(); // buscar registo da primeira linha da tabela dadosBiblioteca
+
+            // Função para corrigir qualquer link e garantir o formato adequado
+            string CorrigirLink(string link)
+            {
+                if (string.IsNullOrEmpty(link)) return link;
+
+                // Verifica se o link já começa com 'https://'
+                if (!link.StartsWith("https://"))
+                {
+                    link = "https://" + link;
+                }
+
+                // Verifica e ajusta o domínio www. caso necessário
+                if (!link.StartsWith("https://www.") && link.Contains("www."))
+                {
+                    link = link.Replace("www.", "https://www.");
+                }
+
+                return link;
+            }
 
             // Verifica e corrige o link do YouTube
-            if (!string.IsNullOrEmpty(dadosBiblioteca.youtube))
-            {
-                if (!dadosBiblioteca.youtube.StartsWith("https://"))
-                {
-                    dadosBiblioteca.youtube = "https://" + dadosBiblioteca.youtube;
-                }
-                if (dadosBiblioteca.youtube.StartsWith("https://www.") == false && dadosBiblioteca.youtube.Contains("www."))
-                {
-                    dadosBiblioteca.youtube = dadosBiblioteca.youtube.Replace("www.", "https://www.");
-                }
-            }
+            dadosBiblioteca.youtube = CorrigirLink(dadosBiblioteca.youtube);
 
             // Verifica e corrige o link do X (Twitter)
-            if (!string.IsNullOrEmpty(dadosBiblioteca.x))
-            {
-                if (!dadosBiblioteca.x.StartsWith("https://"))
-                {
-                    dadosBiblioteca.x = "https://" + dadosBiblioteca.x;
-                }
-                if (dadosBiblioteca.x.StartsWith("https://www.") == false && dadosBiblioteca.x.Contains("www."))
-                {
-                    dadosBiblioteca.x = dadosBiblioteca.x.Replace("www.", "https://www.");
-                }
-            }
+            dadosBiblioteca.x = CorrigirLink(dadosBiblioteca.x);
 
             // Verifica e corrige o link do Instagram
-            if (!string.IsNullOrEmpty(dadosBiblioteca.instagram))
-            {
-                if (!dadosBiblioteca.instagram.StartsWith("https://"))
-                {
-                    dadosBiblioteca.instagram = "https://" + dadosBiblioteca.instagram;
-                }
-                if (dadosBiblioteca.instagram.StartsWith("https://www.") == false && dadosBiblioteca.instagram.Contains("www."))
-                {
-                    dadosBiblioteca.instagram = dadosBiblioteca.instagram.Replace("www.", "https://www.");
-                }
-            }
+            dadosBiblioteca.instagram = CorrigirLink(dadosBiblioteca.instagram);
 
             // Verifica e corrige o link do TikTok
-            if (!string.IsNullOrEmpty(dadosBiblioteca.tiktok))
-            {
-                if (!dadosBiblioteca.tiktok.StartsWith("https://"))
-                {
-                    dadosBiblioteca.tiktok = "https://" + dadosBiblioteca.tiktok;
-                }
-                if (dadosBiblioteca.tiktok.StartsWith("https://www.") == false && dadosBiblioteca.tiktok.Contains("www."))
-                {
-                    dadosBiblioteca.tiktok = dadosBiblioteca.tiktok.Replace("www.", "https://www.");
-                }
-            }
+            dadosBiblioteca.tiktok = CorrigirLink(dadosBiblioteca.tiktok);
 
             // Verifica e corrige o link do Facebook
-            if (!string.IsNullOrEmpty(dadosBiblioteca.facebook))
-            {
-                if (!dadosBiblioteca.facebook.StartsWith("https://"))
-                {
-                    dadosBiblioteca.facebook = "https://" + dadosBiblioteca.facebook;
-                }
-                if (dadosBiblioteca.facebook.StartsWith("https://www.") == false && dadosBiblioteca.facebook.Contains("www."))
-                {
-                    dadosBiblioteca.facebook = dadosBiblioteca.facebook.Replace("www.", "https://www.");
-                }
-            }
+            dadosBiblioteca.facebook = CorrigirLink(dadosBiblioteca.facebook);
 
             return View(dadosBiblioteca);
         }

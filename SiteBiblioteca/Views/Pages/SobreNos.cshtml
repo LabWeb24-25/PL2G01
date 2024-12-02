@@ -144,7 +144,7 @@
     <div class="box map">
         <div class="header">Localização da Biblioteca</div>
         <img src="~/img/@Model.image" alt="Imagem da Biblioteca">
-        <iframe src="@Model.mapa" allowfullscreen="" loading="lazy"></iframe>
+        @Html.Raw(@Model.mapa)
     </div>
 
     <!-- Social Media Section -->
