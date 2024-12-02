@@ -183,5 +183,10 @@ namespace SiteBiblioteca.Controllers
 
             return View(autor);
         }
+
+        public IActionResult PainelBibliotecario()
+        {
+            return View();
+        }
     }
 }

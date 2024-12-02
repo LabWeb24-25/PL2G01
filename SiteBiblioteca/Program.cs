@@ -46,7 +46,7 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "{controller=Pages}/{action=PainelBibliotecario}/{id?}");
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Livros}/{action=Pesquisa}/{id?}");
