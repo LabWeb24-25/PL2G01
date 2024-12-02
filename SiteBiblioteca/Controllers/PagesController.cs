@@ -78,7 +78,43 @@ namespace SiteBiblioteca.Controllers
         //[Authorize(Roles = "Bibliotecário")]
         public IActionResult AdicionarLivro()
         {
-            return View();
+            var autores = _context.autores.ToList();
+
+            return View(autores);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> adicionarLivro(Livro livro, IFormFile Capa)
+        {
+            if (ModelState.IsValid)
+            {
+                // Processar upload da imagem, se necessário
+                if (Capa != null && Capa.Length > 0)
+                {
+                    var caminhoPasta = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/img");
+                    var nomeArquivo = Guid.NewGuid().ToString() + Path.GetExtension(Capa.FileName);
+
+                    var caminhoCompleto = Path.Combine(caminhoPasta, nomeArquivo);
+
+                    using (var stream = new FileStream(caminhoCompleto, FileMode.Create))
+                    {
+                        await Capa.CopyToAsync(stream);
+                    }
+
+                    // Armazenar o caminho no banco de dados
+                    livro.imagem = "/img/" + nomeArquivo;
+                }
+
+                // Salvar no banco de dados
+                _context.livros.Add(livro);
+                await _context.SaveChangesAsync();
+
+                // Redirecionar após sucesso
+                return RedirectToAction("Index");
+            }
+
+            // Caso os dados não sejam válidos, retornar o formulário com os erros
+            return View(livro);
         }
 
         //[Authorize(Roles = "Bibliotecário")]
