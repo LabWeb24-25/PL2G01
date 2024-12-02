@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿@model SiteBiblioteca.Models.Autor
+
+<!DOCTYPE html>
 <html lang="pt">
 <head>
     <meta charset="UTF-8">
@@ -119,12 +121,19 @@
                 <input type="text" id="titulo" />
 
                 <label for="autor">Autor:</label>
-                <input type="text" id="autor" />
+                <select type="text" id="autor">
+                    @foreach (autor in Model)
+                    {
+                        <option value="@autor.id">@autor.nome</option>
+                    }
+                </select>
+                
 
                 <label for="genero-livro">Género:</label>
                 <select id="genero-livro" name="genero-livro">
                     <option value="" selected disabled></option>
                     <!-- Gêneros de Ficção -->
+                    <option selected disabled>Escolha um género</option>
                     <optgroup label="Ficção">
                         <option value="romance">Romance</option>
                         <option value="aventura">Aventura</option>
