@@ -229,5 +229,39 @@ namespace SiteBiblioteca.Controllers
 
             return View(dados);
         }
+
+
+        public IActionResult PainelAdministrador()
+        {
+            // Busca a lista de usuários do banco de dados
+            var utilizador = _context.Adicional.ToList();
+            return View(utilizador); // Passa a lista para a view
+        }
+
+        //[HttpPost]
+        //public IActionResult Banir(int id)
+        //{
+        //    var utilizador = _context.Adicional.Find(id);
+        //    if (utilizador != null)
+        //    {
+        //        // Marcar o usuário como banido
+        //        utilizador.banido = true;
+        //        _context.SaveChanges();
+        //    }
+        //    return RedirectToAction("PainelAdministrador");
+        //}
+
+        //[HttpPost]
+        //public IActionResult Desbanir(int id)
+        //{
+        //    var utilizador = _context.Adicional.Find(id);
+        //    if (utilizador != null)
+        //    {
+        //        // Marcar o usuário como não banido
+        //        utilizador.banido = false;
+        //        _context.SaveChanges();
+        //    }
+        //    return RedirectToAction("PainelAdministrador");
+        //}
     }
 }
