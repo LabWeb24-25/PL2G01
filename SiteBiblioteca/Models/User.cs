@@ -26,5 +26,8 @@ namespace SiteBiblioteca.Models
 
         [Required]
         public bool? confirmado { get; set; }
+
+        [Required]
+        public bool? banido { get; set; } = false;
     }
 }
