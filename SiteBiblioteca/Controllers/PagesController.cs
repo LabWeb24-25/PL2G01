@@ -263,5 +263,10 @@ namespace SiteBiblioteca.Controllers
         //    }
         //    return RedirectToAction("PainelAdministrador");
         //}
+
+        public IActionResult PainelBibliotecario()
+        {
+            return View();
+        }
     }
 }

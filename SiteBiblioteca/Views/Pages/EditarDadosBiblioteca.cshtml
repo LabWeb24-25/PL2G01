@@ -17,14 +17,15 @@
     .container {
         max-width: 1000px; /* Melhor aproveitamento do espaço */
         width: 100%;
-        background-color: #333333;
+        height: fit-content;
+        background-color: white;
         padding: 30px;
         border-radius: 8px;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
     }
 
     h2 {
-        color: white;
+        color: black;
         margin-bottom: 30px;
         text-align: center;
     }
@@ -38,7 +39,7 @@
     label {
         font-weight: bold;
         margin-bottom: 10px;
-        color: white;
+        color: black;
     }
 
     input, textarea {
@@ -144,7 +145,7 @@
 
         <div class="form-buttons">
             <button type="submit" class="btn btn-primary">Guardar</button>
-            <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+            <a href="PainelAdministrador" class="btn btn-secondary">Cancelar</a>
         </div>
     </form>
 </div>
