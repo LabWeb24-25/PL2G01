@@ -92,9 +92,9 @@ namespace SiteBiblioteca.Controllers
                 if (Capa != null && Capa.Length > 0)
                 {
                     var caminhoPasta = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/img");
-                    var nomeArquivo = Guid.NewGuid().ToString() + Path.GetExtension(Capa.FileName);
+                    var nomeFicheiro = Guid.NewGuid().ToString() + Path.GetExtension(Capa.FileName);
 
-                    var caminhoCompleto = Path.Combine(caminhoPasta, nomeArquivo);
+                    var caminhoCompleto = Path.Combine(caminhoPasta, nomeFicheiro);
 
                     using (var stream = new FileStream(caminhoCompleto, FileMode.Create))
                     {
@@ -102,7 +102,7 @@ namespace SiteBiblioteca.Controllers
                     }
 
                     // Armazenar o caminho no banco de dados
-                    livro.imagem = "/img/" + nomeArquivo;
+                    livro.imagem = "/img/" + nomeFicheiro;
                 }
 
                 // Salvar no banco de dados
@@ -186,6 +186,39 @@ namespace SiteBiblioteca.Controllers
         public IActionResult SobreAutor(int id)
         {
             var autor = _context.autores.FirstOrDefault(l => l.Id == id);
+
+            return View(autor);
+        }
+
+        public IActionResult AdicionarAutor()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> adicionarAutorNovo(Autor autor, IFormFile Imagem)
+        {
+            if (ModelState.IsValid)
+            {
+                if (Imagem != null && Imagem.Length > 0)
+                {
+                    var caminhoPasta = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/img");
+                    var nomeFicheiro = Guid.NewGuid().ToString() + Path.GetExtension(Imagem.FileName);
+
+                    var caminhoCompleto = Path.Combine(caminhoPasta, nomeFicheiro);
+
+                    using (var stream = new FileStream(caminhoCompleto, FileMode.Create))
+                    {
+                        await Imagem.CopyToAsync(stream);
+                    }
+
+                    autor.Imagem = "/img/" + nomeFicheiro;
+                }
+
+                _context.autores.Add(autor);
+                await _context.SaveChangesAsync();
+                return RedirectToAction("Index");
+            }
 
             return View(autor);
         }

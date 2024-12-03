@@ -116,7 +116,13 @@
 
                 <div class="form-container">
                     <label for="ISBN">ISBN:</label>
-                    <input type="text" id="ISBN" required/>
+                    <input type="text"
+                           id="isbn"
+                           name="isbn"
+                           maxlength="13"
+                           pattern="^(\d{9}[\dXx]|\d{13})$"
+                           title="Digite um ISBN válido: ISBN-10 (9 dígitos seguidos de um dígito ou 'X') ou ISBN-13 (13 dígitos)"
+                           required>
 
                     <label for="titulo">Título:</label>
                     <input type="text" id="titulo" required/>
@@ -202,3 +208,48 @@
     </form>
 </body>
 </html>
+
+@section Scripts
+{
+    <script>
+        document.getElementById('carregarImagem').addEventListener('change', function (event)
+        {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    document.getElementById('previewImagem').src = e.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        function validarISBN() {
+            const isbn = document.getElementById("isbn").value.replace(/[-\s]/g, "");
+            if (isbn.length === 10) {
+                // Validação ISBN-10
+                let sum = 0;
+                for (let i = 0; i < 9; i++) sum += (isbn[i] * (i + 1));
+                const checkDigit = isbn[9] === 'X' || isbn[9] === 'x' ? 10 : parseInt(isbn[9]);
+                if ((sum + checkDigit) % 11 !== 0) {
+                    alert("ISBN-10 inválido!");
+                    return false;
+                }
+            } else if (isbn.length === 13) {
+                // Validação ISBN-13
+                let sum = 0;
+                for (let i = 0; i < 12; i++) sum += (isbn[i] * (i % 2 === 0 ? 1 : 3));
+                const checkDigit = (10 - (sum % 10)) % 10;
+                if (checkDigit !== parseInt(isbn[12])) {
+                    alert("ISBN-13 inválido!");
+                    return false;
+                }
+            } else {
+                alert("O ISBN deve ter 10 ou 13 dígitos!");
+                return false;
+            }
+            alert("ISBN válido!");
+            return true;
+        }
+    </script>
+}

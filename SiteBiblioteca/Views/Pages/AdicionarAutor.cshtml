@@ -1,0 +1,134 @@
+﻿@model SiteBiblioteca.Models.Autor
+
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adicionar Autor</title>
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #2d2d2d;
+            font-family: Arial, sans-serif;
+        }
+
+        .main-container {
+            background-color: #666666;
+            padding: 20px;
+            border-radius: 5px;
+            color: #ffffff;
+            width: 800px;
+            display: flex;
+            gap: 20px;
+        }
+
+        .form-fields {
+            flex: 2;
+        }
+
+        .profile-section {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .form-container {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        label {
+            color: #fff;
+        }
+
+        input[type="text"], textarea {
+            width: 100%;
+            padding: 8px;
+            border: none;
+            border-radius: 5px;
+        }
+
+        textarea {
+            resize: vertical;
+        }
+
+        .profile-picture img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            background-color: #cccccc;
+            margin-bottom: 10px;
+        }
+
+        .button-container {
+            display: flex;
+            gap: 10px;
+        }
+
+        .button {
+            padding: 10px;
+            background-color: #cccccc;
+            color: #000;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+            .button:hover {
+                background-color: #bbbbbb;
+            }
+    </style>
+</head>
+<body>
+    <form asp-action="adicionarAutorNovo" method="post" enctype="multipart/form-data">
+        <div class="main-container">
+            <div class="form-fields">
+                <h2>Adicionar Autor</h2>
+                <div class="form-container">
+                    <label for="nome">Nome:</label>
+                    <input type="text" id="nome" name="Nome" required />
+
+                    <label for="bibliografia">Bibliografia:</label>
+                    <textarea id="bibliografia" name="Bibliografia" rows="5" required></textarea>
+                </div>
+            </div>
+
+            <div class="profile-section">
+                <div class="profile-picture">
+                    <img src="~/img/user.png" alt="Foto do Autor" id="previewImagem" style="max-width: 200px"/>
+                    <input type="file" id="carregarImagem" name="Imagem" accept="image/*" style="display: none;" />
+                    <button class="button" onclick="document.getElementById('carregarImagem').click(); return false;">Carregar Foto</button>
+                </div>
+                <div class="button-container">
+                    <button type="button" class="button" onclick="window.history.back();">Cancelar</button>
+                    <button type="submit" class="button">Criar</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</body>
+</html>
+
+@section Scripts
+{
+    <script>
+        document.getElementById('carregarImagem').addEventListener('change', function (event) 
+        {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    document.getElementById('previewImagem').src = e.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+    </script>
+}
