@@ -222,5 +222,12 @@ namespace SiteBiblioteca.Controllers
 
             return View(autor);
         }
+
+        public IActionResult EditarDadosBiblioteca()
+        {
+            var dados = _context._dadosBiblioteca.FirstOrDefault();
+
+            return View(dados);
+        }
     }
 }

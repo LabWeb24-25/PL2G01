@@ -14,7 +14,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            background-color: #2d2d2d;
+            background-color: #404040;
             font-family: Arial, sans-serif;
         }
 
@@ -110,10 +110,10 @@
             <!-- Div de Campos -->
             <div class="form-fields">
                 <div style="display: flex; align-items: center; gap: 10px;">
-                    <img class="logo" src="/img/logo.png" onclick="location.href='/'" alt="Logotipo" style="width: 50px; cursor: pointer;" />
+                    <button class="btn btn-primary w-10" onclick="window.location.href='/'">&lt;</button>
                     <h2 style="margin: 0;">Adicionar Livro</h2>
                 </div>
-
+                <br />
                 <div class="form-container">
                     <label for="ISBN">ISBN:</label>
                     <input type="text"
@@ -192,7 +192,7 @@
             <!-- Div de Imagem e Botões -->
             <div class="profile-section">
                 <div class="profile-picture">
-                    <img src="~/img/book-placeholder.png" alt="Foto do Livro" id="previewImagem" style="max-width: 200px;" />
+                    <img src="~/img/book-placeholder.png" alt="Foto do Livro" id="previewImagem" style="max-width: 200px; max-height: 300px" />
                     <input type="file" id="carregarImagem" accept="image/*" style="display: none;" />
                     <button class="button" onclick="document.getElementById('carregarImagem').click(); return false;">Carregar Capa do Livro</button>
                 </div>
