@@ -1,0 +1,120 @@
+﻿<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Banir Utilizador</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #404040;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        .container {
+            max-width: 500px;
+            width: 100%;
+            background: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .image {
+            height: 70px;
+            width: 70px;
+            display: block;
+            margin: 0 auto;
+        }
+
+        .warning {
+            font-size: 1.2em;
+            color: #d9534f;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+            text-align: left;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            margin-bottom: 10px;
+        }
+
+        textarea {
+            height: 100px;
+            resize: none;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #d9534f;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+            button:hover {
+                background-color: #404040;
+            }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <img class="image" src="~/img/UserLocked.png" />
+        <p class="warning">Banir Utilizador</p>
+
+        <div class="form-group">
+            <label for="reason">Motivo do Banimento:</label>
+            <textarea id="reason" placeholder="Insira o motivo do banimento" required></textarea>
+        </div>
+
+        <button onclick="confirmarBanimento()">Confirmar Banimento</button>
+    </div>
+
+    <script>
+        function confirmarBanimento() {
+            const username = document.getElementById('username').value.trim();
+            const reason = document.getElementById('reason').value.trim();
+
+            if (username === '' || reason === '') {
+                alert('Por favor, preencha todos os campos.');
+                return;
+            }
+
+            const confirmation = confirm(`Tem certeza de que deseja banir o utilizador "${username}" pelo seguinte motivo: "${reason}"?`);
+            if (confirmation) {
+                // Aqui, você poderia enviar os dados para o servidor usando uma requisição AJAX ou redirecionar para uma página de confirmação.
+                alert(`Utilizador "${username}" banido com sucesso.`);
+                // Exemplo de redirecionamento após o banimento:
+                // window.location.href = 'pagina_principal.html';
+            }
+        }
+    </script>
+
+</body>
+</html>
