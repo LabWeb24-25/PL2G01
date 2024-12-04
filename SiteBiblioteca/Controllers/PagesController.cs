@@ -274,5 +274,24 @@ namespace SiteBiblioteca.Controllers
         {
             return View();
         }
+
+        public IActionResult NotificacoesAdministrador()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult Confirmar()
+        {
+            // Lógica para confirmar solicitação
+            return RedirectToAction("NotificacoesAdministrador");
+        }
+
+        [HttpPost]
+        public IActionResult Negar()
+        {
+            // Lógica para negar solicitação
+            return RedirectToAction("NotificacoesAdministrador");
+        }
     }
 }
