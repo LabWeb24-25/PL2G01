@@ -268,5 +268,11 @@ namespace SiteBiblioteca.Controllers
         {
             return View();
         }
+
+
+        public IActionResult Bloquear()
+        {
+            return View();
+        }
     }
 }
