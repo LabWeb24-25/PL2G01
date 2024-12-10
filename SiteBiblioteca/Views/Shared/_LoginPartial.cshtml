@@ -13,6 +13,9 @@
         <button onclick="location.href='@Url.Action("SobreNos", "Pages")'">Sobre nós</button>
         <button onclick="location.href='Identity/Account/Manage/EditarPerfil'">Perfil</button>
         <img src="~/img/user.png" />
+        <form asp-action="Logout" asp-controller="Pages" method="post">
+            <button type="submit" class="btn btn-danger" style="margin-top: 7px;">Logout</button>
+        </form>
     </div>
 }
 else

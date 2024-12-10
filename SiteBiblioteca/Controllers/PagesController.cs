@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SiteBiblioteca.Data;
@@ -10,11 +11,21 @@ namespace SiteBiblioteca.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly ApplicationDbContext _context;
+        private readonly SignInManager<IdentityUser> _signInManager;
 
-        public PagesController(ILogger<HomeController> logger, ApplicationDbContext context)
+        public PagesController(ILogger<HomeController> logger, ApplicationDbContext context, SignInManager<IdentityUser> signInManager)
         {
             _logger = logger;
             _context = context;
+            _signInManager = signInManager;
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Logout()
+        {
+            await _signInManager.SignOutAsync(); // Desconectar o utilizador
+            return RedirectToAction("Index", "Home"); // Redirecionar para a página inicial ou qualquer outra página
         }
 
         public IActionResult SobreNos()
