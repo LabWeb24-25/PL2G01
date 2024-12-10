@@ -14,6 +14,7 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
+using SiteBiblioteca.Data;
 
 namespace SiteBiblioteca.Areas.Identity.Pages.Account
 {
@@ -22,12 +23,14 @@ namespace SiteBiblioteca.Areas.Identity.Pages.Account
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly ILogger<LoginModel> _logger;
         private readonly UserManager<IdentityUser> _userManager;
+        private readonly ApplicationDbContext _context;
 
-        public LoginModel(SignInManager<IdentityUser> signInManager, ILogger<LoginModel> logger, UserManager<IdentityUser> userManager)
+        public LoginModel(SignInManager<IdentityUser> signInManager, ILogger<LoginModel> logger, UserManager<IdentityUser> userManager, ApplicationDbContext context)
         {
             _signInManager = signInManager;
             _logger = logger;
             _userManager = userManager;
+            _context = context;
         }
 
         /// <summary>
@@ -111,7 +114,11 @@ namespace SiteBiblioteca.Areas.Identity.Pages.Account
             {
                 var user = await _userManager.FindByEmailAsync(Input.Email);
 
-                if (user != null)
+                var adicional = _context.Adicional.First(x => x.Email == Input.Email);
+
+                var Confirm = adicional.confirmado;
+
+                if (user != null && Confirm == true)
                 {
                     var result = await _signInManager.PasswordSignInAsync(user, Input.Password, Input.RememberMe, lockoutOnFailure: false);
                     if (result.Succeeded)
@@ -133,6 +140,11 @@ namespace SiteBiblioteca.Areas.Identity.Pages.Account
                         ModelState.AddModelError(string.Empty, "Invalid login attempt.");
                         return Page();
                     }
+                }
+                else
+                {
+                    ModelState.AddModelError(string.Empty, "Account not confirmed.");
+                    return Page();
                 }
             }
 
