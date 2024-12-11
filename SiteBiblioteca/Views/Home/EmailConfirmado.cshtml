@@ -5,6 +5,15 @@
         margin: 0;
         background-color: #444;
     }
+
+    .button {
+        padding: 10px;
+        background-color: #cccccc;
+        color: #000;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
 </style>
 
 <div style="display: flex; justify-content: center; align-items: center; height: 100vh; background-color: #444;">
@@ -15,12 +24,8 @@
             Obrigado pela confirmação!
         </p>
 
-        <div style="display: flex; justify-content: center; padding: 0 20px;">
-            <form method="post" action="/" style="margin: 0;">
-                <button type="submit" style="background-color: #fff; border: 1px solid #000; cursor: pointer;">
-                    Voltar para a Página Principal
-                </button>
-            </form>
+        <div class="button-container">
+            <button class="button">Confirmar</button>
         </div>
 
     </div>
