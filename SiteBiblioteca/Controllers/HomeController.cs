@@ -28,7 +28,7 @@ namespace SiteBiblioteca.Controllers
             return View();
         }
 
-        [Authorize(Roles = "Leitor")]
+      //  [Authorize(Roles = "Leitor")]
         public IActionResult UtilizadorBloqueado()
         {
             return View();
