@@ -1,27 +1,98 @@
 ﻿@{
+    Layout = null; /* Remove o layout padrão */
     ViewData["Title"] = "Alterar Código de Acesso";
 }
-<style>
-    body{background-color:#404040 }
-</style>
-<div style="display: flex; justify-content: center; align-items: center; height: 100vh;">
-    <div style="width: 400px; text-align: center; padding: 20px; background-color: #ffffff; border: 1px solid #000; box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);">
-        <h2 style="white-space: nowrap; margin-bottom: 15px">Alterar Código de Acesso</h2>
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"]</title>
+    <style>
+        body {
+            background-color: #404040;
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
 
-        <form method="post" action="/home/AplicarCodigoAcesso">
-            <div style="margin-bottom: 15px;">
-                <label for="novoCodigo" style="display: block; margin-bottom: 5px;">Novo Código de Acesso</label>
-                <input type="password" id="novoCodigo" name="NovoCodigo" style="width: 100%; padding: 8px;" />
-            </div>
+        .form-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
 
-            <div style="margin-bottom: 15px;">
-                <label for="confirmarCodigo" style="display: block; margin-bottom: 5px;">Confirmar Código de Acesso</label>
-                <input type="password" id="confirmarCodigo" name="ConfirmarCodigo" style="width: 100%; padding: 8px;" />
-            </div>
+        .form-box {
+            width: 400px;
+            text-align: center;
+            padding: 20px;
+            background-color: #ffffff;
+            border: 1px solid #000;
+            border-radius: 8px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+        }
 
-            <button type="submit" style="padding: 10px 20px; background-color: #333333; color: #ffffff; border: none; border-radius: 5px;">
-                Aplicar
-            </button>
-        </form>
+        h2 {
+            white-space: nowrap;
+            margin-bottom: 15px;
+            color: #333333;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            text-align: left;
+        }
+
+        input[type="password"] {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        button[type="submit"] {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #ffffff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+            button[type="submit"]:hover {
+                background-color: #555555;
+            }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <div class="form-box">
+            <h2>Alterar Código de Acesso</h2>
+            <form method="post" action="/home/AplicarCodigoAcesso">
+                <!-- Código Atual -->
+                <div style="margin-bottom: 15px;">
+                    <label for="codigoAtual">Código Atual</label>
+                    <input type="password" id="codigoAtual" name="CodigoAtual" required />
+                </div>
+
+                <!-- Novo Código -->
+                <div style="margin-bottom: 15px;">
+                    <label for="novoCodigo">Novo Código de Acesso</label>
+                    <input type="password" id="novoCodigo" name="NovoCodigo" required minlength="8" maxlength="20" />
+                </div>
+
+                <!-- Confirmar Novo Código -->
+                <div style="margin-bottom: 15px;">
+                    <label for="confirmarCodigo">Confirmar Código de Acesso</label>
+                    <input type="password" id="confirmarCodigo" name="ConfirmarCodigo" required minlength="8" maxlength="20" />
+                </div>
+
+                <button type="submit">Aplicar</button>
+            </form>
+        </div>
     </div>
-</div>
+</body>
+</html>
