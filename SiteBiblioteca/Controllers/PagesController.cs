@@ -335,5 +335,15 @@ namespace SiteBiblioteca.Controllers
         {
             return View();
         }
+
+        public IActionResult VerRequisicoes()
+        {
+            return View();
+        }
+
+        public IActionResult NotificacoesBibliotecario()
+        {
+            return View();
+        }
     }
 }

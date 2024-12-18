@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace SiteBiblioteca.Views.Home
+namespace SiteBiblioteca.Views.Pages
 {
     public class NotificacoesBibliotecarioModel : PageModel
     {
