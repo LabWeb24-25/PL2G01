@@ -128,14 +128,17 @@
         <div class="content-wrapper">
             <!-- Conteúdo do Perfil -->
             <div class="profile-content">
-                <!-- Informações do usuário -->
+                <!-- Informações do utilizador -->
                 <div class="user-info">
                     <p><strong>Username:</strong> @Model.UserName</p>
                     <p><strong>Nome:</strong> @Model.Name</p>
                     <p><strong>Email:</strong> @Model.Email</p>
                     <p><strong>Morada:</strong> @Model.Address</p>
                     <p><strong>Contactos:</strong> @Model.Contact</p>
-                    <p><strong>Email Confirmado:</strong> @Model.Confirmado</p>
+                    <p>
+                        <strong>Email Confirmado:</strong>
+                        @(Model.Confirmado.HasValue ? (Model.Confirmado.Value ? "Sim" : "Não") : "Não informado")
+                    </p>
                 </div>
 
                 <!-- Imagem de perfil -->

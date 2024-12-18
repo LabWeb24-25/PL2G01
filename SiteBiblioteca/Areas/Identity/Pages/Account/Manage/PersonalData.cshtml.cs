@@ -17,25 +17,12 @@ namespace SiteBiblioteca.Areas.Identity.Pages.Account.Manage
         }
 
         // Propriedades para exibir na view
-        [BindProperty]
         public string? UserName { get; set; }
-
-        [BindProperty]
         public string? Image { get; set; }
-
-        [BindProperty]
         public string? Name { get; set; }
-
-        [BindProperty]
         public string? Contact { get; set; }
-
-        [BindProperty]
         public string? Address { get; set; }
-
-        [BindProperty]
         public string? Email { get; set; }
-
-        [BindProperty]
         public bool? Confirmado { get; set; }
 
         public async Task<IActionResult> OnGetAsync()
@@ -45,7 +32,7 @@ namespace SiteBiblioteca.Areas.Identity.Pages.Account.Manage
 
             if (string.IsNullOrEmpty(userId))
             {
-                return NotFound("utilizador não encontrado.");
+                return NotFound("Utilizador não encontrado.");
             }
 
             // Obter o utilizador do banco de dados (tabela AspNetUsers)
@@ -53,7 +40,7 @@ namespace SiteBiblioteca.Areas.Identity.Pages.Account.Manage
 
             if (user == null)
             {
-                return NotFound("utilizador não encontrado.");
+                return NotFound("Utilizador não encontrado.");
             }
 
             // Obter os dados adicionais do utilizador (tabela Adicional)
@@ -66,14 +53,14 @@ namespace SiteBiblioteca.Areas.Identity.Pages.Account.Manage
 
             // Preencher as propriedades com os dados do utilizador
             UserName = user.UserName;
-            Image = additionalInfo.image;
+            Image = additionalInfo.image; // Assumindo que a coluna na tabela se chama 'Image'
             Name = additionalInfo.Name;
             Contact = additionalInfo.Contact;
             Address = additionalInfo.Address;
             Email = additionalInfo.Email;
-            Confirmado = additionalInfo.confirmado;
+            Confirmado = additionalInfo.confirmado; // Confirmado será um valor booleano
 
-            return RedirectToPage("/Account/Manage/PersonalData");
+            return Page(); // Apenas retorna a página sem redirecionar
         }
     }
 }

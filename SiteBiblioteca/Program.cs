@@ -15,7 +15,7 @@ builder.Services.ConfigureApplicationCookie(options =>
 {
     // Torna o cookie não persistente (apenas sessão atual)
     options.Cookie.IsEssential = true; // Opcional, usado para LGPD
-    options.ExpireTimeSpan = TimeSpan.FromSeconds(5); // Tempo até expirar
+    options.ExpireTimeSpan = TimeSpan.FromHours(2); // Tempo até expirar
     options.SlidingExpiration = false; // Não renova o cookie automaticamente
     options.Cookie.HttpOnly = true;
     options.LoginPath = "/Account/Login";
