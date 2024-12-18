@@ -314,5 +314,26 @@ namespace SiteBiblioteca.Controllers
         {
             return View();
         }
+
+        public IActionResult EmailConfirmado()
+        {
+            return View();
+        }
+
+        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+        public IActionResult Criar_Administrador()
+        { 
+            return View();
+        }
+
+        public IActionResult Alterar_Codigo_Acesso()
+        {
+            return View();
+        }
+
+        public IActionResult UtilizadorBloqueado()
+        {
+            return View();
+        }
     }
 }

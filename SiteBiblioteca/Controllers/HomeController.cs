@@ -28,15 +28,6 @@ namespace SiteBiblioteca.Controllers
             return View();
         }
 
-        public IActionResult EmailConfirmado()
-        {
-            return View();
-        }
-
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-
-        public IActionResult Criar_Administrador()
-            { return View(); }
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
