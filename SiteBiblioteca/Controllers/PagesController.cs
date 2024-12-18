@@ -312,7 +312,9 @@ namespace SiteBiblioteca.Controllers
 
         public IActionResult EditarPerfil()
         {
-            return View();
+            var get = User.;
+            var user = _context.Adicional.First();
+            return View(user);
         }
 
         public IActionResult EmailConfirmado()
