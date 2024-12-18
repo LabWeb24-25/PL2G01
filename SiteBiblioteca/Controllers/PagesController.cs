@@ -304,5 +304,15 @@ namespace SiteBiblioteca.Controllers
             // Lógica para negar solicitação
             return RedirectToAction("NotificacoesAdministrador");
         }
+
+        public IActionResult PersonalData()
+        {
+            return View();
+        }
+
+        public IActionResult EditarPerfil()
+        {
+            return View();
+        }
     }
 }
