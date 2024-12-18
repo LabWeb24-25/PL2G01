@@ -20,6 +20,13 @@
             background-color: #f8f9fa;
         }
 
+            .calendar h6 {
+                color: #000; /* Cor preta para o nome do mês */
+            }
+
+           
+
+
         .email-icon {
             cursor: pointer;
             color: #007bff;
@@ -38,6 +45,24 @@
             display: flex;
             gap: 20px;
         }
+
+        .selected-day {
+            background-color: #808080 !important; /* Cor de fundo laranja vibrante */
+            color: #fff !important; /* Texto branco */
+            border: 2px solid #fff; /* Borda branca */
+            border-radius: 50%; /* Formato circular */
+            text-align: center;
+            font-weight: bold;
+            width: 30px; /* Tamanho consistente */
+            height: 30px;
+            line-height: 30px; /* Centraliza o texto verticalmente */
+            margin: auto; /* Centraliza horizontalmente */
+        }
+
+
+
+
+
     </style>
 </head>
 <body>
@@ -179,3 +204,18 @@
     </script>
 </body>
 </html>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const today = new Date();
+        const day = today.getDate();
+        const calendarCells = document.querySelectorAll(".calendar table tbody td");
+
+        calendarCells.forEach(cell => {
+            if (cell.innerText == day) {
+                cell.classList.add("selected-day");
+            }
+        });
+    });
+
+
+</script>
