@@ -11,6 +11,27 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
+builder.Services.ConfigureApplicationCookie(options =>
+{
+    // Torna o cookie não persistente (apenas sessão atual)
+    options.Cookie.IsEssential = true; // Opcional, usado para LGPD
+    options.ExpireTimeSpan = TimeSpan.FromSeconds(5); // Tempo até expirar
+    options.SlidingExpiration = false; // Não renova o cookie automaticamente
+    options.Cookie.HttpOnly = true;
+    options.LoginPath = "/Account/Login";
+    options.LogoutPath = "/Account/Logout";
+
+    // Define o cookie como não persistente
+    options.Events = new Microsoft.AspNetCore.Authentication.Cookies.CookieAuthenticationEvents
+    {
+        OnSigningIn = context =>
+        {
+            context.Properties.IsPersistent = false; // Desabilita persistência
+            return Task.CompletedTask;
+        }
+    };
+});
+
 builder.Services.AddDefaultIdentity<IdentityUser>(options =>
 {
     options.SignIn.RequireConfirmedAccount = false; // Desativa a exigência de confirmação de conta
@@ -55,6 +76,7 @@ app.UseAuthorization();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
+
 app.MapRazorPages();
 
 app.Run();

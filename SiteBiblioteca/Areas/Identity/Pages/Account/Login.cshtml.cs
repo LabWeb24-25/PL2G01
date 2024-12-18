@@ -86,7 +86,7 @@ namespace SiteBiblioteca.Areas.Identity.Pages.Account
             ///     directly from your code. This API may change or be removed in future releases.
             /// </summary>
             [Display(Name = "Remember me?")]
-            public bool RememberMe { get; set; }
+            public bool RememberMe { get; set; } = false;
         }
 
         public async Task OnGetAsync(string returnUrl = null)
@@ -121,11 +121,22 @@ namespace SiteBiblioteca.Areas.Identity.Pages.Account
                 if (user != null && Confirm == true)
                 {
                     var result = await _signInManager.PasswordSignInAsync(user, Input.Password, Input.RememberMe, lockoutOnFailure: false);
+
                     if (result.Succeeded)
                     {
                         if (adicional.banido == true)
                         {
                             return Redirect("/Pages/UtilizadorBloqueado");
+                        }
+
+                        if (adicional.UserType == "Bibliotecário")
+                        {
+                            returnUrl = "/Pages/PainelBibliotecario";
+                        }
+                        
+                        if (adicional.UserType == "Administrador")
+                        {
+                            returnUrl = "/Pages/PainelAdministrador";
                         }
 
                         _logger.LogInformation("User logged in.");
