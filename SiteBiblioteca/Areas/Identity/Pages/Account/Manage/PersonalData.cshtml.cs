@@ -1,64 +1,79 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
-using System.Linq;
-using Microsoft.AspNetCore.Authorization;
+using SiteBiblioteca.Models;
+using SiteBiblioteca.Data;
 
 namespace SiteBiblioteca.Areas.Identity.Pages.Account.Manage
 {
-    [AllowAnonymous]  // Adiciona este atributo para permitir acesso anônimo
-
     public class PersonalDataModel : PageModel
     {
-        private readonly UserManager<IdentityUser> _userManager;
+        private readonly ApplicationDbContext _context;
 
-        public PersonalDataModel(UserManager<IdentityUser> userManager)
+        public PersonalDataModel(ApplicationDbContext context)
         {
-            _userManager = userManager;
+            _context = context;
         }
 
         // Propriedades para exibir na view
         [BindProperty]
-        public string UserName { get; set; }
+        public string? UserName { get; set; }
 
         [BindProperty]
-        public string FullName { get; set; }
+        public string? Image { get; set; }
 
         [BindProperty]
-        public string Email { get; set; }
+        public string? Name { get; set; }
 
         [BindProperty]
-        public string Address { get; set; }
+        public string? Contact { get; set; }
 
         [BindProperty]
-        public string PhoneNumber { get; set; }
+        public string? Address { get; set; }
 
         [BindProperty]
-        public bool EmailConfirmed { get; set; }
+        public string? Email { get; set; }
+
+        [BindProperty]
+        public bool? Confirmado { get; set; }
 
         public async Task<IActionResult> OnGetAsync()
         {
-            var user = await _userManager.GetUserAsync(User);
+            // Obter o ID do utilizador logado
+            var userId = User?.Identity?.Name;
+
+            if (string.IsNullOrEmpty(userId))
+            {
+                return NotFound("utilizador não encontrado.");
+            }
+
+            // Obter o utilizador do banco de dados (tabela AspNetUsers)
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.UserName == userId);
 
             if (user == null)
             {
-                return NotFound("Usuário não encontrado.");
+                return NotFound("utilizador não encontrado.");
             }
 
-            // Preenchendo as propriedades com os dados do usuário
+            // Obter os dados adicionais do utilizador (tabela Adicional)
+            var additionalInfo = await _context.Adicional.FirstOrDefaultAsync(a => a.Email == user.Email);
+
+            if (additionalInfo == null)
+            {
+                return NotFound("Informações adicionais não encontradas.");
+            }
+
+            // Preencher as propriedades com os dados do utilizador
             UserName = user.UserName;
-            Email = user.Email;
-            EmailConfirmed = user.EmailConfirmed;
+            Image = additionalInfo.image;
+            Name = additionalInfo.Name;
+            Contact = additionalInfo.Contact;
+            Address = additionalInfo.Address;
+            Email = additionalInfo.Email;
+            Confirmado = additionalInfo.confirmado;
 
-            // Aqui, assumimos que FullName e Address são armazenados como Claims.
-            // Se estiverem em outra estrutura, adapte o código conforme necessário.
-            var claims = await _userManager.GetClaimsAsync(user);
-            FullName = claims.FirstOrDefault(c => c.Type == "FullName")?.Value ?? "N/A";
-            Address = claims.FirstOrDefault(c => c.Type == "Address")?.Value ?? "N/A";
-            PhoneNumber = user.PhoneNumber ?? "N/A";
-
-            return Page();
+            return RedirectToPage("/Account/Manage/PersonalData");
         }
     }
 }

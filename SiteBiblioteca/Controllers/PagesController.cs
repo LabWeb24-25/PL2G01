@@ -305,16 +305,9 @@ namespace SiteBiblioteca.Controllers
             return RedirectToAction("NotificacoesAdministrador");
         }
 
-        public IActionResult PersonalData()
-        {
-            return View();
-        }
-
         public IActionResult EditarPerfil()
         {
-            var get = User.;
-            var user = _context.Adicional.First();
-            return View(user);
+            return View();
         }
 
         public IActionResult EmailConfirmado()
