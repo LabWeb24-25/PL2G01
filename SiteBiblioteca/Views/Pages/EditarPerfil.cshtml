@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿@model SiteBiblioteca.Models.User
+
+<!DOCTYPE html>
 <html lang="pt">
 <head>
     <meta charset="UTF-8">
@@ -113,19 +115,19 @@
             
             <div class="form-container">
                 <label for="username">Username:</label>
-                <input type="text" id="username" value="Jota" />
+                <input type="text" id="username" value="" />
 
                 <label for="nome">Nome:</label>
-                <input type="text" id="nome" value="João Teixeira Lopes" />
+                <input type="text" id="nome" value="@Model.Name" />
 
                 <label for="email">Email:</label>
-                <input type="email" id="email" value="joaoteixeiralopes@gmail.com" />
+                <input type="email" id="email" value="@Model.Email" />
 
                 <label for="morada">Morada:</label>
-                <input type="text" id="morada" value="Rua dos Abutres N.º 10" />
+                <input type="text" id="morada" value="@Model.Address" />
 
                 <label for="contactos">Contactos:</label>
-                <input type="text" id="contactos" value="912883209" />
+                <input type="text" id="contactos" value="@Model.Contact" />
             </div>
         </div>
 
