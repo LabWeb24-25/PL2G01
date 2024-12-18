@@ -29,7 +29,7 @@ namespace SiteBiblioteca.Controllers
             return View();
         }
 
-        public IActionResult NotificacoesAdministrador()
+        public IActionResult VerRequisicoes()
         {
             return View();
         }
