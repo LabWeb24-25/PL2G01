@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.DataProtection.XmlEncryption;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -25,7 +26,7 @@ namespace SiteBiblioteca.Controllers
         public async Task<IActionResult> Logout()
         {
             await _signInManager.SignOutAsync(); // Desconectar o utilizador
-            return RedirectToAction("Index", "Home"); // Redirecionar para a página inicial ou qualquer outra página
+            return RedirectToAction("Index", "Home"); // Redirecionar para a página inicial
         }
 
         public IActionResult SobreNos()
@@ -241,7 +242,6 @@ namespace SiteBiblioteca.Controllers
             return View(dados);
         }
 
-
         public IActionResult PainelAdministrador()
         {
             // Busca a lista de usuários do banco de dados
@@ -326,16 +326,35 @@ namespace SiteBiblioteca.Controllers
             return View();
         }
 
+        //[Authorize("Leitor")]
         public IActionResult UtilizadorBloqueado()
         {
-            return View();
+            var username = User.Identity.Name; // obtenção do username do utilizador
+
+            var useraspnet = _context.Users.First(x => x.UserName == username); 
+
+            var idAdicional = _context.Adicional.First(x => x.Email == useraspnet.Email);
+
+            var bloqueio = _context.bloqueios.First(x => x.userId == idAdicional.Id);
+
+            if(bloqueio != null)
+            {
+                _signInManager.SignOutAsync(); // Desconectar o utilizador para não aceder à conta por URL
+                return View(bloqueio);
+            }
+
+            return RedirectToPage("Home/Index");
         }
 
+        [Authorize("Bibliotecário")]
         public IActionResult VerRequisicoes()
         {
-            return View();
+            var requisicoes = _context.requisicoes.ToList();
+
+            return View(requisicoes);
         }
 
+        [Authorize("Bibliotecário")]
         public IActionResult NotificacoesBibliotecario()
         {
             return View();

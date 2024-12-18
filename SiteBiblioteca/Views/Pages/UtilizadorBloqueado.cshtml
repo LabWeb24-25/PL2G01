@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿@model Bloqueio 
+
+<!DOCTYPE html>
 <html lang="pt">
 <head>
     <meta charset="UTF-8">
@@ -104,19 +106,21 @@
 
         <!-- Data de bloqueio -->
         <div class="form-group1">
-            <label for="data-bloqueio">Data de Bloqueio: 14 de novembro de 2024</label>
+            <label for="data-bloqueio">Data de Bloqueio: @Model.dataBloqueio </label>
         </div>
 
         <!-- Motivo do bloqueio -->
         <div class="form-group2">
             <label for="reason">Motivo de Bloqueio:</label>
-            <div id="reason" class="readonly-box">Violação dos termos de uso da plataforma.</div>
+            <div id="reason" class="readonly-box">@Model.motivo</div>
         </div>
 
         <!-- Link de suporte -->
         <a href="mailto:suporte@biblioteca_fixe.com">Entre em contacto com o suporte para mais informações</a>
 
-        <button onclick="voltarPaginaPrincipal()">Voltar para a página principal</button>
+        <form asp-action="Logout" asp-controller="Pages" method="post">
+            <button type="submit" class="btn btn-danger" style="margin-top: 7px;">Voltar para a página principal</button>
+        </form>
     </div>
 
     <script>
