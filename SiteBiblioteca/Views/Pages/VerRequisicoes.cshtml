@@ -1,4 +1,6 @@
-﻿@{
+﻿@model IEnumerable<Requisitar>
+
+@{
     ViewData["Title"] = "Notificações do Administrador";
 }
 
@@ -59,22 +61,21 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>978-0063303690</td>
-                        <td>Genshin Impact Art Book</td>
-                        <td>HoYoverse</td>
-                        <td>Infanto-Juvenil</td>
-                        <td>19.99$</td>
-                        <td>Mariah Maclachlan</td>
-                        <td>
-                            <div class="d-flex">
-                                <form method="post" action="/Admin/Confirmar">
-                                    <button type="submit" class="btn btn-success btn-sm me-2">Confirmar Requisição</button>
-                                </form>
-                            </div>
-                        </td>
-                    </tr>
-                    <!-- Linhas adicionais podem ser adicionadas aqui -->
+                    @foreach (var livro in Model)
+                    {
+                        <tr>
+                            <td>@livro.livroId</td>
+                         @* falta tudo menos estes 2 *@
+                            <td>@livro.leitorId</td>
+                            <td>
+                                <div class="d-flex">
+                                    <form method="post" action="/Admin/Confirmar">
+                                        <button type="submit" class="btn btn-success btn-sm me-2">Confirmar Requisição</button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                    }
                 </tbody>
             </table>
         </div>

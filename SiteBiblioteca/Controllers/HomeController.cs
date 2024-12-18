@@ -19,6 +19,7 @@ namespace SiteBiblioteca.Controllers
 
         public IActionResult Index()
         {
+            // Obter os livros da base de dados com informações do autor
             var livros = _context.livros.Include(l => l.autor).ToList();
             return View(livros);
         }
