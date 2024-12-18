@@ -1,0 +1,106 @@
+﻿@page
+@model PersonalDataModel
+@{
+    ViewData["Title"] = "Perfil de Utilizador";
+}
+
+<div class="profile-container">
+    <div class="profile-header">
+        <img src="~/path/to/logo.png" alt="Biblioteca Logo" class="logo">
+        <h1>Perfil de Utilizador</h1>
+    </div>
+
+    <div class="profile-content">
+        <div class="user-info">
+            <p><strong>Username:</strong> @Model.UserName</p>
+            <p><strong>Nome:</strong> @Model.FullName</p>
+            <p><strong>Email:</strong> @Model.Email</p>
+            <p><strong>Morada:</strong> @Model.Address</p>
+            <p><strong>Contactos:</strong> @Model.PhoneNumber</p>
+            <p><strong>Email Confirmado:</strong> @(Model.EmailConfirmed ? "Sim" : "Não")</p>
+        </div>
+
+        <div class="user-image">
+            <img src="~/path/to/user-image.png" alt="User Image">
+        </div>
+    </div>
+
+    <div class="profile-actions">
+        <button onclick="location.href='@Url.Page("/Account/Manage/EditProfile")'" class="btn">Editar Perfil</button>
+        <button onclick="location.href='@Url.Page("/Account/Manage/ConfirmEmail")'" class="btn">Confirmar Email</button>
+    </div>
+</div>
+
+<style>
+    .profile-container {
+        background-color: #4a4a4a;
+        color: white;
+        padding: 20px;
+        width: 80%;
+        margin: 0 auto;
+        border-radius: 8px;
+        font-family: Arial, sans-serif;
+    }
+
+    .profile-header {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 20px;
+    }
+
+    .logo {
+        width: 50px;
+        height: auto;
+    }
+
+    .profile-content {
+        display: flex;
+        justify-content: space-between;
+        background-color: white;
+        color: black;
+        padding: 20px;
+        border-radius: 8px;
+    }
+
+    .user-info {
+        font-size: 16px;
+        line-height: 1.6;
+    }
+
+    .user-image {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 150px;
+        height: 150px;
+        background-color: #f0f0f0;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+    }
+
+    .user-image img {
+        width: 100px;
+        height: 100px;
+    }
+
+    .profile-actions {
+        margin-top: 20px;
+        display: flex;
+        gap: 10px;
+    }
+
+    .btn {
+        padding: 10px 20px;
+        background-color: white;
+        color: black;
+        border: 1px solid #000;
+        border-radius: 5px;
+        cursor: pointer;
+        font-weight: bold;
+    }
+
+    .btn:hover {
+        background-color: #e0e0e0;
+    }
+</style>
