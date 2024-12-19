@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿@model Requisitar
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -80,16 +82,20 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>Gui</td>
-                        <td>Fabricante de Lágrimas</td>
-                        <td>24-10-2024</td>
-                        <td>31-10-2024</td>
-                        <td>
-                            Entregue
-                            <button class="btn btn-sm btn-success estado-btn">Enviar Email</button>
-                        </td>
-                    </tr>
+                    @foreach (var req in Model)
+                    {
+                        <tr>
+                            <td>Gui</td>
+                            <td>Fabricante de Lágrimas</td>
+                            <td>24-10-2024</td>
+                            <td>31-10-2024</td>
+                            <td>
+                                Entregue
+                                <button class="btn btn-sm btn-success estado-btn">Enviar Email</button>
+                            </td>
+                        </tr>
+                    }
+                    
                     <tr>
                         <td>Marquito</td>
                         <td>Genshin Impact Art Book</td>
