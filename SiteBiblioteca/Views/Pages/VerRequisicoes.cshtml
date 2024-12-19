@@ -61,12 +61,15 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (var livro in Model)
+                    @foreach (var requisicao in Model)
                     {
                         <tr>
-                            <td>@livro.livroId</td>
-                         @* falta tudo menos estes 2 *@
-                            <td>@livro.leitorId</td>
+@*                             <td>@requisicao.livro.ISBN</td>
+                            <td>@requisicao.livro.titulo</td>
+                            <td>@requisicao.livro.autor.Nome</td>
+                            <td>@requisicao.livro.genero</td>
+                            <td>@requisicao.livro.preco</td>
+                            <td>@requisicao.leitor.Name</td> *@
                             <td>
                                 <div class="d-flex">
                                     <form method="post" action="/Admin/Confirmar">
