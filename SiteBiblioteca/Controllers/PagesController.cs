@@ -350,15 +350,18 @@ namespace SiteBiblioteca.Controllers
             return RedirectToPage("Home/Index");
         }
 
-        [Authorize("Bibliotecário")]
-        public IActionResult VerRequisicoes()
+        //[Authorize(Roles = "Bibliotecário")]
+        public async Task<IActionResult> VerRequisicoes()
         {
-            var requisicoes = _context.requisicoes.ToList();
+            var requisicoes = await _context.requisicoes
+                .Include(r => r.leitorId)
+                .Include(r => r.livroId)
+                .ToListAsync();
 
             return View(requisicoes);
         }
 
-        [Authorize("Bibliotecário")]
+        [Authorize(Roles = "Bibliotecário")]
         public IActionResult NotificacoesBibliotecario()
         {
             return View();

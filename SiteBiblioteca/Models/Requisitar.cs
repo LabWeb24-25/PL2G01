@@ -5,17 +5,22 @@ namespace SiteBiblioteca.Models
 {
     public class Requisitar
     {
-        public User leitor { get; set; }
+        [ForeignKey("Adicional")]
+        public int leitorId { get; set; } // Chave estrangeira
+        
 
-        public Livro livro { get; set; }
-
+        [ForeignKey("Livro")]
+        public int livroId { get; set; } // Chave estrangeira
+   
         public DateTime data_requisicao { get; set; }
-
         public DateTime data_entrega { get; set; }
 
-        [Required]
-        public User biblioEntrega { get; set; }
+        [ForeignKey("Adicional")]
+        public int biblioEntregaId { get; set; } // Chave estrangeira opcional
+   
 
-        public User biblioRecebe { get; set; }
+        [ForeignKey("Adicional")]
+        public int biblioRecebeId { get; set; } // Chave estrangeira opcional
     }
 }
+
