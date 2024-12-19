@@ -28,7 +28,7 @@ namespace SiteBiblioteca.Data
             modelBuilder.Entity<CriarAdministrador>()
                 .HasKey(b => new { b.idCriador, b.idCriado });
             modelBuilder.Entity<Requisitar>()
-                .HasKey(b => new { b.livroId, b.leitorId, b.data_requisicao });
+                .HasKey(b => new { b.livroISBN, b.leitorId, b.data_requisicao });
         }
     }
 }

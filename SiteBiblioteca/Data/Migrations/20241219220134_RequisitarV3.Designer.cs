@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SiteBiblioteca.Data;
 
@@ -11,9 +12,11 @@ using SiteBiblioteca.Data;
 namespace SiteBiblioteca.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241219220134_RequisitarV3")]
+    partial class RequisitarV3
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -386,7 +389,7 @@ namespace SiteBiblioteca.Data.Migrations
 
             modelBuilder.Entity("SiteBiblioteca.Models.Requisitar", b =>
                 {
-                    b.Property<int>("livroISBN")
+                    b.Property<int>("livroId")
                         .HasColumnType("int");
 
                     b.Property<int>("leitorId")
@@ -395,19 +398,19 @@ namespace SiteBiblioteca.Data.Migrations
                     b.Property<DateTime>("data_requisicao")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("biblioEntregaId")
+                    b.Property<int>("biblioEntregaId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("biblioRecebeId")
+                    b.Property<int>("biblioRecebeId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("data_entrega")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("livroISBN1")
+                    b.Property<string>("livroISBN")
                         .HasColumnType("nvarchar(450)");
 
-                    b.HasKey("livroISBN", "leitorId", "data_requisicao");
+                    b.HasKey("livroId", "leitorId", "data_requisicao");
 
                     b.HasIndex("biblioEntregaId");
 
@@ -415,7 +418,7 @@ namespace SiteBiblioteca.Data.Migrations
 
                     b.HasIndex("leitorId");
 
-                    b.HasIndex("livroISBN1");
+                    b.HasIndex("livroISBN");
 
                     b.ToTable("requisicoes");
                 });
@@ -531,11 +534,15 @@ namespace SiteBiblioteca.Data.Migrations
                 {
                     b.HasOne("SiteBiblioteca.Models.User", "biblioEntrega")
                         .WithMany()
-                        .HasForeignKey("biblioEntregaId");
+                        .HasForeignKey("biblioEntregaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("SiteBiblioteca.Models.User", "biblioRecebe")
                         .WithMany()
-                        .HasForeignKey("biblioRecebeId");
+                        .HasForeignKey("biblioRecebeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("SiteBiblioteca.Models.User", "leitor")
                         .WithMany()
@@ -545,7 +552,7 @@ namespace SiteBiblioteca.Data.Migrations
 
                     b.HasOne("SiteBiblioteca.Models.Livro", "livro")
                         .WithMany()
-                        .HasForeignKey("livroISBN1");
+                        .HasForeignKey("livroISBN");
 
                     b.Navigation("biblioEntrega");
 

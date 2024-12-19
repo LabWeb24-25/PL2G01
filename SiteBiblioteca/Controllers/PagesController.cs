@@ -354,16 +354,23 @@ namespace SiteBiblioteca.Controllers
         public async Task<IActionResult> VerRequisicoes()
         {
             var requisicoes = await _context.requisicoes
-                .Include(r => r.leitorId)
-                .Include(r => r.livroId)
+                .Include(r => r.leitor)
+                .Include(r => r.livro)
+                    .ThenInclude(r => r.autor)
                 .ToListAsync();
 
             return View(requisicoes);
         }
 
-        [Authorize(Roles = "Bibliotecário")]
+        //[Authorize(Roles = "Bibliotecário")]
         public IActionResult NotificacoesBibliotecario()
         {
+            var requisicoes = _context.requisicoes
+            .Include(r => r.leitor)
+            .Include(r => r.livro)
+                .ThenInclude(r => r.autor)
+            .All(x => x.data_entrega > DateTime.Now);
+
             return View();
         }
     }
