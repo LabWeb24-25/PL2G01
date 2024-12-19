@@ -71,13 +71,11 @@ namespace SiteBiblioteca.Controllers
             return View(dadosBiblioteca);
         }
 
-        //[Authorize(Roles = "Leitor")]
         public IActionResult RecuperarCodigoEmail()
         {
             return View();
         }
 
-        //[Authorize(Roles = "Leitor")]
         public IActionResult SobreLivro(string ISBN)
         {
             var livro = _context.livros
@@ -87,7 +85,7 @@ namespace SiteBiblioteca.Controllers
             return View(livro);
         }
 
-        //[Authorize(Roles = "Bibliotecário")]
+        [Authorize(Roles = "Bibliotecário")]
         public IActionResult AdicionarLivro()
         {
             var autores = _context.autores.ToList();
@@ -129,7 +127,7 @@ namespace SiteBiblioteca.Controllers
             return View(livro);
         }
 
-        //[Authorize(Roles = "Bibliotecário")]
+        [Authorize(Roles = "Bibliotecário")]
         public IActionResult EditarLivro(string ISBN)
         {
             var livro = _context.livros
@@ -169,7 +167,7 @@ namespace SiteBiblioteca.Controllers
             return View(model); // Retornar à mesma página em caso de erro
         }
 
-        //[Authorize(Roles = "Leitor")]
+        [Authorize(Roles = "Leitor")]
         public IActionResult Pesquisa(string termo)
         {
             if (string.IsNullOrWhiteSpace(termo))
@@ -202,6 +200,7 @@ namespace SiteBiblioteca.Controllers
             return View(autor);
         }
 
+        [Authorize(Roles = "Bibliotecário")]
         public IActionResult AdicionarAutor()
         {
             return View();
@@ -235,17 +234,19 @@ namespace SiteBiblioteca.Controllers
             return View(autor);
         }
 
+        [Authorize(Roles = "Administrador")]
         public IActionResult EditarDadosBiblioteca()
         {
-            var dados = _context._dadosBiblioteca.FirstOrDefault();
+            var dados = _context._dadosBiblioteca.FirstOrDefault(); // Busca a única linha da base de dados na tabela _dadosBiblioteca
 
             return View(dados);
         }
 
+        [Authorize(Roles = "Administrador")]
         public IActionResult PainelAdministrador()
         {
-            // Busca a lista de usuários do banco de dados
-            var utilizador = _context.Adicional.ToList();
+            var utilizador = _context.Adicional.ToList(); // Busca a lista de utilizadores do banco de dados
+
             return View(utilizador); // Passa a lista para a view
         }
 
@@ -275,9 +276,12 @@ namespace SiteBiblioteca.Controllers
         //    return RedirectToAction("PainelAdministrador");
         //}
 
+        [Authorize(Roles = "Bibliotecário")]
         public IActionResult PainelBibliotecario()
         {
-            return View();
+            var livros = _context.livros.Include(x => x.autor).ToList();
+
+            return View(livros);
         }
 
 
@@ -286,6 +290,7 @@ namespace SiteBiblioteca.Controllers
             return View();
         }
 
+        [Authorize(Roles = "Administrador")]
         public IActionResult NotificacoesAdministrador()
         {
             return View();
@@ -326,16 +331,15 @@ namespace SiteBiblioteca.Controllers
             return View();
         }
 
-        //[Authorize("Leitor")]
         public IActionResult UtilizadorBloqueado()
         {
             var username = User.Identity.Name; // obtenção do username do utilizador
 
-            var useraspnet = _context.Users.First(x => x.UserName == username); 
+            var useraspnet = _context.Users.First(x => x.UserName == username); // Linha correspondente ao AspNetUsers
 
-            var idAdicional = _context.Adicional.First(x => x.Email == useraspnet.Email);
+            var idAdicional = _context.Adicional.First(x => x.Email == useraspnet.Email); // Linha correspondente ao Adicional
 
-            var bloqueio = _context.bloqueios.First(x => x.userId == idAdicional.Id);
+            var bloqueio = _context.bloqueios.First(x => x.userId == idAdicional.Id); // Linha correspondente ao bloqueios
 
             if(bloqueio != null)
             {

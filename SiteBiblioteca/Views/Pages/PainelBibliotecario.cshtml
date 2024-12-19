@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿@model IEnumerable<Livro>
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -134,8 +136,8 @@
                             <i class="fas fa-plus"></i>
                         </button>
                         <ul class="dropdown-menu">
-                            <li><a href="#">Adicionar Livro</a></li>
-                            <li><a href="#">Adicionar Autor</a></li>
+                            <li><a href="/Pages/AdicionarLivro">Adicionar Livro</a></li>
+                            <li><a href="/Pages/AdicionarAutor">Adicionar Autor</a></li>
                         </ul>
                     </div>
                     <button class="icon-button" title="Editar">
@@ -148,22 +150,13 @@
 
                 <!-- Book Covers -->
                 <div class="row mt-3">
-                    <div class="col-6 col-md-6 book-item mb-3">
-                        <img src="https://via.placeholder.com/150" alt="Fabricante de Lágrimas">
-                        <p>Fabricante de Lágrimas</p>
-                    </div>
-                    <div class="col-6 col-md-6 book-item mb-3">
-                        <img src="https://via.placeholder.com/150" alt="Genshin Impact Art Book">
-                        <p>Genshin Impact Art Book</p>
-                    </div>
-                    <div class="col-6 col-md-6 book-item mb-3">
-                        <img src="https://via.placeholder.com/150" alt="Anatomia Humana">
-                        <p>Anatomia Humana</p>
-                    </div>
-                    <div class="col-6 col-md-6 book-item mb-3">
-                        <img src="https://via.placeholder.com/150" alt="Introdução à Engenharia">
-                        <p>Introdução à Engenharia</p>
-                    </div>
+                    @foreach (var livro in Model)
+                    {
+                        <div class="col-6 col-md-6 book-item mb-3">
+                            <img src="img/@livro.imagem" alt="Capa do livro">
+                            <p>@livro.titulo</p>
+                        </div>
+                    }
                 </div>
             </div>
 
@@ -174,8 +167,8 @@
                         <i class="fas fa-bell"></i> 4 Leitores com entregas em atraso
                     </a>
                     <div>
-                        <button class="btn btn-secondary me-2">Ver Detalhes</button>
-                        <button class="btn btn-secondary">Requisições</button>
+                        <button class="btn btn-secondary me-2" onclick="window.location.href='/Pages/NotificacoesBibliotecario'">Ver Detalhes</button>
+                        <button class="btn btn-secondary" onclick="window.location.href='/Pages/VerRequisicoes'">Requisições</button>
                     </div>
                 </div>
                 <!-- Book Details Table -->
@@ -189,26 +182,14 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>Fabricante de Lágrimas</td>
-                                <td>Erin Doom</td>
-                                <td>Disponível</td>
-                            </tr>
-                            <tr>
-                                <td>Genshin Impact Art Book</td>
-                                <td>HoYoverse</td>
-                                <td>Esgotado</td>
-                            </tr>
-                            <tr>
-                                <td>Anatomia Humana</td>
-                                <td>A. Ferreira; I. Furtado; L. Neto</td>
-                                <td>Esgotado</td>
-                            </tr>
-                            <tr>
-                                <td>Introdução à Engenharia</td>
-                                <td>Luís Fernando Espinosa Cocian</td>
-                                <td>Indisponível</td>
-                            </tr>
+                            @foreach(var livro in Model)
+                            {
+                                <tr>
+                                    <td>@livro.titulo</td>
+                                    <td>@livro.autor.Nome</td>
+                                    <td>@livro.numExemplares > 0 ? Em Stock : Esgotado</td>
+                                </tr>
+                            }
                         </tbody>
                     </table>
                 </div>
