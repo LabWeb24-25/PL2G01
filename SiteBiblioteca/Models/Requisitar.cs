@@ -8,7 +8,6 @@ namespace SiteBiblioteca.Models
         [ForeignKey("Adicional")]
         public int leitorId { get; set; } // Chave estrangeira
         
-
         [ForeignKey("Livro")]
         public int livroId { get; set; } // Chave estrangeira
    
@@ -17,7 +16,6 @@ namespace SiteBiblioteca.Models
 
         [ForeignKey("Adicional")]
         public int biblioEntregaId { get; set; } // Chave estrangeira opcional
-   
 
         [ForeignKey("Adicional")]
         public int biblioRecebeId { get; set; } // Chave estrangeira opcional
