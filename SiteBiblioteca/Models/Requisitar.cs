@@ -5,17 +5,17 @@ namespace SiteBiblioteca.Models
 {
     public class Requisitar
     {
-        public int leitorId { get; set; }
+        public User leitor { get; set; }
 
-        public int livroId { get; set; }
+        public Livro livro { get; set; }
 
         public DateTime data_requisicao { get; set; }
 
         public DateTime data_entrega { get; set; }
 
         [Required]
-        public int biblioEntregaId { get; set; }
+        public User biblioEntrega { get; set; }
 
-        public int biblioRecebeId { get; set; }
+        public User biblioRecebe { get; set; }
     }
 }
