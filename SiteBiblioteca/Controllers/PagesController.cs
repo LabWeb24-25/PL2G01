@@ -195,7 +195,7 @@ namespace SiteBiblioteca.Controllers
 
         public IActionResult SobreAutor(int id)
         {
-            var autor = _context.autores.FirstOrDefault(l => l.Id == id);
+            var autor = _context.autores.First(l => l.Id == id);
 
             return View(autor);
         }
@@ -357,6 +357,7 @@ namespace SiteBiblioteca.Controllers
                 .Include(r => r.leitor)
                 .Include(r => r.livro)
                     .ThenInclude(r => r.autor)
+                .Where(x => (x.data_entrega > DateTime.Now && x.biblioRecebe == null) || x.biblioEntrega == null)
                 .ToListAsync();
 
             return View(requisicoes);
@@ -369,9 +370,10 @@ namespace SiteBiblioteca.Controllers
             .Include(r => r.leitor)
             .Include(r => r.livro)
                 .ThenInclude(r => r.autor)
-            .All(x => x.data_entrega > DateTime.Now);
+            .Where(x => x.data_entrega < DateTime.Now && x.biblioRecebe != null)
+            .ToList();
 
-            return View();
+            return View(requisicoes);
         }
     }
 }

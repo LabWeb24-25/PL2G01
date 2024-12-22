@@ -61,23 +61,37 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (var requisicao in Model)
+                    @if (Model != null)
                     {
-                        <tr>
-                            <td>@requisicao.livro.ISBN</td>
-                            <td>@requisicao.livro.titulo</td>
-                            <td>@requisicao.livro.autor.Nome</td>
-                            <td>@requisicao.livro.genero</td>
-                            <td>@requisicao.livro.preco</td>
-                            <td>@requisicao.leitor.Name</td>
-                            <td>
-                                <div class="d-flex">
-                                    <form method="post" action="/Admin/Confirmar">
-                                        <button type="submit" class="btn btn-success btn-sm me-2">Confirmar Requisição</button>
-                                    </form>
-                                </div>
-                            </td>
-                        </tr>
+                        @foreach (var requisicao in Model)
+                        {
+                            <tr>
+                                <td>@requisicao.livro.ISBN</td>
+                                <td>@requisicao.livro.titulo</td>
+                                <td>@requisicao.livro.autor.Nome</td>
+                                <td>@requisicao.livro.genero</td>
+                                <td>@requisicao.livro.preco</td>
+                                <td>@requisicao.leitor.Name</td>
+                                <td>
+                                    @if (requisicao.biblioEntrega is null)
+                                    {
+                                        <div class="d-flex">
+                                            <form method="post" action="/Admin/Confirmar">
+                                                <button type="submit" class="btn btn-success btn-sm me-2">Confirmar Requisição</button>
+                                            </form>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div class="d-flex">
+                                            <form method="post" action="/Admin/Confirmar">
+                                                <button type="submit" class="btn btn-success btn-sm me-2">Confirmar Receção</button>
+                                            </form>
+                                        </div>
+                                    }
+                                </td>
+                            </tr>
+                        }
                     }
                 </tbody>
             </table>
