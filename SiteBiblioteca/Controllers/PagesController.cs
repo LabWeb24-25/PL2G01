@@ -133,6 +133,7 @@ namespace SiteBiblioteca.Controllers
             var livro = _context.livros
                 .Include(l => l.autor)
                 .FirstOrDefault(x => x.ISBN == ISBN);
+
             return View(livro);
         }
 
@@ -250,31 +251,35 @@ namespace SiteBiblioteca.Controllers
             return View(utilizador); // Passa a lista para a view
         }
 
-        //[HttpPost]
-        //public IActionResult Banir(int id)
-        //{
-        //    var utilizador = _context.Adicional.Find(id);
-        //    if (utilizador != null)
-        //    {
-        //        // Marcar o usuário como banido
-        //        utilizador.banido = true;
-        //        _context.SaveChanges();
-        //    }
-        //    return RedirectToAction("PainelAdministrador");
-        //}
+        [HttpPost]
+        public IActionResult Banir(int id)
+        {
+            var utilizador = _context.Adicional.Find(id);
 
-        //[HttpPost]
-        //public IActionResult Desbanir(int id)
-        //{
-        //    var utilizador = _context.Adicional.Find(id);
-        //    if (utilizador != null)
-        //    {
-        //        // Marcar o usuário como não banido
-        //        utilizador.banido = false;
-        //        _context.SaveChanges();
-        //    }
-        //    return RedirectToAction("PainelAdministrador");
-        //}
+            if (utilizador != null)
+            {
+                // Marcar o utilizador como banido
+                utilizador.banido = true;
+                _context.SaveChanges();
+            }
+
+            return RedirectToAction("PainelAdministrador");
+        }
+
+        [HttpPost]
+        public IActionResult Desbanir(int id)
+        {
+            var utilizador = _context.Adicional.Find(id);
+
+            if (utilizador != null)
+            {
+                // Marcar o utilizador como não banido
+                utilizador.banido = false;
+                _context.SaveChanges();
+            }
+
+            return RedirectToAction("PainelAdministrador");
+        }
 
         [Authorize(Roles = "Bibliotecário")]
         public IActionResult PainelBibliotecario()

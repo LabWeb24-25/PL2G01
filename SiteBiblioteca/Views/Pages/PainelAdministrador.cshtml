@@ -94,7 +94,9 @@
             </div>
 
             <div>
-                <span class="me-2" style="color: white">1 Bibliotecário necessita de aprovação</span>
+                <span class="me-2" style="color: white">
+                    <span id="aprovacoes-count">0</span> Bibliotecário necessita de aprovação
+                </span>
                 <button class="btn btn-warning" onclick="window.location.href='Pages/NotificacoesAdministrador'">Ver Detalhes</button>
             </div>
         </div>
@@ -113,38 +115,47 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach (var user in Model)
+                @if (Model != null)
                 {
-                    <tr>
-                        <td>@user.UserType</td>
-                        <td>@user.Name</td>
-                        <td>@user.Email</td>
-                        <td>@user.Contact</td>
-                        <td>@user.Address</td>
-                        <td>
-                            @if (user.confirmado == true)
-                            {
-                                <span class="text-success">Confirmado</span>
-                            }
-                            else
-                            {
-                                <span class="text-danger">Não Confirmado</span>
-                            }
-                        </td>
-                        <td>
-                            <img src="@user.image" alt="Imagem de @user.Name" class="img-thumbnail" style="max-width: 100px;">
-                        </td>
-                        <td>
-                            @if (user.banido == false)
-                            {
-                                <button class="btn btn-warning" style="background-color: red">Banir</button>
-                            }
-                            else
-                            {
-                                <button class="btn btn-success" style="background-color: green">Desbanir</button>
-                            }
-                        </td>
-                    </tr>
+                    @foreach (var user in Model)
+                    {
+                        <tr>
+                            <td>@user.UserType</td>
+                            <td>@user.Name</td>
+                            <td>@user.Email</td>
+                            <td>@user.Contact</td>
+                            <td>@user.Address</td>
+                            <td>
+                                @if (user.confirmado == true)
+                                {
+                                    <span class="text-success">Confirmado</span>
+                                }
+                                else
+                                {
+                                    <span class="text-danger">Não Confirmado</span>
+                                }
+                            </td>
+                            <td>
+                                <img src="@user.image" alt="Imagem de @user.Name" class="img-thumbnail" style="max-width: 100px;">
+                            </td>
+                            <td>
+                                @if (user.banido == false)
+                                {
+                                    <form method="post" action="@Url.Action("Banir", "PagesController")">
+                                        <input type="hidden" name="id" value="@user.Id" />
+                                        <button type="submit" class="btn btn-warning" style="background-color: red">Banir</button>
+                                    </form>
+                                }
+                                else
+                                {
+                                    <form method="post" action="@Url.Action("Desbanir", "PagesController")">
+                                        <input type="hidden" name="id" value="@user.Id" />
+                                        <button type="submit" class="btn btn-success" style="background-color: green">Desbanir</button>
+                                    </form>
+                                }
+                            </td>
+                        </tr>
+                    }
                 }
             </tbody>
         </table>
@@ -152,3 +163,24 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
+
+@section Scripts
+{
+    <script>
+        function atualizarContagemAprovacoes() {
+            fetch('/HomeController/ObterAprovacoes') // Substitua pelo caminho correto do seu endpoint
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('aprovacoes-count').innerText = data.count; // Atualiza o valor
+                })
+                .catch(error => console.error('Erro ao buscar aprovações:', error));
+        }
+
+        // Atualiza ao carregar a página
+        atualizarContagemAprovacoes();
+
+        // Opcional: Atualizar automaticamente a cada X segundos (ex: 30 segundos)
+        setInterval(atualizarContagemAprovacoes, 30000);
+
+    </script>
+}

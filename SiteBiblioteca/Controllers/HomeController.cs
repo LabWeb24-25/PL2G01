@@ -34,5 +34,26 @@ namespace SiteBiblioteca.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+
+        [HttpGet]
+        public JsonResult ObterAtrasos()
+        {
+            var atrasos = _context.requisicoes
+                .Include(r => r.leitor)
+                .Include(r => r.livro)
+                    .ThenInclude(r => r.autor)
+                .Where(x => x.data_entrega < DateTime.Now && x.biblioRecebe != null)
+                .ToList();
+
+            return Json(new { count = atrasos.Count() });
+        }
+
+        [HttpGet]
+        public JsonResult ObterAprovacoes()
+        {
+            var aprovacoes = _context.Adicional.Where(x => x.confirmado == false);
+
+            return Json(new { count = aprovacoes.Count() });
+        }
     }
 }
