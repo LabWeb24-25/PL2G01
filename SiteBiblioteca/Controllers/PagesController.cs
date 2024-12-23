@@ -284,10 +284,22 @@ namespace SiteBiblioteca.Controllers
             return RedirectToAction("PainelAdministrador");
         }
 
-        [Authorize(Roles = "Bibliotecário")]
-        public IActionResult PainelBibliotecario()
+        //[Authorize(Roles = "Bibliotecário")]
+        public IActionResult PainelBibliotecario(string? termo)
         {
-            var livros = _context.livros.Include(x => x.autor).ToList();
+            var livros = new List<Livro>();
+
+            if (string.IsNullOrWhiteSpace(termo))
+            {
+                livros = _context.livros.Include(l => l.autor).ToList();
+            }
+            else
+            {
+                livros = _context.livros
+                            .Where(l => l.titulo.Contains(termo) || l.autor.Nome.Contains(termo) || l.genero.Contains(termo))
+                            .Include(l => l.autor)
+                            .ToList();
+            }
 
             return View(livros);
         }
