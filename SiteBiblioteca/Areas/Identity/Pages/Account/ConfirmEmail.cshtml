@@ -8,7 +8,16 @@
     html, body {
         height: 100%;
         margin: 0;
-        background-color: #444;
+        background-color: #404040;
+    }
+
+    .button {
+        padding: 10px;
+        background-color: #cccccc;
+        color: #000;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
     }
 </style>
 
@@ -20,18 +29,9 @@
             Aceda à sua conta de email para concluir <br /> o processo de confirmação
         </p>
 
-        <div style="display: flex; justify-content: space-between; padding: 0 20px;">
-            <form method="post" action="/home/EnviarNovamente" style="margin: 0;">
-                <button type="submit" style="padding: 10px 20px; background-color: #fff; border: 1px solid #000; cursor: pointer;">
-                    Enviar novamente
-                </button>
-            </form>
-
-            <form method="post" action="/home/AlterarEmail" style="margin-left: 10px;">
-                <button type="submit" style="padding: 10px 20px; background-color: #fff; border: 1px solid #000; cursor: pointer;">
-                    Alterar endereço de email
-                </button>
-            </form>
+        <div class="button-container">
+            <button class="button">Enviar novamente</button>
+            <button class="button">Alterar endereço de email</button>
         </div>
     </div>
 </div>
