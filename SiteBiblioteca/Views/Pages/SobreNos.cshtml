@@ -134,44 +134,47 @@
 </div>
 
 <div class="container">
-    <!-- Contact Section -->
-    <div class="box">
-        <div class="header">Contactos</div>
-        <p style="flex-wrap:wrap">@Model.contactos</p>
-    </div>
-
-    <!-- Location Section -->
-    <div class="box map">
-        <div class="header">Localização da Biblioteca</div>
-        <img src="~/img/@Model.image" alt="Imagem da Biblioteca">
-        @Html.Raw(@Model.mapa)
-    </div>
-
-    <!-- Social Media Section -->
-    <div class="box">
-        <div class="header">Redes Sociais</div>
-        <div class="social-media">
-            <a class="social-icon" href="@Model.youtube" target="_blank">
-                <i class="fab fa-youtube social-icon-i"></i>
-            </a>
-            <a class="social-icon" href="@Model.x" target="_blank">
-                <i class="fab fa-x social-icon-i"></i>
-            </a>
-            <a class="social-icon" href="@Model.instagram" target="_blank">
-                <i class="fab fa-instagram social-icon-i"></i>
-            </a>
-            <a class="social-icon" href="@Model.tiktok" target="_blank">
-                <i class="fab fa-tiktok social-icon-i"></i>
-            </a>
-            <a class="social-icon" href="@Model.facebook" target="_blank">
-                <i class="fab fa-facebook social-icon-i"></i>
-            </a>
+    @if (Model != null)
+    {
+        <!-- Contact Section -->
+        <div class="box">
+            <div class="header">Contactos</div>
+            <p style="flex-wrap:wrap">@Model.contactos</p>
         </div>
-    </div>
 
-    <!-- Opening Hours Section -->
-    <div class="box">
-        <div class="header">Horário de Funcionamento</div>
-        <p style ="flex-wrap:wrap">@Model.horario</p>
-    </div>
+        <!-- Location Section -->
+        <div class="box map">
+            <div class="header">Localização da Biblioteca</div>
+            <img src="~/img/@Model.image" alt="Imagem da Biblioteca">
+            @Html.Raw(@Model.mapa)
+        </div>
+
+        <!-- Social Media Section -->
+        <div class="box">
+            <div class="header">Redes Sociais</div>
+            <div class="social-media">
+                <a class="social-icon" href="@Model.youtube" target="_blank">
+                    <i class="fab fa-youtube social-icon-i"></i>
+                </a>
+                <a class="social-icon" href="@Model.x" target="_blank">
+                    <i class="fab fa-x social-icon-i"></i>
+                </a>
+                <a class="social-icon" href="@Model.instagram" target="_blank">
+                    <i class="fab fa-instagram social-icon-i"></i>
+                </a>
+                <a class="social-icon" href="@Model.tiktok" target="_blank">
+                    <i class="fab fa-tiktok social-icon-i"></i>
+                </a>
+                <a class="social-icon" href="@Model.facebook" target="_blank">
+                    <i class="fab fa-facebook social-icon-i"></i>
+                </a>
+            </div>
+        </div>
+
+        <!-- Opening Hours Section -->
+        <div class="box">
+            <div class="header">Horário de Funcionamento</div>
+            <p style="flex-wrap:wrap">@Model.horario</p>
+        </div>
+    }
 </div>

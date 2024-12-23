@@ -53,20 +53,23 @@ namespace SiteBiblioteca.Controllers
                 return link;
             }
 
-            // Verifica e corrige o link do YouTube
-            dadosBiblioteca.youtube = CorrigirLink(dadosBiblioteca.youtube);
+            if(dadosBiblioteca != null)
+            {
+                // Verifica e corrige o link do YouTube
+                dadosBiblioteca.youtube = CorrigirLink(dadosBiblioteca.youtube);
 
-            // Verifica e corrige o link do X (Twitter)
-            dadosBiblioteca.x = CorrigirLink(dadosBiblioteca.x);
+                // Verifica e corrige o link do X (Twitter)
+                dadosBiblioteca.x = CorrigirLink(dadosBiblioteca.x);
 
-            // Verifica e corrige o link do Instagram
-            dadosBiblioteca.instagram = CorrigirLink(dadosBiblioteca.instagram);
+                // Verifica e corrige o link do Instagram
+                dadosBiblioteca.instagram = CorrigirLink(dadosBiblioteca.instagram);
 
-            // Verifica e corrige o link do TikTok
-            dadosBiblioteca.tiktok = CorrigirLink(dadosBiblioteca.tiktok);
+                // Verifica e corrige o link do TikTok
+                dadosBiblioteca.tiktok = CorrigirLink(dadosBiblioteca.tiktok);
 
-            // Verifica e corrige o link do Facebook
-            dadosBiblioteca.facebook = CorrigirLink(dadosBiblioteca.facebook);
+                // Verifica e corrige o link do Facebook
+                dadosBiblioteca.facebook = CorrigirLink(dadosBiblioteca.facebook);
+            }
 
             return View(dadosBiblioteca);
         }
@@ -382,11 +385,13 @@ namespace SiteBiblioteca.Controllers
         }
 
         [HttpPost]
-        public void PedirRequisicao(string ISBN)
+        public IActionResult PedirRequisicao(string ISBN)
         {
             if (!_signInManager.IsSignedIn(User))
             {
-                TempData["MensagemErro"] = "Precisa de estar logado para requisitar um livro.";
+                TempData["Mensagem"] = "Precisa de estar logado para requisitar um livro.";
+
+                return Redirect("SobreLivro?ISBN=" + ISBN);
             }
 
             var username = User.Identity.Name; // obtenção do username do utilizador
@@ -403,8 +408,21 @@ namespace SiteBiblioteca.Controllers
                 livroISBN = ISBN,
             };
 
+            var repetido = _context.requisicoes.First(x => x.leitorId == idAdicional.Id && x.livroISBN == ISBN);
+
+            if (repetido != null)
+            {
+                TempData["Mensagem"] = "Pedido de requisição já efetuado.";
+
+                return Redirect("SobreLivro?ISBN=" + ISBN);
+            }
+
             _context.requisicoes.Add(requisicao);
             _context.SaveChanges();
+
+            TempData["Mensagem"] = "Pedido de requisição feito com sucesso.";
+
+            return Redirect("SobreLivro?ISBN=" + ISBN);
         }
     }
 }
