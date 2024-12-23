@@ -377,21 +377,21 @@ namespace SiteBiblioteca.Controllers
                 .Include(r => r.leitor)
                 .Include(r => r.livro)
                     .ThenInclude(r => r.autor)
-                .Where(x => (x.data_entrega > DateTime.Now && x.biblioRecebe == null) || x.biblioEntrega == null)
+                .Where(x => ((x.data_entrega > DateTime.Now && x.biblioRecebeId == null) || x.biblioEntregaId == null))
                 .ToListAsync();
 
             return View(requisicoes);
         }
 
         //[Authorize(Roles = "Bibliotecário")]
-        public IActionResult NotificacoesBibliotecario()
+        public async Task<IActionResult> NotificacoesBibliotecario()
         {
-            var requisicoes = _context.requisicoes
-            .Include(r => r.leitor)
-            .Include(r => r.livro)
-                .ThenInclude(r => r.autor)
-            .Where(x => x.data_entrega < DateTime.Now && x.biblioRecebe != null)
-            .ToList();
+            var requisicoes = await _context.requisicoes
+                                .Include(r => r.leitor)
+                                .Include(r => r.livro)
+                                    .ThenInclude(r => r.autor)
+                                .Where(x => (x.data_entrega < DateTime.Now && x.biblioRecebeId != null))
+                                .ToListAsync();
 
             return View(requisicoes);
         }
