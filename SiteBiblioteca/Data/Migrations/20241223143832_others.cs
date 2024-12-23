@@ -16,8 +16,15 @@ namespace SiteBiblioteca.Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    image = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     contactos = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    horario = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    horario = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    mapa = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    facebook = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    x = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    instagram = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    youtube = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    tiktok = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -36,7 +43,8 @@ namespace SiteBiblioteca.Data.Migrations
                     Contact = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Address = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    confirmado = table.Column<bool>(type: "bit", nullable: false)
+                    confirmado = table.Column<bool>(type: "bit", nullable: false),
+                    banido = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -62,7 +70,8 @@ namespace SiteBiblioteca.Data.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Nome = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Bibliografia = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Bibliografia = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Imagem = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -99,22 +108,6 @@ namespace SiteBiblioteca.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "requisicoes",
-                columns: table => new
-                {
-                    leitorId = table.Column<int>(type: "int", nullable: false),
-                    livroId = table.Column<int>(type: "int", nullable: false),
-                    data_requisicao = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    data_entrega = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    biblioEntregaId = table.Column<int>(type: "int", nullable: false),
-                    biblioRecebeId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_requisicoes", x => new { x.livroId, x.leitorId, x.data_requisicao });
-                });
-
-            migrationBuilder.CreateTable(
                 name: "livros",
                 columns: table => new
                 {
@@ -122,7 +115,7 @@ namespace SiteBiblioteca.Data.Migrations
                     titulo = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     autorId = table.Column<int>(type: "int", nullable: false),
                     genero = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    preco = table.Column<double>(type: "float", nullable: false),
+                    preco = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     numExemplares = table.Column<int>(type: "int", nullable: false),
                     sinopse = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     imagem = table.Column<string>(type: "nvarchar(max)", nullable: false)
@@ -138,10 +131,63 @@ namespace SiteBiblioteca.Data.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "requisicoes",
+                columns: table => new
+                {
+                    leitorId = table.Column<int>(type: "int", nullable: false),
+                    livroISBN = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    data_requisicao = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    data_entrega = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    biblioEntregaId = table.Column<int>(type: "int", nullable: true),
+                    biblioRecebeId = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_requisicoes", x => new { x.livroISBN, x.leitorId, x.data_requisicao });
+                    table.ForeignKey(
+                        name: "FK_requisicoes_Adicional_biblioEntregaId",
+                        column: x => x.biblioEntregaId,
+                        principalTable: "Adicional",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_requisicoes_Adicional_biblioRecebeId",
+                        column: x => x.biblioRecebeId,
+                        principalTable: "Adicional",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_requisicoes_Adicional_leitorId",
+                        column: x => x.leitorId,
+                        principalTable: "Adicional",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_requisicoes_livros_livroISBN",
+                        column: x => x.livroISBN,
+                        principalTable: "livros",
+                        principalColumn: "ISBN",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_livros_autorId",
                 table: "livros",
                 column: "autorId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_requisicoes_biblioEntregaId",
+                table: "requisicoes",
+                column: "biblioEntregaId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_requisicoes_biblioRecebeId",
+                table: "requisicoes",
+                column: "biblioRecebeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_requisicoes_leitorId",
+                table: "requisicoes",
+                column: "leitorId");
         }
 
         /// <inheritdoc />
@@ -149,9 +195,6 @@ namespace SiteBiblioteca.Data.Migrations
         {
             migrationBuilder.DropTable(
                 name: "_dadosBiblioteca");
-
-            migrationBuilder.DropTable(
-                name: "Adicional");
 
             migrationBuilder.DropTable(
                 name: "AdministradoresCriados");
@@ -163,31 +206,16 @@ namespace SiteBiblioteca.Data.Migrations
                 name: "CRUDs");
 
             migrationBuilder.DropTable(
-                name: "livros");
-
-            migrationBuilder.DropTable(
                 name: "requisicoes");
 
             migrationBuilder.DropTable(
+                name: "Adicional");
+
+            migrationBuilder.DropTable(
+                name: "livros");
+
+            migrationBuilder.DropTable(
                 name: "autores");
-
-            migrationBuilder.AddColumn<string>(
-                name: "Adress",
-                table: "AspNetUsers",
-                type: "nvarchar(256)",
-                nullable: true);
-
-            migrationBuilder.AddColumn<string>(
-                name: "Name",
-                table: "AspNetUsers",
-                type: "nvarchar(256)",
-                nullable: true);
-
-            migrationBuilder.AddColumn<string>(
-                name: "UserType",
-                table: "AspNetUsers",
-                type: "nvarchar(256)",
-                nullable: true);
         }
     }
 }

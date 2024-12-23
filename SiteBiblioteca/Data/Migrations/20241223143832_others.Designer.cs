@@ -12,8 +12,8 @@ using SiteBiblioteca.Data;
 namespace SiteBiblioteca.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20241219162003_CorrecaoRequisitar")]
-    partial class CorrecaoRequisitar
+    [Migration("20241223143832_others")]
+    partial class others
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -389,8 +389,8 @@ namespace SiteBiblioteca.Data.Migrations
 
             modelBuilder.Entity("SiteBiblioteca.Models.Requisitar", b =>
                 {
-                    b.Property<int>("livroId")
-                        .HasColumnType("int");
+                    b.Property<string>("livroISBN")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("leitorId")
                         .HasColumnType("int");
@@ -398,16 +398,22 @@ namespace SiteBiblioteca.Data.Migrations
                     b.Property<DateTime>("data_requisicao")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("biblioEntregaId")
+                    b.Property<int?>("biblioEntregaId")
                         .HasColumnType("int");
 
-                    b.Property<int>("biblioRecebeId")
+                    b.Property<int?>("biblioRecebeId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("data_entrega")
                         .HasColumnType("datetime2");
 
-                    b.HasKey("livroId", "leitorId", "data_requisicao");
+                    b.HasKey("livroISBN", "leitorId", "data_requisicao");
+
+                    b.HasIndex("biblioEntregaId");
+
+                    b.HasIndex("biblioRecebeId");
+
+                    b.HasIndex("leitorId");
 
                     b.ToTable("requisicoes");
                 });
@@ -517,6 +523,37 @@ namespace SiteBiblioteca.Data.Migrations
                         .IsRequired();
 
                     b.Navigation("autor");
+                });
+
+            modelBuilder.Entity("SiteBiblioteca.Models.Requisitar", b =>
+                {
+                    b.HasOne("SiteBiblioteca.Models.User", "biblioEntrega")
+                        .WithMany()
+                        .HasForeignKey("biblioEntregaId");
+
+                    b.HasOne("SiteBiblioteca.Models.User", "biblioRecebe")
+                        .WithMany()
+                        .HasForeignKey("biblioRecebeId");
+
+                    b.HasOne("SiteBiblioteca.Models.User", "leitor")
+                        .WithMany()
+                        .HasForeignKey("leitorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("SiteBiblioteca.Models.Livro", "livro")
+                        .WithMany()
+                        .HasForeignKey("livroISBN")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("biblioEntrega");
+
+                    b.Navigation("biblioRecebe");
+
+                    b.Navigation("leitor");
+
+                    b.Navigation("livro");
                 });
 #pragma warning restore 612, 618
         }

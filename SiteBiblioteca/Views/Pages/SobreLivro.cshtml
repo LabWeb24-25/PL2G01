@@ -55,7 +55,17 @@
             <div class="d-flex justify-content-between align-items-center mt-4">
                 @if (Model.numExemplares > 0)
                 {
-                    <button class="btn btn-primary btn-lg"><i class="fas fa-book"></i> Requisitar</button>
+                    <form method="post" action="@Url.Action("PedirRequisicao", "PagesController")" onsubmit="desativarBotao(this)">
+                        <input type="hidden" name="isbn" value="@Model.ISBN" />
+                        <button type="submit" id="btn-requisitar" class="btn btn-primary btn-lg">
+                            <i class="fas fa-book"></i> Requisitar
+                        </button>
+                    </form>
+
+                    @if (TempData["MensagemErro"] != null)
+                    {
+                        <div class="alert alert-danger">@TempData["MensagemErro"]</div>
+                    }
                 }
                 else
                 {
@@ -68,3 +78,14 @@
 
 <!-- Scripts do Bootstrap -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+
+@section Scripts{
+    <script>
+        function desativarBotao(form) {
+            // Seleciona o botão dentro do formulário
+            const botao = form.querySelector('button[type="submit"]');
+            // Desativa o botão
+            botao.disabled = true;
+        }
+    </script>
+}

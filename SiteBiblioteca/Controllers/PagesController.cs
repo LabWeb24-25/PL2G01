@@ -380,5 +380,31 @@ namespace SiteBiblioteca.Controllers
 
             return View(requisicoes);
         }
+
+        [HttpPost]
+        public void PedirRequisicao(string ISBN)
+        {
+            if (!_signInManager.IsSignedIn(User))
+            {
+                TempData["MensagemErro"] = "Precisa de estar logado para requisitar um livro.";
+            }
+
+            var username = User.Identity.Name; // obtenção do username do utilizador
+
+            var useraspnet = _context.Users.First(x => x.UserName == username); // Linha correspondente ao AspNetUsers
+
+            var idAdicional = _context.Adicional.First(x => x.Email == useraspnet.Email); // Linha correspondente ao Adicional
+
+            var requisicao = new Requisitar()
+            {
+                leitorId = idAdicional.Id,
+                data_requisicao = DateTime.Now,
+                data_entrega = DateTime.Now.AddDays(30),
+                livroISBN = ISBN,
+            };
+
+            _context.requisicoes.Add(requisicao);
+            _context.SaveChanges();
+        }
     }
 }
