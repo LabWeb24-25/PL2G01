@@ -1,51 +1,76 @@
-﻿// Licensed to the .NET Foundation under one or more agreements.
-// The .NET Foundation licenses this file to you under the MIT license.
-#nullable disable
-
-using System;
-using System.Linq;
+﻿using System;
 using System.Text;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.AspNetCore.WebUtilities;
 
 namespace SiteBiblioteca.Areas.Identity.Pages.Account
 {
     public class ConfirmEmailModel : PageModel
     {
         private readonly UserManager<IdentityUser> _userManager;
+        private readonly IEmailSender _emailsender;
 
-        public ConfirmEmailModel(UserManager<IdentityUser> userManager)
+        public ConfirmEmailModel(UserManager<IdentityUser> userManager, IEmailSender emailSender)
         {
             _userManager = userManager;
+            _emailsender = emailSender;
         }
 
-        /// <summary>
-        ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-        ///     directly from your code. This API may change or be removed in future releases.
-        /// </summary>
         [TempData]
         public string StatusMessage { get; set; }
-        public async Task<IActionResult> OnGetAsync(string userId, string code)
+
+        public async Task<IActionResult> OnGetAsync()
         {
-            if (userId == null || code == null)
+            if (_emailsender == null)
+                return Redirect("/");
+
+            // Obter o nome de utilizador da sessão
+            var username = User.Identity.Name;
+
+            // Encontrar o utilizador no banco de dados
+            var aspnetuser = await _userManager.FindByNameAsync(username);
+            if (aspnetuser == null)
             {
-                return RedirectToPage("/Index");
+                StatusMessage = "utilizador não encontrado.";
+                return Page();
             }
 
-            var user = await _userManager.FindByIdAsync(userId);
-            if (user == null)
-            {
-                return NotFound($"Unable to load user with ID '{userId}'.");
-            }
+            // Gerar um código de confirmação aleatório
+            string confirmationCode = GenerateConfirmationCode();
 
-            code = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(code));
-            var result = await _userManager.ConfirmEmailAsync(user, code);
-            StatusMessage = result.Succeeded ? "Thank you for confirming your email." : "Error confirming your email.";
+            // Confirmar o e-mail do utilizador com o código gerado
+            var result = await _userManager.ConfirmEmailAsync(aspnetuser, confirmationCode);
+
+            // Criar um link de confirmação que será enviado por e-mail
+            var callbackUrl = Url.Page(
+                "/EmailConfirmado", // Página onde o utilizador será redirecionado após a confirmação
+                pageHandler: null,
+                values: new { userId = aspnetuser.Id, code = confirmationCode },
+                protocol: Request.Scheme);
+
+            // Enviar o código de confirmação ao utilizador por e-mail
+            await _emailsender.SendEmailAsync(aspnetuser.Email, "Confirme seu e-mail", $"Clique no link para confirmar seu e-mail: {callbackUrl}");
+
+            // Definir a mensagem de status com base no resultado da confirmação
+            StatusMessage = result.Succeeded ? "Obrigado por confirmar seu e-mail." : "Erro ao confirmar seu e-mail.";
             return Page();
+        }
+
+        // Função para gerar um código de confirmação aleatório
+        private string GenerateConfirmationCode()
+        {
+            var random = new Random();
+            var builder = new StringBuilder();
+            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+            // Gerar um código de 32 caracteres
+            for (int i = 0; i < 32; i++)
+            {
+                builder.Append(chars[random.Next(chars.Length)]);
+            }
+            return builder.ToString();
         }
     }
 }
