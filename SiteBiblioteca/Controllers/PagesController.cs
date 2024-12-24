@@ -284,7 +284,7 @@ namespace SiteBiblioteca.Controllers
             return RedirectToAction("PainelAdministrador");
         }
 
-        //[Authorize(Roles = "Bibliotecário")]
+        [Authorize(Roles = "Bibliotecário")]
         public IActionResult PainelBibliotecario(string? termo)
         {
             var livros = new List<Livro>();

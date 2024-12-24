@@ -9,110 +9,110 @@
     <style>
         /* Estilização da página */
         html, body {
-            height: 100%;
-            margin: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background-color: #2d2d2d;
-            font-family: Arial, sans-serif;
+        height: 100%;
+        margin: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: #2d2d2d;
+        font-family: Arial, sans-serif;
         }
 
         /* Container principal */
         .main-container {
-            background-color: #404040;
-            padding: 20px;
-            border-radius: 5px;
-            color: #ffffff;
-            position: relative;
+        background-color: #404040;
+        padding: 20px;
+        border-radius: 5px;
+        color: #ffffff;
+        position: relative;
         }
 
         /* Título e logo em linha */
         .header {
-            display: flex;
-            align-items: center;
-            justify-content: flex-start;
-            gap: 10px;
-            margin-bottom: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        gap: 10px;
+        margin-bottom: 20px;
         }
 
-            /* Logo */
-            .header img {
-                width: 40px; /* Ajuste o tamanho conforme necessário */
-                height: auto;
-                cursor: pointer;
-                margin-right: 150px;
-            }
+        /* Logo */
+        .header img {
+        width: 40px; /* Ajuste o tamanho conforme necessário */
+        height: auto;
+        cursor: pointer;
+        margin-right: 150px;
+        }
 
-            /* Título */
-            .header h2 {
-                color: #ffffff;
-                margin-left: -150px;
-            }
+        /* Título */
+        .header h2 {
+        color: #ffffff;
+        margin-left: -150px;
+        }
 
         /* Conteúdo do perfil */
         .content-wrapper {
-            display: flex;
-            gap: 20px;
+        display: flex;
+        gap: 20px;
         }
 
         .profile-content {
-            display: flex;
-            background-color: #ffffff;
-            color: #000;
-            padding: 20px;
-            border-radius: 5px;
-            align-items: flex-start;
-            gap: 20px;
-            flex: 1;
+        display: flex;
+        background-color: #ffffff;
+        color: #000;
+        padding: 20px;
+        border-radius: 5px;
+        align-items: flex-start;
+        gap: 20px;
+        flex: 1;
         }
 
         .user-info {
-            flex: 1;
+        flex: 1;
         }
 
         .profile-picture {
-            width: 100px;
-            height: 100px;
-            border-radius: 50%;
-            background-color: #cccccc;
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        background-color: #cccccc;
         }
 
         /* Container dos botões */
         .button-container {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            margin-left: 20px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        margin-left: 20px;
         }
 
         .button {
-            padding: 10px;
-            width: 150px;
-            background-color: #cccccc;
-            color: #000;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            text-align: center;
+        padding: 10px;
+        width: 150px;
+        background-color: #cccccc;
+        color: #000;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        text-align: center;
         }
 
-            .button:hover {
-                background-color: #bbbbbb;
-            }
+        .button:hover {
+        background-color: #bbbbbb;
+        }
 
         /* Rodapé */
         .footer {
-            text-align: center;
-            color: #ccc;
-            font-size: 12px;
-            margin-top: 20px;
+        text-align: center;
+        color: #ccc;
+        font-size: 12px;
+        margin-top: 20px;
         }
 
-            .footer a {
-                color: #3498db;
-                text-decoration: none;
-            }
+        .footer a {
+        color: #3498db;
+        text-decoration: none;
+        }
     </style>
 </head>
 <body>
@@ -137,7 +137,7 @@
                     <p><strong>Contactos:</strong> @Model.Contact</p>
                     <p>
                         <strong>Email Confirmado:</strong>
-                        @(Model.Confirmado.HasValue ? (Model.Confirmado.Value ? "Sim" : "Não") : "Não informado")
+                        @(Model.Confirmado ? "Sim" : "Não")
                     </p>
                 </div>
 
@@ -149,12 +149,11 @@
 
             <!-- Botões fora do container de informações -->
             <div class="button-container">
-                <button class="button" onclick="location.href='/Pages/EditarPerfil'">Editar Perfil</button>
-                @if(Model.Confirmado.HasValue)
-                    if (Model.Confirmado.Value)
-                    {
-                        <button class="button" onclick="confirmarEmail()">Confirmar Email</button>
-                    }
+                <button class="button" onclick="window.location.href='/Pages/EditarPerfil'">Editar Perfil</button>
+                @if(!Model.Confirmado)
+                {
+                    <button class="button" onclick="confirmarEmail()">Confirmar Email</button>
+                }
             </div>
         </div>
     </div>

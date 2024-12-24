@@ -23,7 +23,7 @@ namespace SiteBiblioteca.Areas.Identity.Pages.Account.Manage
         public string? Contact { get; set; }
         public string? Address { get; set; }
         public string? Email { get; set; }
-        public bool? Confirmado { get; set; }
+        public bool Confirmado { get; set; }
 
         public async Task<IActionResult> OnGetAsync()
         {
@@ -58,7 +58,7 @@ namespace SiteBiblioteca.Areas.Identity.Pages.Account.Manage
             Contact = additionalInfo.Contact;
             Address = additionalInfo.Address;
             Email = additionalInfo.Email;
-            Confirmado = additionalInfo.confirmado; // Confirmado será um valor booleano
+            Confirmado = user.EmailConfirmed; // Confirmado será um valor booleano
 
             return Page(); // Apenas retorna a página sem redirecionar
         }
