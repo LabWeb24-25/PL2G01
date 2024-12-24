@@ -332,7 +332,46 @@ namespace SiteBiblioteca.Controllers
 
         public IActionResult EditarPerfil()
         {
-            return View();
+            var username = User.Identity.Name; // obtenção do username do utilizador
+
+            var useraspnet = _context.Users.First(x => x.UserName == username); // Linha correspondente ao AspNetUsers
+
+            var adicional = _context.Adicional.First(x => x.Email == useraspnet.Email); // Linha correspondente ao Adicional
+
+            return View(adicional);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> guardarPerfil(string nome, string email, string morada, string contactos)
+        {
+            var username = User.Identity.Name; // Obter o username do utilizador autenticado
+
+            // Verificar se o utilizador existe na tabela AspNetUsers
+            var useraspnet = await _context.Users.FirstOrDefaultAsync(x => x.UserName == username);
+            if (useraspnet == null)
+            {
+                return NotFound("Utilizador não encontrado.");
+            }
+
+            // Obter os dados adicionais do utilizador na tabela Adicional
+            var adicional = await _context.Adicional.FirstOrDefaultAsync(x => x.Email == useraspnet.Email);
+            if (adicional == null)
+            {
+                return NotFound("Informações adicionais não encontradas.");
+            }
+
+            // Atualizar os dados no AspNetUsers
+            useraspnet.Email = email; // Atualizar o email
+            await _context.SaveChangesAsync();
+
+            // Atualizar os dados no Adicional
+            adicional.Name = nome; // Nome
+            adicional.Address = morada; // Morada
+            adicional.Contact = contactos; // Contactos
+            await _context.SaveChangesAsync(); // Salvar mudanças na tabela Adicional
+
+            // Após salvar os dados, redireciona para a página PersonalData
+            return RedirectToPage("/Identity/Account/Manage/PersonalData");
         }
 
         public IActionResult EmailConfirmado()
