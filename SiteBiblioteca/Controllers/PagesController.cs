@@ -254,33 +254,47 @@ namespace SiteBiblioteca.Controllers
         }
 
         [HttpPost]
-        public IActionResult Banir(int id)
+        public IActionResult Banir(int userId, string reason)
         {
-            var utilizador = _context.Adicional.Find(id);
+            var adicional = _context.Adicional.First(x => x.Id == userId);
 
-            if (utilizador != null)
+            // Marcar o utilizador como banido
+            adicional.banido = true;
+            _context.SaveChanges();
+
+            var admin = User.Identity.Name;
+
+            var adminAspNetUsers = _context.Users.First(x => x.UserName == admin);
+
+            var adminAdicional = _context.Adicional.First(x => x.Email == adminAspNetUsers.Email);
+
+            _context.bloqueios.Add(new Bloqueio
             {
-                // Marcar o utilizador como banido
-                utilizador.banido = true;
-                _context.SaveChanges();
-            }
+                userId = adicional.Id,
+                adminId = adminAdicional.Id,
+                motivo = reason,
+                dataBloqueio = DateTime.Now
+            });
 
-            return RedirectToAction("PainelAdministrador");
+            _context.SaveChanges();
+
+            return Redirect("/Pages/PainelAdministrador");
         }
 
         [HttpPost]
         public IActionResult Desbanir(int id)
         {
-            var utilizador = _context.Adicional.Find(id);
+            var utilizador = _context.Adicional.First(x => x.Id == id);
 
-            if (utilizador != null)
-            {
-                // Marcar o utilizador como não banido
-                utilizador.banido = false;
-                _context.SaveChanges();
-            }
+            utilizador.banido = false;
+            _context.SaveChanges();
 
-            return RedirectToAction("PainelAdministrador");
+            var desbanido = _context.bloqueios.First(x => x.userId == id);
+
+            _context.bloqueios.Remove(desbanido);
+            _context.SaveChanges();
+
+            return Redirect("/Pages/PainelAdministrador");
         }
 
         //[Authorize(Roles = "Bibliotecário")]
@@ -304,9 +318,11 @@ namespace SiteBiblioteca.Controllers
         }
 
 
-        public IActionResult Bloquear()
+        public IActionResult Bloquear(int id)
         {
-            return View();
+            var utilizador = _context.Adicional.First(x => x.Id == id);
+
+            return View(utilizador);
         }
 
         //[Authorize(Roles = "Administrador")]
