@@ -122,7 +122,10 @@
             <!-- Sidebar -->
             <div class="col-md-3 sidebar">
                 <div class="text-center mb-4">
-                    <img src="~/img/logo.png" class="logo">
+                    <a href="@Url.Action("Index", "Home")">
+                        <img src="~/img/logo.png" class="logo">
+                    </a>
+
                 </div>
                 <div class="search-section">
                     <form id="searchForm" method="GET" action="">
@@ -170,9 +173,9 @@
             <!-- Main Content -->
             <div class="col-md-9">
                 <div class="alert alert-warning mb-3 alert-section">
-                    <a class="alert-button" id="alertButton">
+                    <div>
                         <i class="fas fa-bell"></i> <span id="atrasos-count">0</span> Leitores com entregas em atraso
-                    </a>
+                    </div>
                     <div>
                         <button class="btn btn-secondary me-2" onclick="window.location.href='/Pages/NotificacoesBibliotecario'">Ver Detalhes</button>
                         <button class="btn btn-secondary" onclick="window.location.href='/Pages/VerRequisicoes'">Requisições</button>
@@ -196,7 +199,7 @@
                                     <tr>
                                         <td>@livro.titulo</td>
                                         <td>@livro.autor.Nome</td>
-                                        @if(livro.numExemplares > 0)
+                                        @if (livro.numExemplares > 0)
                                         {
                                             <td>Em Stock</td>
                                         }
@@ -218,7 +221,7 @@
 </body>
 </html>
 
-@section Scripts{
+@section Scripts {
     <script>
         function atualizarContagemAtrasos() {
             fetch('/HomeController/ObterAtrasos') // Substitua pelo caminho correto do seu endpoint
@@ -236,3 +239,4 @@
         setInterval(atualizarContagemAtrasos, 30000);
     </script>
 }
+

@@ -89,15 +89,15 @@
 
         <div class="d-flex justify-content-between align-items-center my-3">
             <div>
-                <button class="btn btn-primary" onclick="window.location.href='Pages/Criar_Administrador'">Criar Administrador</button>
-                <button class="btn btn-primary" onclick="window.location.href='Pages/EditarDadosBiblioteca'">Atualizar Dados da Biblioteca</button>
+                <button class="btn btn-primary" onclick="window.location.href='./Criar_Administrador'">Criar Administrador</button>
+                <button class="btn btn-primary" onclick="window.location.href='./EditarDadosBiblioteca'">Atualizar Dados da Biblioteca</button>
             </div>
 
             <div>
                 <span class="me-2" style="color: white">
                     <span id="aprovacoes-count">0</span> Bibliotecário necessita de aprovação
                 </span>
-                <button class="btn btn-warning" onclick="window.location.href='Pages/NotificacoesAdministrador'">Ver Detalhes</button>
+                <button class="btn btn-warning" onclick="window.location.href='./NotificacoesAdministrador'">Ver Detalhes</button>
             </div>
         </div>
 
@@ -109,7 +109,7 @@
                     <th>Email</th>
                     <th>Contato</th>
                     <th>Endereço</th>
-                    <th>Confirmação</th>
+                    <th>Confirmação de Conta</th>
                     <th>Imagem</th>
                     <th>Banimento</th>
                 </tr>
@@ -141,14 +141,14 @@
                             <td>
                                 @if (user.banido == false)
                                 {
-                                    <form method="post" action="@Url.Action("Banir", "PagesController")">
+                                    <form method="post" asp-action="Bloquear">
                                         <input type="hidden" name="id" value="@user.Id" />
                                         <button type="submit" class="btn btn-warning" style="background-color: red">Banir</button>
                                     </form>
                                 }
                                 else
                                 {
-                                    <form method="post" action="@Url.Action("Desbanir", "PagesController")">
+                                    <form method="post" asp-action="Desbanir">
                                         <input type="hidden" name="id" value="@user.Id" />
                                         <button type="submit" class="btn btn-success" style="background-color: green">Desbanir</button>
                                     </form>
