@@ -114,13 +114,13 @@
 
                 <div class="form-container">
                     <label for="username">Username:</label>
-                    <input type="text" id="username" value="@User.Identity.Name" readonly />
+                    <input type="text" id="username" name="novousername" value="@User.Identity.Name"  />
 
                     <label for="nome">Nome:</label>
                     <input type="text" id="nome" name="nome" value="@Model.Name" />
 
                     <label for="email">Email:</label>
-                    <input type="email" id="email" name="email" value="@Model.Email" />
+                    <input disabled type="email" id="email" name="email" value="@Model.Email" />
 
                     <label for="morada">Morada:</label>
                     <input type="text" id="morada" name="morada" value="@Model.Address" />
@@ -137,7 +137,7 @@
                 </div>
                 <div class="button-container">
                     <button type="button" class="button" onclick="window.location.href='../Identity/Account/Manage/PersonalData'">Cancelar</button>
-                    <button class="button" type="submit">Guardar</button>
+                    <button class="button" type="submit" formaction="/Pages/guardarPerfil">Guardar</button>
                 </div>
             </div>
         </div>

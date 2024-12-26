@@ -341,7 +341,7 @@ namespace SiteBiblioteca.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> guardarPerfil(string nome, string email, string morada, string contactos)
+        public async Task<IActionResult> guardarPerfil(string novousername, string nome, string email, string morada, string contactos)
         {
             var username = User.Identity.Name; // Obter o username do utilizador autenticado
 
@@ -360,7 +360,7 @@ namespace SiteBiblioteca.Controllers
             }
 
             // Atualizar os dados no AspNetUsers
-            useraspnet.Email = email; // Atualizar o email
+            useraspnet.UserName = novousername;
             await _context.SaveChangesAsync();
 
             // Atualizar os dados no Adicional
@@ -369,9 +369,10 @@ namespace SiteBiblioteca.Controllers
             adicional.Contact = contactos; // Contactos
             await _context.SaveChangesAsync(); // Salvar mudanças na tabela Adicional
 
-            // Após salvar os dados, redireciona para a página PersonalData
-            return RedirectToPage("/Identity/Account/Manage/PersonalData");
+            // Redirecionar para a página PersonalData
+            return Redirect("/Identity/Account/Manage/PersonalData");
         }
+
 
         public IActionResult EmailConfirmado()
         {
