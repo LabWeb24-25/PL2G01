@@ -114,11 +114,11 @@ namespace SiteBiblioteca.Areas.Identity.Pages.Account
             {
                 var user = await _userManager.FindByEmailAsync(Input.Email);
 
-                var adicional = _context.Adicional.First(x => x.Email == Input.Email);
+                var adicional = _context.Adicional.FirstOrDefault(x => x.Email == Input.Email);
 
                 var Confirm = adicional.confirmado;
 
-                if (user != null && Confirm == true)
+                if (user != null && adicional != null && Confirm == true)
                 {
                     var result = await _signInManager.PasswordSignInAsync(user, Input.Password, Input.RememberMe, lockoutOnFailure: false);
 
