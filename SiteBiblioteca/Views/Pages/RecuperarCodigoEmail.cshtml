@@ -1,5 +1,4 @@
-﻿@page
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="pt">
 <head>
     <meta charset="UTF-8">
@@ -29,6 +28,7 @@
             text-align: center;
             box-sizing: border-box; /* Garante que padding não afete a largura total */
             margin: auto; /* Garante que o elemento está centralizado horizontalmente */
+            position: relative; /* Necessário para o botão ficar posicionado dentro */
         }
 
             .form-container h2 {
@@ -46,7 +46,7 @@
                 box-sizing: border-box;
             }
 
-            .form-container button {
+            .form-container button.recuperar {
                 width: 100%;
                 padding: 10px;
                 background-color: #333333; /* Cor do botão */
@@ -58,17 +58,36 @@
                 font-weight: bold;
             }
 
-                .form-container button:hover {
+                .form-container button.recuperar:hover {
                     background-color: #555555; /* Cor do botão ao passar o mouse */
+                }
+
+            /* Estilos para o botão de voltar */
+            .form-container .btn-primary {
+                position: absolute;
+                top: 10px;
+                left: 10px;
+                background-color: #007bff;
+                border: none;
+                padding: 10px 15px;
+                font-size: 16px;
+                cursor: pointer;
+                border-radius: 5px;
+            }
+
+                .form-container .btn-primary:hover {
+                    background-color: #0056b3;
                 }
     </style>
 </head>
 <body>
     <div class="form-container">
+        <!-- Botão de voltar posicionado no canto superior esquerdo -->
+        <button class="btn-primary" onclick="window.location.href='/Identity/Account/Login'">&lt;</button>
+
         <h2>Recuperar Código de Acesso</h2>
         <input type="email" placeholder="Email">
-        <button>Recuperar Código de Acesso</button>
+        <button class="recuperar">Recuperar Código de Acesso</button>
     </div>
 </body>
 </html>
-
