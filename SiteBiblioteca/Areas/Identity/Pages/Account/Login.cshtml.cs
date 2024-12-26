@@ -159,7 +159,7 @@ namespace SiteBiblioteca.Areas.Identity.Pages.Account
                 }
                 else
                 {
-                    ModelState.AddModelError(string.Empty, "Account not confirmed.");
+                    ModelState.AddModelError(string.Empty, "Login Inválido.");
                     return Page();
                 }
             }

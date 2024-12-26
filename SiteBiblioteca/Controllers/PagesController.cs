@@ -402,17 +402,9 @@ namespace SiteBiblioteca.Controllers
 
             // Verificar se o utilizador existe na tabela AspNetUsers
             var useraspnet = await _context.Users.FirstOrDefaultAsync(x => x.UserName == username);
-            if (useraspnet == null)
-            {
-                return NotFound("Utilizador não encontrado.");
-            }
 
             // Obter os dados adicionais do utilizador na tabela Adicional
             var adicional = await _context.Adicional.FirstOrDefaultAsync(x => x.Email == useraspnet.Email);
-            if (adicional == null)
-            {
-                return NotFound("Informações adicionais não encontradas.");
-            }
 
             // Atualizar os dados no AspNetUsers
             useraspnet.UserName = novousername;
@@ -420,10 +412,14 @@ namespace SiteBiblioteca.Controllers
             await _context.SaveChangesAsync();
 
             // Atualizar os dados no Adicional
-            adicional.Name = nome; // Nome
-            adicional.Address = morada; // Morada
-            adicional.Contact = contactos; // Contactos
-            await _context.SaveChangesAsync(); // Salvar mudanças na tabela Adicional
+            adicional.Name = nome;
+            adicional.Address = morada;
+            adicional.Contact = contactos;
+            await _context.SaveChangesAsync();
+
+            // Forçar re-login do utilizador para atualizar o cookie de autenticação
+            await _signInManager.SignOutAsync();  // Deslogar o utilizador
+            await _signInManager.SignInAsync(useraspnet, isPersistent: false);  // Logar novamente o utilizador
 
             // Redirecionar para a página PersonalData
             return Redirect("/Identity/Account/Manage/PersonalData");
