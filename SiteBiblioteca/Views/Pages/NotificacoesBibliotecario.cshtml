@@ -16,19 +16,6 @@
             color: #fff; /* Cor do texto em branco para contraste */
         }
 
-        .calendar {
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            padding: 10px;
-            width: 200px;
-            background-color: #f8f9fa;
-        }
-
-            .calendar h6 {
-                color: #000; /* Cor preta para o nome do mês */
-            }
-
-
         .email-icon {
             cursor: pointer;
             color: #007bff;
@@ -44,31 +31,20 @@
         }
 
         .table-wrapper {
-            display: flex;
-            gap: 20px;
+            max-height: 300px;
+            overflow-y: auto;
+            background-color: #f7f7f7;
+            padding: 10px;
+            border-radius: 5px;
         }
-
-        .selected-day {
-            background-color: #808080 !important; /* Cor de fundo laranja vibrante */
-            color: #fff !important; /* Texto branco */
-            border: 2px solid #fff; /* Borda branca */
-            border-radius: 50%; /* Formato circular */
-            text-align: center;
-            font-weight: bold;
-            width: 30px; /* Tamanho consistente */
-            height: 30px;
-            line-height: 30px; /* Centraliza o texto verticalmente */
-            margin: auto; /* Centraliza horizontalmente */
-        }
-
     </style>
 </head>
 <body>
     <div class="container mt-4">
         <h1 class="mb-4">Biblioteca Fixe - Notificações</h1>
         <div class="table-wrapper">
-            <table id="notificationsTable" class="table table-striped table-bordered">
-                <thead>
+            <table id="notificationsTable" class="table table-striped table-bordered" style="background-color: f7f7f7">
+                <thead class="table-dark">
                     <tr>
                         <th>Nome</th>
                         <th>Livro</th>

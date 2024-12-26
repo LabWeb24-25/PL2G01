@@ -104,44 +104,43 @@
     </style>
 </head>
 <body>
-    <!-- Container Principal -->
-    <div class="main-container">
-        <!-- Div de Campos -->
-        <div class="form-fields">
-            <div style="display: flex; align-items: center; gap: 10px;">
-                <img class="logo" src="/img/logo.png" onclick="location.href='/'" alt="Logotipo" style="width: 50px; cursor: pointer;" />
-                <h2 style="margin: 0;">Editar Perfil</h2>
+    <form method="post" asp-action="guardarPerfil">
+        <div class="main-container">
+            <div class="form-fields">
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <img class="logo" src="/img/logo.png" onclick="location.href='/'" alt="Logotipo" style="width: 50px; cursor: pointer;" />
+                    <h2 style="margin: 0;">Editar Perfil</h2>
+                </div>
+
+                <div class="form-container">
+                    <label for="username">Username:</label>
+                    <input type="text" id="username" value="@User.Identity.Name" readonly />
+
+                    <label for="nome">Nome:</label>
+                    <input type="text" id="nome" name="nome" value="@Model.Name" />
+
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="email" value="@Model.Email" />
+
+                    <label for="morada">Morada:</label>
+                    <input type="text" id="morada" name="morada" value="@Model.Address" />
+
+                    <label for="contactos">Contactos:</label>
+                    <input type="text" id="contactos" name="contactos" value="@Model.Contact" />
+                </div>
             </div>
-            
-            <div class="form-container">
-                <label for="username">Username:</label>
-                <input type="text" id="username" value="" />
 
-                <label for="nome">Nome:</label>
-                <input type="text" id="nome" value="@Model.Name" />
-
-                <label for="email">Email:</label>
-                <input type="email" id="email" value="@Model.Email" />
-
-                <label for="morada">Morada:</label>
-                <input type="text" id="morada" value="@Model.Address" />
-
-                <label for="contactos">Contactos:</label>
-                <input type="text" id="contactos" value="@Model.Contact" />
+            <div class="profile-section">
+                <div class="profile-picture">
+                    <img src="~/img/profile-placeholder.png" alt="Foto de Perfil" />
+                    <button type="button" class="button">Carregar Nova Foto de Perfil</button>
+                </div>
+                <div class="button-container">
+                    <button type="button" class="button" onclick="window.location.href='../Identity/Account/Manage/PersonalData'">Cancelar</button>
+                    <button class="button" type="submit">Guardar</button>
+                </div>
             </div>
         </div>
-
-        <!-- Div de Imagem e Botões -->
-        <div class="profile-section">
-            <div class="profile-picture">
-                <img src="~/img/profile-placeholder.png" alt="Foto de Perfil" />
-                <button class="button">Carregar Nova Foto de Perfil</button>
-            </div>
-            <div class="button-container">
-                <button class="button">Cancelar</button>
-                <button class="button">Guardar</button>
-            </div>
-        </div>
-    </div>
+    </form>
 </body>
 </html>

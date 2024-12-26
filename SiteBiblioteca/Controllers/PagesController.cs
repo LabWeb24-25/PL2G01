@@ -53,20 +53,23 @@ namespace SiteBiblioteca.Controllers
                 return link;
             }
 
-            // Verifica e corrige o link do YouTube
-            dadosBiblioteca.youtube = CorrigirLink(dadosBiblioteca.youtube);
+            if(dadosBiblioteca != null)
+            {
+                // Verifica e corrige o link do YouTube
+                dadosBiblioteca.youtube = CorrigirLink(dadosBiblioteca.youtube);
 
-            // Verifica e corrige o link do X (Twitter)
-            dadosBiblioteca.x = CorrigirLink(dadosBiblioteca.x);
+                // Verifica e corrige o link do X (Twitter)
+                dadosBiblioteca.x = CorrigirLink(dadosBiblioteca.x);
 
-            // Verifica e corrige o link do Instagram
-            dadosBiblioteca.instagram = CorrigirLink(dadosBiblioteca.instagram);
+                // Verifica e corrige o link do Instagram
+                dadosBiblioteca.instagram = CorrigirLink(dadosBiblioteca.instagram);
 
-            // Verifica e corrige o link do TikTok
-            dadosBiblioteca.tiktok = CorrigirLink(dadosBiblioteca.tiktok);
+                // Verifica e corrige o link do TikTok
+                dadosBiblioteca.tiktok = CorrigirLink(dadosBiblioteca.tiktok);
 
-            // Verifica e corrige o link do Facebook
-            dadosBiblioteca.facebook = CorrigirLink(dadosBiblioteca.facebook);
+                // Verifica e corrige o link do Facebook
+                dadosBiblioteca.facebook = CorrigirLink(dadosBiblioteca.facebook);
+            }
 
             return View(dadosBiblioteca);
         }
@@ -168,7 +171,6 @@ namespace SiteBiblioteca.Controllers
             return View(model); // Retornar à mesma página em caso de erro
         }
 
-        [Authorize(Roles = "Leitor")]
         public IActionResult Pesquisa(string termo)
         {
             if (string.IsNullOrWhiteSpace(termo))
@@ -235,7 +237,7 @@ namespace SiteBiblioteca.Controllers
             return View(autor);
         }
 
-        [Authorize(Roles = "Administrador")]
+        //[Authorize(Roles = "Administrador")]
         public IActionResult EditarDadosBiblioteca()
         {
             var dados = _context._dadosBiblioteca.FirstOrDefault(); // Busca a única linha da base de dados na tabela _dadosBiblioteca
@@ -243,7 +245,7 @@ namespace SiteBiblioteca.Controllers
             return View(dados);
         }
 
-        [Authorize(Roles = "Administrador")]
+        //[Authorize(Roles = "Administrador")]
         public IActionResult PainelAdministrador()
         {
             var utilizador = _context.Adicional.ToList(); // Busca a lista de utilizadores do banco de dados
@@ -281,10 +283,22 @@ namespace SiteBiblioteca.Controllers
             return RedirectToAction("PainelAdministrador");
         }
 
-        [Authorize(Roles = "Bibliotecário")]
-        public IActionResult PainelBibliotecario()
+        //[Authorize(Roles = "Bibliotecário")]
+        public IActionResult PainelBibliotecario(string? termo)
         {
-            var livros = _context.livros.Include(x => x.autor).ToList();
+            var livros = new List<Livro>();
+
+            if (string.IsNullOrWhiteSpace(termo))
+            {
+                livros = _context.livros.Include(l => l.autor).ToList();
+            }
+            else
+            {
+                livros = _context.livros
+                            .Where(l => l.titulo.Contains(termo) || l.autor.Nome.Contains(termo) || l.genero.Contains(termo))
+                            .Include(l => l.autor)
+                            .ToList();
+            }
 
             return View(livros);
         }
@@ -295,7 +309,7 @@ namespace SiteBiblioteca.Controllers
             return View();
         }
 
-        [Authorize(Roles = "Administrador")]
+        //[Authorize(Roles = "Administrador")]
         public IActionResult NotificacoesAdministrador()
         {
             return View();
@@ -317,7 +331,46 @@ namespace SiteBiblioteca.Controllers
 
         public IActionResult EditarPerfil()
         {
-            return View();
+            var username = User.Identity.Name; // obtenção do username do utilizador
+
+            var useraspnet = _context.Users.First(x => x.UserName == username); // Linha correspondente ao AspNetUsers
+
+            var adicional = _context.Adicional.First(x => x.Email == useraspnet.Email); // Linha correspondente ao Adicional
+
+            return View(adicional);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> guardarPerfil(string nome, string email, string morada, string contactos)
+        {
+            var username = User.Identity.Name; // Obter o username do utilizador autenticado
+
+            // Verificar se o utilizador existe na tabela AspNetUsers
+            var useraspnet = await _context.Users.FirstOrDefaultAsync(x => x.UserName == username);
+            if (useraspnet == null)
+            {
+                return NotFound("Utilizador não encontrado.");
+            }
+
+            // Obter os dados adicionais do utilizador na tabela Adicional
+            var adicional = await _context.Adicional.FirstOrDefaultAsync(x => x.Email == useraspnet.Email);
+            if (adicional == null)
+            {
+                return NotFound("Informações adicionais não encontradas.");
+            }
+
+            // Atualizar os dados no AspNetUsers
+            useraspnet.Email = email; // Atualizar o email
+            await _context.SaveChangesAsync();
+
+            // Atualizar os dados no Adicional
+            adicional.Name = nome; // Nome
+            adicional.Address = morada; // Morada
+            adicional.Contact = contactos; // Contactos
+            await _context.SaveChangesAsync(); // Salvar mudanças na tabela Adicional
+
+            // Após salvar os dados, redireciona para a página PersonalData
+            return RedirectToPage("/Identity/Account/Manage/PersonalData");
         }
 
         public IActionResult EmailConfirmado()
@@ -362,23 +415,64 @@ namespace SiteBiblioteca.Controllers
                 .Include(r => r.leitor)
                 .Include(r => r.livro)
                     .ThenInclude(r => r.autor)
-                .Where(x => (x.data_entrega > DateTime.Now && x.biblioRecebe == null) || x.biblioEntrega == null)
+                .Where(x => ((x.data_entrega > DateTime.Now && x.biblioRecebeId == null) || x.biblioEntregaId == null))
                 .ToListAsync();
 
             return View(requisicoes);
         }
 
         //[Authorize(Roles = "Bibliotecário")]
-        public IActionResult NotificacoesBibliotecario()
+        public async Task<IActionResult> NotificacoesBibliotecario()
         {
-            var requisicoes = _context.requisicoes
-            .Include(r => r.leitor)
-            .Include(r => r.livro)
-                .ThenInclude(r => r.autor)
-            .Where(x => x.data_entrega < DateTime.Now && x.biblioRecebe != null)
-            .ToList();
+            var requisicoes = await _context.requisicoes
+                                .Include(r => r.leitor)
+                                .Include(r => r.livro)
+                                    .ThenInclude(r => r.autor)
+                                .Where(x => (x.data_entrega < DateTime.Now && x.biblioRecebeId != null))
+                                .ToListAsync();
 
             return View(requisicoes);
+        }
+
+        [HttpPost]
+        public IActionResult PedirRequisicao(string ISBN)
+        {
+            if (!_signInManager.IsSignedIn(User))
+            {
+                TempData["Mensagem"] = "Precisa de estar logado para requisitar um livro.";
+
+                return Redirect("SobreLivro?ISBN=" + ISBN);
+            }
+
+            var username = User.Identity.Name; // obtenção do username do utilizador
+
+            var useraspnet = _context.Users.First(x => x.UserName == username); // Linha correspondente ao AspNetUsers
+
+            var idAdicional = _context.Adicional.First(x => x.Email == useraspnet.Email); // Linha correspondente ao Adicional
+
+            var requisicao = new Requisitar()
+            {
+                leitorId = idAdicional.Id,
+                data_requisicao = DateTime.Now,
+                data_entrega = DateTime.Now.AddDays(30),
+                livroISBN = ISBN,
+            };
+
+            var repetido = _context.requisicoes.FirstOrDefault(x => x.leitorId == idAdicional.Id && x.livroISBN == ISBN);
+
+            if (repetido != null)
+            {
+                TempData["Mensagem"] = "Pedido de requisição já efetuado.";
+
+                return Redirect("SobreLivro?ISBN=" + ISBN);
+            }
+
+            _context.requisicoes.Add(requisicao);
+            _context.SaveChanges();
+
+            TempData["Mensagem"] = "Pedido de requisição feito com sucesso.";
+
+            return Redirect("SobreLivro?ISBN=" + ISBN);
         }
     }
 }

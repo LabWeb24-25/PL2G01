@@ -10,7 +10,7 @@ namespace SiteBiblioteca.Models
         public User leitor { get; set; }
 
         [ForeignKey("Livro")]
-        public int livroISBN { get; set; } // Chave estrangeira
+        public string? livroISBN { get; set; } // Chave estrangeira
         public Livro livro { get; set; }
 
         public DateTime data_requisicao { get; set; }

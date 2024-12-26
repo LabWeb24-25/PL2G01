@@ -125,8 +125,12 @@
                     <img src="~/img/logo.png" class="logo">
                 </div>
                 <div class="search-section">
-                    <input type="text" class="form-control" placeholder="Procure um livro">
-                    <button class="btn btn-primary">Pesquisar</button>
+                    <form id="searchForm" method="GET" action="">
+                        <input type="text" class="form-control" id="searchInput" name="termo" placeholder="Procure um livro">
+                        <button type="submit" class="btn btn-primary">
+                            Pesquisar
+                        </button>
+                    </form>
                 </div>
                 <br />
                 <div class="search-section">
@@ -149,7 +153,7 @@
                 </div>
 
                 <!-- Book Covers -->
-                <div class="row mt-3">
+                <div class="row mt-3" id="bookCovers">
                     @if (Model != null)
                     {
                         @foreach (var livro in Model)
@@ -192,7 +196,14 @@
                                     <tr>
                                         <td>@livro.titulo</td>
                                         <td>@livro.autor.Nome</td>
-                                        <td>@livro.numExemplares > 0 ? Em Stock : Esgotado</td>
+                                        @if(livro.numExemplares > 0)
+                                        {
+                                            <td>Em Stock</td>
+                                        }
+                                        else
+                                        {
+                                            <td>Esgotado</td>
+                                        }
                                     </tr>
                                 }
                             }

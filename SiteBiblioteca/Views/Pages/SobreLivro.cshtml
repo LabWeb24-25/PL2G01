@@ -55,7 +55,18 @@
             <div class="d-flex justify-content-between align-items-center mt-4">
                 @if (Model.numExemplares > 0)
                 {
-                    <button class="btn btn-primary btn-lg"><i class="fas fa-book"></i> Requisitar</button>
+                    <form method="post" action="PedirRequisicao">
+                        <input type="hidden" name="isbn" value="@Model.ISBN" />
+                        <button type="submit" id="btn-requisitar" class="btn btn-primary btn-lg">
+                            <i class="fas fa-book"></i> Requisitar
+                        </button>
+                    </form>
+
+                    @if (TempData["Mensagem"] != null)
+                    {
+                        <div class="alert alert-danger">@TempData["Mensagem"]</div>
+                        <input type="hidden" value="@TempData.Remove("Mensagem")" />
+                    }
                 }
                 else
                 {

@@ -42,7 +42,7 @@ namespace SiteBiblioteca.Controllers
                 .Include(r => r.leitor)
                 .Include(r => r.livro)
                     .ThenInclude(r => r.autor)
-                .Where(x => x.data_entrega < DateTime.Now && x.biblioRecebe != null)
+                .Where(x => x.data_entrega < DateTime.Now && x.biblioRecebeId != null)
                 .ToList();
 
             return Json(new { count = atrasos.Count() });
