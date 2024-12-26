@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SiteBiblioteca.Data;
 using SiteBiblioteca.Models;
+using System.Drawing;
 
 namespace SiteBiblioteca.Controllers
 {
@@ -243,6 +244,45 @@ namespace SiteBiblioteca.Controllers
             var dados = _context._dadosBiblioteca.FirstOrDefault(); // Busca a única linha da base de dados na tabela _dadosBiblioteca
 
             return View(dados);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> GuardarDadosBiblioteca(IFormFile image, string contactos, string horario, string mapa, string facebook, 
+            string twitter, string instagram, string youtube, string tiktok)
+        {
+            var dados = _context._dadosBiblioteca.FirstOrDefault();
+
+            if (dados == null)
+            {
+                dados = new DadosBiblioteca();
+                dados.Id = "1";
+                _context._dadosBiblioteca.Add(dados);
+            }
+
+            // Guardar a imagem
+            if (image != null && image.Length > 0)
+            {
+                var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/img", image.FileName);
+                using (var stream = new FileStream(filePath, FileMode.Create))
+                {
+                    await image.CopyToAsync(stream);
+                }
+                dados.image = image.FileName;
+            }
+
+            // Atualizar os dados restantes
+            dados.contactos = contactos;
+            dados.horario = horario;
+            dados.mapa = mapa;
+            dados.facebook = facebook;
+            dados.x = twitter;
+            dados.instagram = instagram;
+            dados.youtube = youtube;
+            dados.tiktok = tiktok;
+
+            await _context.SaveChangesAsync(); // Salvar mudanças na tabela DadosBiblioteca
+
+            return Redirect("/Pages/PainelAdministrador");
         }
 
         //[Authorize(Roles = "Administrador")]

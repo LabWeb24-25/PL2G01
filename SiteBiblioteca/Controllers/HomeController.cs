@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SiteBiblioteca.Data;
@@ -19,6 +20,17 @@ namespace SiteBiblioteca.Controllers
 
         public IActionResult Index()
         {
+            if(User.Identity.IsAuthenticated)
+            {
+                var username = User.Identity.Name;
+
+                var user = _context.Users.First(x => x.UserName == username);
+
+                var adicional = _context.Adicional.First(x => x.Email == user.Email);
+
+                ViewData["ProfileImage"] = adicional.image ?? "user.png"; // Usar uma imagem padrão se a imagem do perfil não estiver definida
+            }
+
             // Obter os livros da base de dados com informações do autor
             var livros = _context.livros.Include(l => l.autor).ToList();
             return View(livros);

@@ -2,6 +2,31 @@
 @inject SignInManager<IdentityUser> SignInManager
 @inject UserManager<IdentityUser> UserManager
 
+<style>
+    .button {
+        background-color: #4CAF50; /* Verde */
+        border: none;
+        color: white;
+        padding: 10px 20px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 14px;
+        cursor: pointer;
+        border-radius: 5px;
+        transition: background-color 0.3s;
+    }
+
+        .button:hover {
+            background-color: #45a049; /* Verde mais escuro */
+        }
+
+    .profile-image {
+        height: 50px;
+        width: auto;
+    }
+</style>
+
 @if (SignInManager.IsSignedIn(User))
 { 
     <form action="/Pages/Pesquisa" method="get" class="search-bar d-flex">
@@ -9,12 +34,20 @@
         <button type="submit" class="btn btn-primary">Pesquisar</button>
     </form>
 
-    <div class="buttons">
-        <button onclick="location.href='@Url.Action("SobreNos", "Pages")'">Sobre nós</button>
+    <div class="buttons" style="display: flex; align-items: center; gap: 10px;">
+        <button class="button" onclick="location.href='@Url.Action("SobreNos", "Pages")'">Sobre nós</button>
+        @if (User.IsInRole("Administrador"))
+        {
+            <button class="button" onclick="location.href='Pages/PainelAdministrador'">Meu Painel</button>
+        }
+        else if (User.IsInRole("Bibliotecário"))
+        {
+            <button class="button" onclick="location.href='Pages/PainelBibliotecario'">Meu Painel</button>
+        }
         <button class="button" onclick="location.href='Identity/Account/Manage/PersonalData'">Perfil</button>
-        <img src="~/img/user.png" />
-        <form asp-action="Logout" asp-controller="Pages" method="post">
-            <button type="submit" class="btn btn-danger" style="margin-top: 7px;">Logout</button>
+        <img src="@Url.Content($"{ViewData["ProfileImage"] as string}")" alt="User" class="profile-image" />
+        <form asp-action="Logout" asp-controller="Pages" method="post" style="margin: 0;">
+            <button type="submit" class="btn btn-danger" style="height: 40px;">Logout</button>
         </form>
     </div>
 }
