@@ -317,7 +317,6 @@ namespace SiteBiblioteca.Controllers
             return View(livros);
         }
 
-
         public IActionResult Bloquear(int id)
         {
             var utilizador = _context.Adicional.First(x => x.Id == id);
@@ -377,6 +376,7 @@ namespace SiteBiblioteca.Controllers
 
             // Atualizar os dados no AspNetUsers
             useraspnet.UserName = novousername;
+            useraspnet.NormalizedUserName = novousername.ToUpper();
             await _context.SaveChangesAsync();
 
             // Atualizar os dados no Adicional
@@ -388,7 +388,6 @@ namespace SiteBiblioteca.Controllers
             // Redirecionar para a página PersonalData
             return Redirect("/Identity/Account/Manage/PersonalData");
         }
-
 
         public IActionResult EmailConfirmado()
         {
