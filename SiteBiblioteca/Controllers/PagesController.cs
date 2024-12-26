@@ -171,7 +171,6 @@ namespace SiteBiblioteca.Controllers
             return View(model); // Retornar à mesma página em caso de erro
         }
 
-        [Authorize(Roles = "Leitor")]
         public IActionResult Pesquisa(string termo)
         {
             if (string.IsNullOrWhiteSpace(termo))
@@ -238,7 +237,7 @@ namespace SiteBiblioteca.Controllers
             return View(autor);
         }
 
-        [Authorize(Roles = "Administrador")]
+        //[Authorize(Roles = "Administrador")]
         public IActionResult EditarDadosBiblioteca()
         {
             var dados = _context._dadosBiblioteca.FirstOrDefault(); // Busca a única linha da base de dados na tabela _dadosBiblioteca
@@ -246,7 +245,7 @@ namespace SiteBiblioteca.Controllers
             return View(dados);
         }
 
-        [Authorize(Roles = "Administrador")]
+        //[Authorize(Roles = "Administrador")]
         public IActionResult PainelAdministrador()
         {
             var utilizador = _context.Adicional.ToList(); // Busca a lista de utilizadores do banco de dados
@@ -284,7 +283,7 @@ namespace SiteBiblioteca.Controllers
             return RedirectToAction("PainelAdministrador");
         }
 
-        [Authorize(Roles = "Bibliotecário")]
+        //[Authorize(Roles = "Bibliotecário")]
         public IActionResult PainelBibliotecario(string? termo)
         {
             var livros = new List<Livro>();
@@ -310,7 +309,7 @@ namespace SiteBiblioteca.Controllers
             return View();
         }
 
-        [Authorize(Roles = "Administrador")]
+        //[Authorize(Roles = "Administrador")]
         public IActionResult NotificacoesAdministrador()
         {
             return View();
@@ -459,7 +458,7 @@ namespace SiteBiblioteca.Controllers
                 livroISBN = ISBN,
             };
 
-            var repetido = _context.requisicoes.First(x => x.leitorId == idAdicional.Id && x.livroISBN == ISBN);
+            var repetido = _context.requisicoes.FirstOrDefault(x => x.leitorId == idAdicional.Id && x.livroISBN == ISBN);
 
             if (repetido != null)
             {
