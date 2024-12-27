@@ -118,6 +118,12 @@ namespace SiteBiblioteca.Areas.Identity.Pages.Account
 
                 var Confirm = adicional.confirmado;
 
+                if(Confirm == false)
+                {
+                    ModelState.AddModelError(string.Empty, "Conta não confirmado por Administrador.");
+                    return Page();
+                }
+
                 if (user != null && adicional != null && Confirm == true)
                 {
                     var result = await _signInManager.PasswordSignInAsync(user, Input.Password, Input.RememberMe, lockoutOnFailure: false);

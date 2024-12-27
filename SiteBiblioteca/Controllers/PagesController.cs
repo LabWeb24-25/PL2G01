@@ -15,14 +15,14 @@ namespace SiteBiblioteca.Controllers
         private readonly ILogger<HomeController> _logger;
         private readonly ApplicationDbContext _context;
         private readonly SignInManager<IdentityUser> _signInManager;
-        private readonly EmailSender _emailSender;
+        private readonly IEmailSender _emailSender;
 
-        public PagesController(ILogger<HomeController> logger, ApplicationDbContext context, SignInManager<IdentityUser> signInManager)
+        public PagesController(ILogger<HomeController> logger, ApplicationDbContext context, SignInManager<IdentityUser> signInManager, IEmailSender emailSender)
         {
             _logger = logger;
             _context = context;
             _signInManager = signInManager;
-            _emailSender = new EmailSender();
+            _emailSender = emailSender;
         }
 
         [HttpPost]
