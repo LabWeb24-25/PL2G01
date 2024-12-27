@@ -47,6 +47,8 @@ builder.Services.AddScoped<RoleManager<IdentityRole>>();
 
 builder.Services.AddTransient<IEmailSender, EmailSender>();
 
+builder.Services.AddSession();
+
 var app = builder.Build();
 
 using (var scope = app.Services.CreateScope())
@@ -71,6 +73,8 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
+
+app.UseSession();
 
 app.UseAuthentication();
 
