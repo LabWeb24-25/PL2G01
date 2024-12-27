@@ -399,15 +399,43 @@ namespace SiteBiblioteca.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> guardarPerfil(string novousername, string nome, string email, string morada, string contactos)
+        public async Task<IActionResult> guardarPerfil(string novousername, string nome, string email, string morada, string contactos, IFormFile profilePicture)
         {
             var username = User.Identity.Name; // Obter o username do utilizador autenticado
+
+            // Verificar se o novo username já existe na tabela AspNetUsers (excluindo o próprio utilizador)
+            var usernameExiste = await _context.Users.AnyAsync(x => x.UserName == novousername && x.UserName != username);
+            if (usernameExiste)
+            {
+                // Retornar uma mensagem de erro para a view se o username já estiver em uso
+                TempData["ErrorMessage"] = "O username já está em uso. Por favor, escolha outro.";
+                return RedirectToAction("EditarPerfil"); // Redirecionar de volta para a página de edição
+            }
 
             // Verificar se o utilizador existe na tabela AspNetUsers
             var useraspnet = await _context.Users.FirstOrDefaultAsync(x => x.UserName == username);
 
             // Obter os dados adicionais do utilizador na tabela Adicional
             var adicional = await _context.Adicional.FirstOrDefaultAsync(x => x.Email == useraspnet.Email);
+
+            //parte a alterar
+            if (profilePicture != null && profilePicture.Length > 0)
+            {
+                var uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/img");
+                var fileName = $"{Guid.NewGuid()}_{Path.GetFileName(profilePicture.FileName)}";
+                var filePath = Path.Combine(uploadsFolder, fileName);
+
+                using (var fileStream = new FileStream(filePath, FileMode.Create))
+                {
+                    await profilePicture.CopyToAsync(fileStream);
+                }
+
+                // Atualizar a imagem de perfil no modelo do usuário
+                adicional.image = $"/img/{fileName}";
+                await _context.SaveChangesAsync();
+            }
+
+            //fim da alteração
 
             // Atualizar os dados no AspNetUsers
             useraspnet.UserName = novousername;
@@ -427,6 +455,8 @@ namespace SiteBiblioteca.Controllers
             // Redirecionar para a página PersonalData
             return Redirect("/Identity/Account/Manage/PersonalData");
         }
+
+
 
         public IActionResult EmailConfirmado()
         {

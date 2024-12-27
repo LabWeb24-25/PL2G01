@@ -94,7 +94,7 @@
 
         /* Logo */
         .logo {
-            width: 40px; /* Ajuste o tamanho conforme necessário */
+            width: 40px;
             height: auto;
             cursor: pointer;
             margin-right: 20px;
@@ -104,7 +104,7 @@
     </style>
 </head>
 <body>
-    <form method="post" asp-action="guardarPerfil">
+    <form method="post" asp-action="guardarPerfil" enctype="multipart/form-data">
         <div class="main-container">
             <div class="form-fields">
                 <div style="display: flex; align-items: center; gap: 10px;">
@@ -112,9 +112,18 @@
                     <h2 style="margin: 0;">Editar Perfil</h2>
                 </div>
 
+                <!-- Mensagem de erro -->
+                @if (TempData["ErrorMessage"] != null)
+                {
+                    @* <div class="error-message"> *@
+                    <div style="color: red; font-weight: bold; margin-bottom: 15px;">
+                        @TempData["ErrorMessage"]
+                    </div>
+                }
+
                 <div class="form-container">
                     <label for="username">Username:</label>
-                    <input type="text" id="username" name="novousername" value="@User.Identity.Name"  />
+                    <input type="text" id="username" name="novousername" value="@User.Identity.Name" />
 
                     <label for="nome">Nome:</label>
                     <input type="text" id="nome" name="nome" value="@Model.Name" />
@@ -132,9 +141,18 @@
 
             <div class="profile-section">
                 <div class="profile-picture">
-                    <img src="~/img/profile-placeholder.png" alt="Foto de Perfil" />
-                    <button type="button" class="button">Carregar Nova Foto de Perfil</button>
+                    <!-- Imagem de perfil -->
+                    <img id="profileImage" src="@Model.image" alt="Foto de Perfil" />
+
+                    <!-- Input oculto para seleção de arquivos -->
+                    <input type="file" id="fileInput" name="profilePicture" accept="image/*" style="display: none;" onchange="previewImage(event)" />
+
+                    <!-- Botão para carregar nova foto -->
+                    <button type="button" class="button" onclick="document.getElementById('fileInput').click();">
+                        Carregar Nova Foto de Perfil
+                    </button>
                 </div>
+
                 <div class="button-container">
                     <button type="button" class="button" onclick="window.location.href='../Identity/Account/Manage/PersonalData'">Cancelar</button>
                     <button class="button" type="submit" formaction="/Pages/guardarPerfil">Guardar</button>
@@ -142,5 +160,21 @@
             </div>
         </div>
     </form>
+
+    <script>
+        function previewImage(event) {
+            const file = event.target.files[0]; // Obter o arquivo selecionado
+            if (file) {
+                const reader = new FileReader();
+
+                reader.onload = function (e) {
+                    // Atualizar o src da imagem com o conteúdo do arquivo
+                    document.getElementById('profileImage').src = e.target.result;
+                };
+
+                reader.readAsDataURL(file); // Ler o arquivo como Data URL
+            }
+        }
+    </script>
 </body>
 </html>
