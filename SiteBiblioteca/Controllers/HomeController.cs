@@ -31,6 +31,8 @@ namespace SiteBiblioteca.Controllers
                 ViewData["ProfileImage"] = adicional.image ?? "user.png"; // Usar uma imagem padrão se a imagem do perfil não estiver definida
             }
 
+            HttpContext.Session.SetString("Source", "Index");
+
             // Obter os livros da base de dados com informações do autor
             var livros = _context.livros.Include(l => l.autor).ToList();
             return View(livros);

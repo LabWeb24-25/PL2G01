@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.DataProtection.XmlEncryption;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using SiteBiblioteca.Areas.Identity.Pages.Account;
 using SiteBiblioteca.Data;
 using SiteBiblioteca.Models;
 using System.Drawing;
@@ -288,6 +289,8 @@ namespace SiteBiblioteca.Controllers
         //[Authorize(Roles = "Administrador")]
         public IActionResult PainelAdministrador()
         {
+            HttpContext.Session.SetString("Source", "PainelAdministrador");
+
             var utilizador = _context.Adicional.ToList(); // Busca a lista de utilizadores do banco de dados
 
             return View(utilizador); // Passa a lista para a view
@@ -453,16 +456,8 @@ namespace SiteBiblioteca.Controllers
             return Redirect("/Identity/Account/Manage/PersonalData");
         }
 
-
-
         public IActionResult EmailConfirmado()
         {
-            return View();
-        }
-
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Criar_Administrador()
-        { 
             return View();
         }
 

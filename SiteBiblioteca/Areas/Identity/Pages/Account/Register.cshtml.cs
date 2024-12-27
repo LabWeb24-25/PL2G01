@@ -122,7 +122,6 @@ namespace SiteBiblioteca.Areas.Identity.Pages.Account
             public string Role { get; set; }
         }
 
-
         public async Task OnGetAsync(string returnUrl = null)
         {
             ViewData["roles"] = _roleManager.Roles.ToList();
@@ -159,7 +158,7 @@ namespace SiteBiblioteca.Areas.Identity.Pages.Account
                         image = "~/img/user.png"
                     };
 
-                    if(_user.UserType == "Leitor")
+                    if(_user.UserType == "Leitor" || _user.UserType == "Administrador")
                         _user.confirmado = true;
                     else
                         _user.confirmado = false;

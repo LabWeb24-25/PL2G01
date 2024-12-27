@@ -2,6 +2,8 @@
 @model RegisterModel
 @{
     ViewData["Title"] = "Registar";
+
+    var source = HttpContext.Session.GetString("Source");
 }
 
 <!DOCTYPE html>
@@ -12,44 +14,51 @@
     <title>@ViewData["Title"]</title>
     <style>
         html, body {
-            height: 100%;
-            margin: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background-color: #2d2d2d;
+        height: 100%;
+        margin: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: #2d2d2d;
         }
 
         .form-container {
-            background-color: #ffffff;
-            padding: 20px; /* Padding interno */
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-            width: 400px; /* Largura fixa */
-            height: auto; /* Altura automática para se ajustar ao conteúdo */
-            min-height: 300px; /* Altura mínima ajustada para 300px */
-            max-height: 600px; /* Altura máxima ajustada para 600px */
-            box-sizing: border-box; /* Inclui padding e borda nas dimensões totais */
-            margin: 20px auto; /* Centraliza o formulário */
-            overflow-y: auto; /* Permite rolagem vertical se o conteúdo exceder a altura */
+        background-color: #ffffff;
+        padding: 20px; /* Padding interno */
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+        width: 400px; /* Largura fixa */
+        height: auto; /* Altura automática para se ajustar ao conteúdo */
+        min-height: 300px; /* Altura mínima ajustada para 300px */
+        max-height: 600px; /* Altura máxima ajustada para 600px */
+        box-sizing: border-box; /* Inclui padding e borda nas dimensões totais */
+        margin: 20px auto; /* Centraliza o formulário */
+        overflow-y: auto; /* Permite rolagem vertical se o conteúdo exceder a altura */
         }
 
 
         h2 {
-            color: #333;
-            text-align: center;
+        color: #333;
+        text-align: center;
         }
 
         .btn-primary {
-            background-color: #007bff;
-            border: none;
+        background-color: #007bff;
+        border: none;
         }
     </style>
 </head>
 <body>
     <div class="form-container">
-        <button class="btn btn-primary w-10" onclick="window.location.href='/Identity/Account/Login'">&lt;</button>
-        <h2>Registar</h2>
+        @if (source == "PainelAdministrador")
+        {
+            <button class="btn btn-primary w-10" onclick="window.location.href='/Pages/PainelAdministrador'">&lt;</button>
+        }
+        else
+        {
+            <button class="btn btn-primary w-10" onclick="window.location.href='/Identity/Account/Login'">&lt;</button>
+        }
+        <h2>Registar Conta</h2>
         <hr />
         <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger mb-3" role="alert"></div>
@@ -104,17 +113,33 @@
             </div>
 
             <!-- Tipo de Utilizador -->
-            <div class="mb-3">
-                <label for="Input.Role" class="form-label">Tipo de Utilizador</label>
-                <select asp-for="Input.Role" class="form-control">
-                    <option value="Leitor">Leitor</option>
-                    <option value="Bibliotecario">Bibliotecário</option>
-                </select>
-                <span asp-validation-for="Input.Role" class="text-danger"></span>
-            </div>
+            @if (source == "PainelAdministrador")
+            {
+                <div class="mb-3">
+                    <label for="Input.Role" class="form-label">Tipo de Utilizador</label>
+                    <select asp-for="Input.Role" class="form-control">
+                        <option value="Administrador">Administrador</option>
+                    </select>
+                    <span asp-validation-for="Input.Role" class="text-danger"></span>
+                </div>
 
-            <!-- Botão de Registo -->
-            <button id="registerSubmit" type="submit" class="btn btn-primary w-100">Registar</button>
+                <!-- Botão de Registo -->
+                <button id="registerSubmit" type="submit" class="btn btn-primary w-100">Criar</button>
+            }
+            else
+            {
+                <div class="mb-3">
+                    <label for="Input.Role" class="form-label">Tipo de Utilizador</label>
+                    <select asp-for="Input.Role" class="form-control">
+                        <option value="Leitor">Leitor</option>
+                        <option value="Bibliotecario">Bibliotecário</option>
+                    </select>
+                    <span asp-validation-for="Input.Role" class="text-danger"></span>
+                </div>
+
+                <!-- Botão de Registo -->
+                <button id="registerSubmit" type="submit" class="btn btn-primary w-100">Registar</button>
+            }
         </form>
     </div>
 
