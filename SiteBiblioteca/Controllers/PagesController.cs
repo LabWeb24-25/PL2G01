@@ -15,12 +15,14 @@ namespace SiteBiblioteca.Controllers
         private readonly ILogger<HomeController> _logger;
         private readonly ApplicationDbContext _context;
         private readonly SignInManager<IdentityUser> _signInManager;
+        private readonly EmailSender _emailSender;
 
         public PagesController(ILogger<HomeController> logger, ApplicationDbContext context, SignInManager<IdentityUser> signInManager)
         {
             _logger = logger;
             _context = context;
             _signInManager = signInManager;
+            _emailSender = new EmailSender();
         }
 
         [HttpPost]
@@ -370,20 +372,34 @@ namespace SiteBiblioteca.Controllers
         //[Authorize(Roles = "Administrador")]
         public IActionResult NotificacoesAdministrador()
         {
-            return View();
+            var bibliotecariosPorConfirmar = _context.Adicional.Where(x => x.confirmado == false); 
+
+            return View(bibliotecariosPorConfirmar);
         }
 
         [HttpPost]
-        public IActionResult Confirmar()
+        public async Task<IActionResult> ConfirmarBibliotecario(User bibliotecario)
         {
-            // Lógica para confirmar solicitação
+            bibliotecario.confirmado = true;
+
+            await _context.SaveChangesAsync();
+
             return RedirectToAction("NotificacoesAdministrador");
         }
 
         [HttpPost]
-        public IActionResult Negar()
+        public async Task<IActionResult> NegarBibliotecario(User bibliotecario)
         {
-            // Lógica para negar solicitação
+            
+            await _emailSender.SendEmailAsync(bibliotecario.Email, "Confirmação de Conta Negada", $"A sua conta foi negada! Qualquer reclamação, falar com a instituição.");
+
+            // Remoção do Utilizador da base de dados
+            var bibliotecarioUser = _context.Users.First(x => x.Email == bibliotecario.Email);
+
+            _context.Users.Remove(bibliotecarioUser);
+            _context.Adicional.Remove(bibliotecario);
+            await _context.SaveChangesAsync();
+
             return RedirectToAction("NotificacoesAdministrador");
         }
 
