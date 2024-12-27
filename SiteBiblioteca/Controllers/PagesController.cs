@@ -400,6 +400,15 @@ namespace SiteBiblioteca.Controllers
         {
             var username = User.Identity.Name; // Obter o username do utilizador autenticado
 
+            // Verificar se o novo username já existe na tabela AspNetUsers (excluindo o próprio utilizador)
+            var usernameExiste = await _context.Users.AnyAsync(x => x.UserName == novousername && x.UserName != username);
+            if (usernameExiste)
+            {
+                // Retornar uma mensagem de erro para a view se o username já estiver em uso
+                TempData["ErrorMessage"] = "O username já está em uso. Por favor, escolha outro.";
+                return RedirectToAction("EditarPerfil"); // Redirecionar de volta para a página de edição
+            }
+
             // Verificar se o utilizador existe na tabela AspNetUsers
             var useraspnet = await _context.Users.FirstOrDefaultAsync(x => x.UserName == username);
 
@@ -424,6 +433,7 @@ namespace SiteBiblioteca.Controllers
             // Redirecionar para a página PersonalData
             return Redirect("/Identity/Account/Manage/PersonalData");
         }
+
 
         public IActionResult EmailConfirmado()
         {

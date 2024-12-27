@@ -101,6 +101,12 @@
             margin-bottom: 20px;
         }
 
+        /* Estilo da mensagem de erro */
+        .error-message {
+            color: red;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
     </style>
 </head>
 <body>
@@ -112,9 +118,18 @@
                     <h2 style="margin: 0;">Editar Perfil</h2>
                 </div>
 
+                <!-- Mensagem de erro -->
+                @if (TempData["ErrorMessage"] != null)
+                {
+                    <div class="error-message">
+                        @TempData["ErrorMessage"]
+                    </div>
+                }
+
+                <!-- Campos do formulário -->
                 <div class="form-container">
                     <label for="username">Username:</label>
-                    <input type="text" id="username" name="novousername" value="@User.Identity.Name"  />
+                    <input type="text" id="username" name="novousername" value="@User.Identity.Name" />
 
                     <label for="nome">Nome:</label>
                     <input type="text" id="nome" name="nome" value="@Model.Name" />
