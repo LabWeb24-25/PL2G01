@@ -8,7 +8,7 @@ namespace SiteBiblioteca
     public class EmailSender : IEmailSender
     {
         public string _smtpUser { get; set; } = "noreplybibliotecafixe@gmail.com";
-        public string _smtpPass { get; set; } = "SenhaExtremamenteSegura23/12!";
+        public string _smtpPass { get; set; } = "zcfd fxzy qshh lzsq";
 
         public async Task SendEmailAsync(string email, string subject, string htmlMessage)
         {
