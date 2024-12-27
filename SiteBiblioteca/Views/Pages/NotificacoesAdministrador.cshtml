@@ -47,7 +47,7 @@
     <div class="container mt-4">
         <div style="display: flex; align-items: center;">
             <button class="btn btn-primary w-10" onclick="window.location.href='/Pages/PainelAdministrador'" style="line-height: 1.5; vertical-align: middle;">&lt;</button>
-            <h3 class="mb-4" style="margin-left: 10px; margin-top: 20px">Bibliotecários Pendentes de Confirmação</h3>
+            <h3 class="mb-4" style="margin-left: 10px; margin-top: 25px">Bibliotecários Pendentes de Confirmação</h3>
         </div>
 
         <div class="table-container">
@@ -73,11 +73,16 @@
                                 <td>@bibliotecario.Email</td>
                                 <td>
                                     <div class="d-flex">
+                                        <!-- Confirmar Bibliotecário -->
                                         <form method="post" asp-action="ConfirmarBibliotecario">
-                                            <button value="@bibliotecario" type="submit" class="btn btn-success btn-sm me-2">Confirmar Bibliotecário</button>
+                                            <input type="hidden" name="id" value="@bibliotecario.Id" />
+                                            <button type="submit" class="btn btn-success btn-sm me-2">Confirmar Bibliotecário</button>
                                         </form>
+
+                                        <!-- Negar Bibliotecário -->
                                         <form method="post" asp-action="NegarBibliotecario">
-                                            <button value="@bibliotecario" type="submit" class="btn btn-danger btn-sm me-2">Negar Bibliotecário</button>
+                                            <input type="hidden" name="id" value="@bibliotecario.Id" />
+                                            <button type="submit" class="btn btn-danger btn-sm me-2">Negar Bibliotecário</button>
                                         </form>
                                     </div>
                                 </td>

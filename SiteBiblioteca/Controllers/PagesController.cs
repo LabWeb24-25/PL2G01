@@ -378,9 +378,11 @@ namespace SiteBiblioteca.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> ConfirmarBibliotecario(User bibliotecario)
+        public async Task<IActionResult> ConfirmarBibliotecario(int id)
         {
-            bibliotecario.confirmado = true;
+            var bibliotecarioAdicional = await _context.Adicional.FirstAsync(x => x.Id == id);
+
+            bibliotecarioAdicional.confirmado = true;
 
             await _context.SaveChangesAsync();
 
@@ -388,16 +390,17 @@ namespace SiteBiblioteca.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> NegarBibliotecario(User bibliotecario)
+        public async Task<IActionResult> NegarBibliotecario(int id)
         {
-            
-            await _emailSender.SendEmailAsync(bibliotecario.Email, "Confirmação de Conta Negada", $"A sua conta foi negada! Qualquer reclamação, falar com a instituição.");
+            var negadoAdicional = await _context.Adicional.FirstAsync(x => x.Id == id);
+
+            await _emailSender.SendEmailAsync(negadoAdicional.Email, "Confirmação de Conta Negada", $"A sua conta foi negada! Qualquer reclamação, falar com a instituição.");
 
             // Remoção do Utilizador da base de dados
-            var bibliotecarioUser = _context.Users.First(x => x.Email == bibliotecario.Email);
+            var bibliotecarioUser = _context.Users.First(x => x.Email == negadoAdicional.Email);
 
             _context.Users.Remove(bibliotecarioUser);
-            _context.Adicional.Remove(bibliotecario);
+            _context.Adicional.Remove(negadoAdicional);
             await _context.SaveChangesAsync();
 
             return RedirectToAction("NotificacoesAdministrador");

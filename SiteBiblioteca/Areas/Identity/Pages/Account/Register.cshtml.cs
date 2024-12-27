@@ -155,7 +155,7 @@ namespace SiteBiblioteca.Areas.Identity.Pages.Account
                         Contact = Input.Contact,
                         Address = Input.Address,
                         Email = Input.Email,
-                        image = "~/img/user.png"
+                        image = "/img/user.png"
                     };
 
                     if(_user.UserType == "Leitor" || _user.UserType == "Administrador")
