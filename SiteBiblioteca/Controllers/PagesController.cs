@@ -456,8 +456,6 @@ namespace SiteBiblioteca.Controllers
             return Redirect("/Identity/Account/Manage/PersonalData");
         }
 
-
-
         public IActionResult EmailConfirmado()
         {
             return View();
