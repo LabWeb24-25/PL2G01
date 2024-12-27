@@ -57,9 +57,11 @@
         }
 
             .book-item img {
-                width: 100%;
-                height: auto;
+                width: 100%; /* Mantém a largura proporcional */
+                height: 200px; /* Define uma altura fixa */
+                object-fit: cover; /* Garante que a imagem preencha o espaço sem distorção */
             }
+
 
         .table-container {
             max-height: 300px;
@@ -127,14 +129,16 @@
                     </a>
 
                 </div>
+
                 <div class="search-section">
                     <form id="searchForm" method="GET" action="">
-                        <input type="text" class="form-control" id="searchInput" name="termo" placeholder="Procure um livro">
-                        <button type="submit" class="btn btn-primary">
-                            Pesquisar
-                        </button>
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="searchInput" name="termo" placeholder="Procure um livro">
+                            <button type="submit" class="btn btn-primary">Pesquisar</button>
+                        </div>
                     </form>
                 </div>
+
                 <br />
                 <div class="search-section">
                     <!-- Dropdown Button -->
@@ -162,12 +166,14 @@
                         @foreach (var livro in Model)
                         {
                             <div class="col-6 col-md-6 book-item mb-3">
-                                <img src="img/@livro.imagem" alt="Capa do livro">
+                                <!-- Busca a imagem associada ao livro no campo "imagem" -->
+                                <img src="~/img/@livro.imagem" alt="Capa do livro" onerror="this.src='~/img/default-cover.png'">
                                 <p>@livro.titulo</p>
                             </div>
                         }
                     }
                 </div>
+
             </div>
 
             <!-- Main Content -->
