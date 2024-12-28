@@ -54,6 +54,7 @@
                         <th>Data de Requisição</th>
                         <th>Data de Devolução</th>
                         <th>Estado</th>
+                        <th>Notificar</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -68,7 +69,13 @@
                                 <td>@req.data_entrega</td>
                                 <td>
                                     Em atraso
-                                    <button class="btn btn-sm btn-success estado-btn"><i class="fa fa-envelope">Enviar um email</i></button>
+                                </td>
+                                <td>
+                                    <form method="post" asp-action="AtrasoEntregaEmail">
+                                        <input style="display: none" type="number" value="@req.leitorId" id="leitorId" name="Id" required>
+                                        <input style="display: none" type="text" value="@req.livroISBN" id="livroISBN" name="ISBN" required>
+                                        <button class="btn btn-sm btn-success estado-btn"><i class="fa fa-envelope"></i> Enviar um email</button>
+                                    </form>
                                 </td>
                             </tr>
                         }

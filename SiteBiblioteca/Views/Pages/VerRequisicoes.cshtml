@@ -78,7 +78,9 @@
                                     @if (requisicao.biblioEntrega is null)
                                     {
                                         <div class="d-flex">
-                                            <form method="post" action="/Admin/Confirmar">
+                                            <form method="post" asp-action="ConfirmarRequisicao">
+                                                <input style="display: none" type="number" value="@requisicao.leitorId" id="leitorId" name="Id" required>
+                                                <input style="display: none" type="text" value="@requisicao.livroISBN" id="livroISBN" name="ISBN" required>
                                                 <button type="submit" class="btn btn-success btn-sm me-2">Confirmar Requisição</button>
                                             </form>
                                         </div>
@@ -86,7 +88,9 @@
                                     else
                                     {
                                         <div class="d-flex">
-                                            <form method="post" action="/Admin/Confirmar">
+                                            <form method="post" asp-action="ConfirmarRececao">
+                                                <input style="display: none" type="number" value="@requisicao.leitorId" id="leitorId" name="Id" required>
+                                                <input style="display: none" type="text" value="@requisicao.livroISBN" id="livroISBN" name="ISBN" required>
                                                 <button type="submit" class="btn btn-success btn-sm me-2">Confirmar Receção</button>
                                             </form>
                                         </div>

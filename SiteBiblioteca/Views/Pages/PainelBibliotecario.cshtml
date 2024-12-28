@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<Livro>
 @inject SiteBiblioteca.Data.ApplicationDbContext _context
 @{
-    var atrasos = _context.requisicoes.Where(x => x.data_entrega < DateTime.Now && x.biblioRecebeId != null).Count();
+    var atrasos = _context.requisicoes.Where(x => x.data_entrega < DateTime.Now && x.biblioRecebeId == null).Count();
 }
 <!DOCTYPE html>
 <html lang="en">

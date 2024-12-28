@@ -626,14 +626,28 @@ namespace SiteBiblioteca.Controllers
             return RedirectToPage("Home/Index");
         }
 
-        //[Authorize(Roles = "Bibliotecário")]
+        [Authorize(Roles = "Bibliotecário")]
         public async Task<IActionResult> VerRequisicoes()
         {
+            // Remoção das requisições não confirmadas em 30 dias
+            var requisicoesNuncaConfirmados = await _context.requisicoes
+                .Where(x => x.data_entrega < DateTime.Now && x.biblioEntregaId == null).ToListAsync();
+            
+            if (requisicoesNuncaConfirmados != null)
+            {
+                foreach (var req in requisicoesNuncaConfirmados)
+                {
+                    _context.requisicoes.Remove(req);
+                }
+
+                await _context.SaveChangesAsync();
+            }
+            
             var requisicoes = await _context.requisicoes
                 .Include(r => r.leitor)
                 .Include(r => r.livro)
                     .ThenInclude(r => r.autor)
-                .Where(x => ((x.data_entrega > DateTime.Now && x.biblioRecebeId == null) || x.biblioEntregaId == null))
+                .Where(x => (x.biblioRecebeId == null && x.biblioEntregaId == null) || (x.biblioRecebeId == null))
                 .ToListAsync();
 
             return View(requisicoes);
@@ -646,7 +660,7 @@ namespace SiteBiblioteca.Controllers
                                 .Include(r => r.leitor)
                                 .Include(r => r.livro)
                                     .ThenInclude(r => r.autor)
-                                .Where(x => (x.data_entrega < DateTime.Now && x.biblioRecebeId != null))
+                                .Where(x => (x.data_entrega < DateTime.Now && x.biblioRecebeId == null))
                                 .ToListAsync();
 
             return View(requisicoes);
@@ -676,7 +690,9 @@ namespace SiteBiblioteca.Controllers
                 livroISBN = ISBN,
             };
 
-            var repetido = _context.requisicoes.FirstOrDefault(x => x.leitorId == idAdicional.Id && x.livroISBN == ISBN);
+            var repetido = _context.requisicoes
+                .FirstOrDefault(x => x.leitorId == idAdicional.Id && x.livroISBN == ISBN && ((x.biblioEntregaId == null && x.biblioRecebeId == null) 
+                || (x.biblioEntrega != null && x.biblioRecebeId == null)));
 
             if (repetido != null)
             {
@@ -692,5 +708,60 @@ namespace SiteBiblioteca.Controllers
 
             return Redirect("SobreLivro?ISBN=" + ISBN);
         }
+
+        [HttpPost]
+        public async Task<IActionResult> ConfirmarRequisicao(int Id, string ISBN)
+        {
+            var requisicao = _context.requisicoes.First(x => x.leitorId == Id && x.livroISBN == ISBN);
+
+            var user = _context.Users.First(x => x.UserName == User.Identity.Name);
+
+            var userAdicional = _context.Adicional.First(x => x.Email == user.Email);
+
+            requisicao.biblioEntrega = userAdicional;
+            requisicao.biblioEntregaId = userAdicional.Id;
+
+            await _context.SaveChangesAsync();
+
+            return Redirect("/Pages/VerRequisicoes");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ConfirmarRececao(int Id, string ISBN)
+        {
+            var requisicao = _context.requisicoes.First(x => x.leitorId == Id && x.livroISBN == ISBN);
+
+            var user = _context.Users.First(x => x.UserName == User.Identity.Name);
+
+            var userAdicional = _context.Adicional.First(x => x.Email == user.Email);
+
+            requisicao.biblioRecebe = userAdicional;
+            requisicao.biblioRecebeId = userAdicional.Id;
+
+            await _context.SaveChangesAsync();
+
+            return Redirect("/Pages/VerRequisicoes");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AtrasoEntregaEmail(int Id, string ISBN)
+        {
+            var requisicao = _context.requisicoes.First(x => x.leitorId == Id && x.livroISBN == ISBN);
+            var leitorAdicional = _context.Adicional.First(x => x.Id == Id);
+
+            // Configuração do conteúdo do email
+            string subject = "Atraso na Entrega do Livro";
+            string body = $"Caro(a) {leitorAdicional.Name},\n\n" +
+                          $"Informamos que houve um atraso na entrega do livro com ISBN: {ISBN}. " +
+                          $"Por favor, regularize a sua situação o mais breve possível.\n\n" +
+                          "Atenciosamente,\nEquipe da Biblioteca";
+
+            // Enviar o e-mail
+            await _emailSender.SendEmailAsync(leitorAdicional.Email, subject, body);
+
+            // Redirecionar para a página de notificações do bibliotecário
+            return Redirect("/Pages/NotificacoesBibliotecario");
+        }
+
     }
 }
