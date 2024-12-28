@@ -132,7 +132,7 @@
                 @foreach (var livro in Model)
                 {
                     <div class="book-card" onclick="window.location.href='/Pages/SobreLivro?ISBN=@livro.ISBN'">
-                        <img src="~/img/@livro.imagem" alt="@livro.titulo" class="book-image" />
+                        <img src="@livro.imagem" alt="@livro.titulo" class="book-image" />
                         <div class="book-info">
                             <h3 class="book-title">@livro.titulo</h3>
                             <p class="book-author">@livro.autor.Nome</p>

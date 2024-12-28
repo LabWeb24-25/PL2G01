@@ -1,9 +1,5 @@
 ﻿@model IEnumerable<Requisitar>
 
-@{
-    ViewData["Title"] = "Notificações do Administrador";
-}
-
 <!DOCTYPE html>
 <html lang="pt">
 <head>
@@ -75,7 +71,7 @@
                                 <td>@requisicao.livro.preco €</td>
                                 <td>@requisicao.leitor.Name</td> 
                                 <td>
-                                    @if (requisicao.biblioEntrega is null)
+                                    @if (requisicao.biblioEntregaId is null)
                                     {
                                         <div class="d-flex">
                                             <form method="post" asp-action="ConfirmarRequisicao">

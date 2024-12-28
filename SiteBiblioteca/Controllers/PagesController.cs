@@ -132,7 +132,7 @@ namespace SiteBiblioteca.Controllers
                     }
                 }
 
-                // Salvar no banco de dados
+                // Guardar no banco de dados
                 _context.livros.Add(_livro);
                 await _context.SaveChangesAsync();
 
@@ -157,7 +157,6 @@ namespace SiteBiblioteca.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "Bibliotecário")]
         public async Task<IActionResult> GuardarEdicaoAutor(int id, string Nome, string Bibliografia, IFormFile Imagem)
         {
             var autorExistente = _context.autores.FirstOrDefault(l => l.Id == id);
@@ -196,16 +195,8 @@ namespace SiteBiblioteca.Controllers
                 autorExistente.Imagem = "/img/" + nomeFicheiro;
             }
 
-            // Validar o modelo e salvar alterações
-            if (ModelState.IsValid)
-            {
-                _context.Update(autorExistente);
-                await _context.SaveChangesAsync();
-                return Redirect("/Pages/PainelBibliotecário"); // Redirecionar após salvar
-            }
-
-            // Se algo falhar, retornar o modelo com os dados
-            return View(autorExistente);
+            await _context.SaveChangesAsync();
+            return Redirect("/Pages/PainelBibliotecario"); // Redirecionar após guardar
         }
 
         [Authorize(Roles = "Bibliotecário")]
@@ -219,14 +210,13 @@ namespace SiteBiblioteca.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "Bibliotecário")]
-        public async Task<IActionResult> GuardarEdicao(string ISBNatual, string ISBN, string Título, int AutorId, string Genero, decimal Preco, int numexemplares, IFormFile Imagem)
+        public async Task<IActionResult> GuardarEdicaoLivro(string ISBNatual, string ISBN, string Titulo, int AutorId, string Genero, decimal Preco, int numexemplares, IFormFile Imagem)
         {
-            var livroExistente = _context.livros.FirstOrDefault(l => l.ISBN == ISBNatual);
+            var livroExistente = _context.livros.First(l => l.ISBN == ISBNatual);
 
             // Atualizar propriedades do livro existente
             livroExistente.ISBN = ISBN;
-            livroExistente.titulo = Título;
+            livroExistente.titulo = Titulo;
             livroExistente.autor = _context.autores.First(x => x.Id == AutorId);
             livroExistente.genero = Genero;
             livroExistente.preco = Preco;
@@ -260,16 +250,8 @@ namespace SiteBiblioteca.Controllers
                 livroExistente.imagem = "/img/" + nomeFicheiro;
             }
 
-            // Validar o modelo e salvar alterações
-            if (ModelState.IsValid)
-            {
-                _context.Update(livroExistente);
-                await _context.SaveChangesAsync();
-                return Redirect("/Pages/PainelBibliotecario"); // Redirecionar após salvar
-            }
-
-            // Se algo falhar, retornar o modelo com os dados
-            return View(livroExistente);
+            await _context.SaveChangesAsync();
+            return Redirect("/Pages/PainelBibliotecario"); // Redirecionar após salvar
         }
 
         public IActionResult Pesquisa(string termo)
@@ -712,7 +694,7 @@ namespace SiteBiblioteca.Controllers
         [HttpPost]
         public async Task<IActionResult> ConfirmarRequisicao(int Id, string ISBN)
         {
-            var requisicao = _context.requisicoes.First(x => x.leitorId == Id && x.livroISBN == ISBN);
+            var requisicao = _context.requisicoes.First(x => x.leitorId == Id && x.livroISBN == ISBN && x.biblioEntregaId == null && x.biblioRecebeId == null);
 
             var user = _context.Users.First(x => x.UserName == User.Identity.Name);
 
@@ -729,7 +711,7 @@ namespace SiteBiblioteca.Controllers
         [HttpPost]
         public async Task<IActionResult> ConfirmarRececao(int Id, string ISBN)
         {
-            var requisicao = _context.requisicoes.First(x => x.leitorId == Id && x.livroISBN == ISBN);
+            var requisicao = _context.requisicoes.First(x => x.leitorId == Id && x.livroISBN == ISBN && x.biblioEntregaId != null && x.biblioRecebeId == null);
 
             var user = _context.Users.First(x => x.UserName == User.Identity.Name);
 
@@ -749,19 +731,23 @@ namespace SiteBiblioteca.Controllers
             var requisicao = _context.requisicoes.First(x => x.leitorId == Id && x.livroISBN == ISBN);
             var leitorAdicional = _context.Adicional.First(x => x.Id == Id);
 
-            // Configuração do conteúdo do email
+            // Configuração do conteúdo do email em HTML
             string subject = "Atraso na Entrega do Livro";
-            string body = $"Caro(a) {leitorAdicional.Name},\n\n" +
-                          $"Informamos que houve um atraso na entrega do livro com ISBN: {ISBN}. " +
-                          $"Por favor, regularize a sua situação o mais breve possível.\n\n" +
-                          "Atenciosamente,\nEquipe da Biblioteca";
+            string body = $@"
+                <html>
+                    <body>
+                        <p>Caro(a) {leitorAdicional.Name},</p>
+                        <p>Informamos que houve um atraso na entrega do livro com ISBN: <strong>{ISBN}</strong>. 
+                        Por favor, regularize a sua situação o mais breve possível.</p>
+                        <p>Atenciosamente,<br>Equipe da Biblioteca</p>
+                    </body>
+                </html>";
 
-            // Enviar o e-mail
+            // Enviar o e-mail com conteúdo HTML
             await _emailSender.SendEmailAsync(leitorAdicional.Email, subject, body);
 
             // Redirecionar para a página de notificações do bibliotecário
             return Redirect("/Pages/NotificacoesBibliotecario");
         }
-
     }
 }

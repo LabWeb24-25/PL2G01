@@ -107,7 +107,7 @@
 <body>
     <!-- Container Principal -->
     <div class="main-container">
-        <form method="post" asp-action="GuardarEdicao" enctype="multipart/form-data" style="display: flex; width: 100%; gap: 20px;">
+        <form method="post" asp-action="GuardarEdicaoLivro" enctype="multipart/form-data" style="display: flex; width: 100%; gap: 20px;">
             <!-- Formulário de Edição -->
             <div class="form-fields">
                 <h2>Editar Livro</h2>
@@ -131,45 +131,48 @@
 
                     <label for="genero">Género:</label>
                     <select id="genero" name="Genero" required>
-                        <option selected disabled>Escolha um género</option>
+                        <!-- Géneros de Ficção -->
+                        <optgroup label="Atual">
+                            <option value="@Model.genero" selected>@Model.genero</option>
+                        </optgroup>
                         <optgroup label="Ficção">
-                            <option value="romance">Romance</option>
-                            <option value="aventura">Aventura</option>
-                            <option value="fantasia">Fantasia</option>
-                            <option value="ficcao-cientifica">Ficção Científica</option>
-                            <option value="terror">Terror</option>
-                            <option value="misterio-policial">Mistério/Policial</option>
-                            <option value="drama">Drama</option>
-                            <option value="distopia-utopia">Distopia/Utopia</option>
+                            <option value="Romance">Romance</option>
+                            <option value="Aventura">Aventura</option>
+                            <option value="Fantasia">Fantasia</option>
+                            <option value="Ficção Científica">Ficção Científica</option>
+                            <option value="Terror">Terror</option>
+                            <option value="Mistério/Policial">Mistério/Policial</option>
+                            <option value="Drama">Drama</option>
+                            <option value="Distopia/Utopia">Distopia/Utopia</option>
                         </optgroup>
 
                         <!-- Géneros de Não-Ficção -->
                         <optgroup label="Não-Ficção">
-                            <option value="biografias-memorias">Biografias e Memórias</option>
-                            <option value="historia">História</option>
-                            <option value="ciencia-tecnologia">Ciência e Tecnologia</option>
-                            <option value="autoajuda">Autoajuda e Desenvolvimento Pessoal</option>
-                            <option value="psicologia-filosofia">Psicologia e Filosofia</option>
-                            <option value="viagens-aventura">Viagens e Aventura</option>
-                            <option value="arte-design">Arte e Design</option>
-                            <option value="religiao-espiritualidade">Religião e Espiritualidade</option>
+                            <option value="Biografias e Memórias">Biografias e Memórias</option>
+                            <option value="História">História</option>
+                            <option value="Ciência e Tecnologia">Ciência e Tecnologia</option>
+                            <option value="Autoajuda e Desenvolvimento Pessoal">Autoajuda e Desenvolvimento Pessoal</option>
+                            <option value="Psicologia e Filosofia">Psicologia e Filosofia</option>
+                            <option value="Viagens e Aventura">Viagens e Aventura</option>
+                            <option value="Arte e Design">Arte e Design</option>
+                            <option value="Religião e Espiritualidade">Religião e Espiritualidade</option>
                         </optgroup>
 
                         <!-- Géneros Infantis e Jovens -->
                         <optgroup label="Infantis e Jovens">
-                            <option value="contos-fadas">Contos de Fadas e Fábulas</option>
-                            <option value="literatura-juvenil">Literatura Juvenil</option>
-                            <option value="livros-educativos">Livros Educativos</option>
-                            <option value="quadrinhos-graphic-novels">Quadrinhos e Graphic Novels</option>
+                            <option value="Contos de Fadas e Fábulas">Contos de Fadas e Fábulas</option>
+                            <option value="Literatura Juvenil">Literatura Juvenil</option>
+                            <option value="Livros Educativos">Livros Educativos</option>
+                            <option value="Quadrinhos e Graphic Novels">Quadrinhos e Graphic Novels</option>
                         </optgroup>
 
                         <!-- Géneros Acadêmicos e Técnicos -->
                         <optgroup label="Acadêmicos e Técnicos">
-                            <option value="manuais-didaticos">Manuais e Didáticos</option>
-                            <option value="ciencias-sociais">Ciências Sociais</option>
-                            <option value="literatura-cientifica">Literatura Científica</option>
-                            <option value="engenharia-computacao">Engenharia e Computação</option>
-                            <option value="direito-politicas">Direito e Políticas Públicas</option>
+                            <option value="Manuais e Didáticos">Manuais e Didáticos</option>
+                            <option value="Ciências Sociais">Ciências Sociais</option>
+                            <option value="Literatura Científica">Literatura Científica</option>
+                            <option value="Engenharia e Computação">Engenharia e Computação</option>
+                            <option value="Direito e Políticas Públicas">Direito e Políticas Públicas</option>
                         </optgroup>
                     </select>
 
@@ -211,12 +214,6 @@
                 };
                 reader.readAsDataURL(file);
             }
-        });
-    </script>
-    <script>
-        $(document).ready(function() {
-            var genero = '@Model.genero'; // Pega o valor de Model.genero do Razor
-            $('#genero').val(genero); // Define o valor do select com o valor de genero
         });
     </script>
 }
