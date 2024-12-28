@@ -1,5 +1,8 @@
 ﻿@model SiteBiblioteca.Models.Livro;
-
+@inject SiteBiblioteca.Data.ApplicationDbContext _context
+@{
+    var autores = _context.autores.ToList();
+}
 <!DOCTYPE html>
 <html lang="pt">
 <head>
@@ -31,7 +34,7 @@
 
         /* Div para campos de texto */
         .form-fields {
-            flex: 2;
+            flex: 1;
         }
 
         /* Div para a foto e botões */
@@ -40,6 +43,7 @@
             display: flex;
             flex-direction: column;
             align-items: center;
+            justify-content: center;
         }
 
         .form-container {
@@ -52,7 +56,14 @@
             color: #fff;
         }
 
-        input[type="text"], input[type="email"] {
+        input[type="text"], input[type="email"], input[type="number"] {
+            width: 100%;
+            padding: 8px;
+            border: none;
+            border-radius: 5px;
+        }
+
+        select {
             width: 100%;
             padding: 8px;
             border: none;
@@ -63,16 +74,16 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            margin-bottom: 20px;
+            gap: 10px;
         }
 
-            .profile-picture img {
-                width: 100px;
-                height: 100px;
-                border-radius: 0%;
-                background-color: #cccccc;
-                margin-bottom: 10px;
-            }
+        .profile-picture img {
+            width: 150px;
+            height: 200px;
+            border-radius: 0%;
+            background-color: #cccccc;
+            object-fit: cover;
+        }
 
         .button-container {
             display: flex;
@@ -88,34 +99,22 @@
             cursor: pointer;
         }
 
-            .button:hover {
-                background-color: #bbbbbb;
-            }
-
-        /* Logo */
-        .logo {
-            width: 40px; /* Ajuste o tamanho conforme necessário */
-            height: auto;
-            cursor: pointer;
-            margin-right: 20px;
-            margin-bottom: 20px;
+        .button:hover {
+            background-color: #bbbbbb;
         }
-
     </style>
 </head>
 <body>
     <!-- Container Principal -->
-    <div class="main-container" style="display: flex; gap: 20px; align-items: flex-start;">
-        <!-- Div de Campos -->
-        <div class="form-fields">
-            <div style="display: flex; align-items: center; gap: 10px;">
-                <img class="logo" src="/img/logo.png" onclick="location.href='/'" alt="Logotipo" style="width: 50px; cursor: pointer;" />
-                <h2 style="margin: 0;">Editar Livro</h2>
-            </div>
-
+    <div class="main-container">
+        <form method="post" asp-action="GuardarEdicao" enctype="multipart/form-data" style="display: flex; width: 100%; gap: 20px;">
             <!-- Formulário de Edição -->
-            <form method="post" action="/ControllerName/GuardarEdicao" enctype="multipart/form-data">
+            <div class="form-fields">
+                <h2>Editar Livro</h2>
+                <br>
                 <div class="form-container">
+                    <input type="text" value="@Model.ISBN" id="ISBNatual" style="display: none" name="ISBNatual" required/>
+
                     <label for="ISBN">ISBN:</label>
                     <input type="text" id="ISBN" name="ISBN" value="@Model.ISBN" required />
 
@@ -123,32 +122,101 @@
                     <input type="text" id="titulo" name="Titulo" value="@Model.titulo" required />
 
                     <label for="autor">Autor:</label>
-                    <input type="text" id="autor" name="Autor" value="@Model.autor.Nome" required />
+                    <select id="autor" name="AutorId" required>
+                        @foreach (var autor in autores)
+                        {
+                            <option value="@autor.Id">@autor.Nome</option>
+                        }
+                    </select>
 
                     <label for="genero">Género:</label>
-                    <input type="text" id="genero" name="Genero" value="@Model.genero" required />
+                    <select id="genero" name="Genero" required>
+                        <option selected disabled>Escolha um género</option>
+                        <optgroup label="Ficção">
+                            <option value="romance">Romance</option>
+                            <option value="aventura">Aventura</option>
+                            <option value="fantasia">Fantasia</option>
+                            <option value="ficcao-cientifica">Ficção Científica</option>
+                            <option value="terror">Terror</option>
+                            <option value="misterio-policial">Mistério/Policial</option>
+                            <option value="drama">Drama</option>
+                            <option value="distopia-utopia">Distopia/Utopia</option>
+                        </optgroup>
+
+                        <!-- Géneros de Não-Ficção -->
+                        <optgroup label="Não-Ficção">
+                            <option value="biografias-memorias">Biografias e Memórias</option>
+                            <option value="historia">História</option>
+                            <option value="ciencia-tecnologia">Ciência e Tecnologia</option>
+                            <option value="autoajuda">Autoajuda e Desenvolvimento Pessoal</option>
+                            <option value="psicologia-filosofia">Psicologia e Filosofia</option>
+                            <option value="viagens-aventura">Viagens e Aventura</option>
+                            <option value="arte-design">Arte e Design</option>
+                            <option value="religiao-espiritualidade">Religião e Espiritualidade</option>
+                        </optgroup>
+
+                        <!-- Géneros Infantis e Jovens -->
+                        <optgroup label="Infantis e Jovens">
+                            <option value="contos-fadas">Contos de Fadas e Fábulas</option>
+                            <option value="literatura-juvenil">Literatura Juvenil</option>
+                            <option value="livros-educativos">Livros Educativos</option>
+                            <option value="quadrinhos-graphic-novels">Quadrinhos e Graphic Novels</option>
+                        </optgroup>
+
+                        <!-- Géneros Acadêmicos e Técnicos -->
+                        <optgroup label="Acadêmicos e Técnicos">
+                            <option value="manuais-didaticos">Manuais e Didáticos</option>
+                            <option value="ciencias-sociais">Ciências Sociais</option>
+                            <option value="literatura-cientifica">Literatura Científica</option>
+                            <option value="engenharia-computacao">Engenharia e Computação</option>
+                            <option value="direito-politicas">Direito e Políticas Públicas</option>
+                        </optgroup>
+                    </select>
 
                     <label for="preco">Preço:</label>
-                    <input type="number" id="preco" name="Preco" value="@Model.preco" step="0.01" required />
+                    <input type="number" id="preco" name="Preco" value="@Convert.ToDouble(Model.preco)" step="0.01" required />
 
                     <label for="numexemplares">Número de Exemplares:</label>
                     <input type="number" id="numexemplares" name="NumExemplares" value="@Model.numExemplares" required />
                 </div>
-            </form>
-        </div>
+            </div>
 
-        <!-- Div de Imagem e Botões -->
-        <div class="profile-section">
-            <div class="profile-picture">
-                <img src="~/img/@Model.imagem" alt="Foto do Livro" style="width: 100px; height: 100px;" />
-                <input type="file" id="imagem" name="Imagem" accept="image/*" style="margin-top: 10px;" />
-                <button type="button" class="button" style="margin-top: 10px;">Alterar capa do livro</button>
+            <!-- Div de Imagem e Botões -->
+            <div class="profile-section">
+                <div class="profile-picture">
+                    <img src="@Model.imagem" alt="Foto do Livro" id="previewImagem" />
+                    <input type="file" id="carregarImagem" name="Capa" accept="image/*" style="display: none;" />
+                    <button class="button" onclick="document.getElementById('carregarImagem').click(); return false;">Alterar Capa do Livro</button>
+                </div>
+                <br >
+                <div class="button-container">
+                    <button type="button" class="button" onclick="location.href='/Pages/PainelBibliotecario'">Cancelar</button>
+                    <button type="submit" class="button">Guardar</button>
+                </div>
             </div>
-            <div class="button-container" style="margin-top: 20px;">
-                <button type="button" class="button" onclick="location.href='/'">Cancelar</button>
-                <button type="submit" class="button">Guardar</button>
-            </div>
-        </div>
+        </form>
     </div>
 </body>
 </html>
+
+@section Scripts
+{
+    <script>
+        document.getElementById('carregarImagem').addEventListener('change', function (event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    document.getElementById('previewImagem').src = e.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+    </script>
+    <script>
+        $(document).ready(function() {
+            var genero = '@Model.genero'; // Pega o valor de Model.genero do Razor
+            $('#genero').val(genero); // Define o valor do select com o valor de genero
+        });
+    </script>
+}

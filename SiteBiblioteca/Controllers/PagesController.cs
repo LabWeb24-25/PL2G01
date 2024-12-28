@@ -118,7 +118,7 @@ namespace SiteBiblioteca.Controllers
 
             if (ModelState.IsValid)
             {
-                // Processar upload da imagem, se necessário
+                // Processar upload da imagem
                 if (Capa != null && Capa.Length > 0)
                 {
                     var caminhoPasta = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/img");
@@ -145,44 +145,131 @@ namespace SiteBiblioteca.Controllers
         }
 
         [Authorize(Roles = "Bibliotecário")]
-        public IActionResult EditarLivro(string ISBN)
+        public IActionResult EditarAutor(string id)
         {
             var livro = _context.livros
                 .Include(l => l.autor)
-                .FirstOrDefault(x => x.ISBN == ISBN);
+                .First(x => x.ISBN == id);
+
+            var autor = _context.autores.First(x => x.Id == livro.autor.Id);
+
+            return View(autor);
+        }
+
+        [HttpPost]
+        [Authorize(Roles = "Bibliotecário")]
+        public async Task<IActionResult> GuardarEdicaoAutor(int id, string Nome, string Bibliografia, IFormFile Imagem)
+        {
+            var autorExistente = _context.autores.FirstOrDefault(l => l.Id == id);
+
+            // Atualizar as propriedades do autor
+            autorExistente.Nome = Nome;
+            autorExistente.Bibliografia = Bibliografia;
+
+            // Verificar se há nova imagem
+            if (Imagem != null && Imagem.Length > 0)
+            {
+                // Caminho para salvar a imagem
+                var caminhoPasta = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/img");
+
+                // Gerar nome único para o arquivo de imagem
+                var nomeFicheiro = Guid.NewGuid().ToString() + Path.GetExtension(Imagem.FileName);
+                var caminhoCompleto = Path.Combine(caminhoPasta, nomeFicheiro);
+
+                // Remover imagem antiga, se existir
+                if (!string.IsNullOrEmpty(autorExistente.Imagem))
+                {
+                    var caminhoAntigo = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", autorExistente.Imagem.TrimStart('/'));
+                    if (System.IO.File.Exists(caminhoAntigo))
+                    {
+                        System.IO.File.Delete(caminhoAntigo);
+                    }
+                }
+
+                // Salvar a nova imagem
+                using (var stream = new FileStream(caminhoCompleto, FileMode.Create))
+                {
+                    await Imagem.CopyToAsync(stream);
+                }
+
+                // Atualizar o caminho da imagem
+                autorExistente.Imagem = "/img/" + nomeFicheiro;
+            }
+
+            // Validar o modelo e salvar alterações
+            if (ModelState.IsValid)
+            {
+                _context.Update(autorExistente);
+                await _context.SaveChangesAsync();
+                return Redirect("/Pages/PainelBibliotecário"); // Redirecionar após salvar
+            }
+
+            // Se algo falhar, retornar o modelo com os dados
+            return View(autorExistente);
+        }
+
+        [Authorize(Roles = "Bibliotecário")]
+        public IActionResult EditarLivro(string id)
+        {
+            var livro = _context.livros
+                .Include(l => l.autor)
+                .FirstOrDefault(x => x.ISBN == id);
 
             return View(livro);
         }
 
         [HttpPost]
-        public IActionResult GuardarEdicao(Livro model)
+        [Authorize(Roles = "Bibliotecário")]
+        public async Task<IActionResult> GuardarEdicao(string ISBNatual, string ISBN, string Título, int AutorId, string Genero, decimal Preco, int numexemplares, IFormFile Imagem)
         {
-            if (ModelState.IsValid)
+            var livroExistente = _context.livros.FirstOrDefault(l => l.ISBN == ISBNatual);
+
+            // Atualizar propriedades do livro existente
+            livroExistente.ISBN = ISBN;
+            livroExistente.titulo = Título;
+            livroExistente.autor = _context.autores.First(x => x.Id == AutorId);
+            livroExistente.genero = Genero;
+            livroExistente.preco = Preco;
+            livroExistente.numExemplares = numexemplares;
+
+            // Verificar se há nova imagem
+            if (Imagem != null && Imagem.Length > 0)
             {
-                var livroExistente = _context.livros.FirstOrDefault(l => l.ISBN == model.ISBN);
+                // Caminho para salvar a imagem
+                var caminhoPasta = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/img");
+                var nomeFicheiro = Guid.NewGuid().ToString() + Path.GetExtension(Imagem.FileName);
+                var caminhoCompleto = Path.Combine(caminhoPasta, nomeFicheiro);
 
-                if (livroExistente != null)
+                // Remover imagem antiga, se existir
+                if (!string.IsNullOrEmpty(livroExistente.imagem))
                 {
-                    // Atualizar os dados do livro existente
-                    livroExistente.titulo = model.titulo;
-                    livroExistente.autor = model.autor;
-                    livroExistente.genero = model.genero;
-                    livroExistente.preco = model.preco;
-                    livroExistente.numExemplares = model.numExemplares;
-
-                    _context.SaveChanges();
-                }
-                else
-                {
-                    // Caso não exista, criar um novo livro
-                    _context.livros.Add(model);
-                    _context.SaveChanges();
+                    var caminhoAntigo = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", livroExistente.imagem.TrimStart('/'));
+                    if (System.IO.File.Exists(caminhoAntigo))
+                    {
+                        System.IO.File.Delete(caminhoAntigo);
+                    }
                 }
 
-                return RedirectToAction("Index"); // Redirecionar para uma página específica
+                // Guardar nova imagem
+                using (var stream = new FileStream(caminhoCompleto, FileMode.Create))
+                {
+                    await Imagem.CopyToAsync(stream);
+                }
+
+                // Atualizar o caminho da imagem
+                livroExistente.imagem = "/img/" + nomeFicheiro;
             }
 
-            return View(model); // Retornar à mesma página em caso de erro
+            // Validar o modelo e salvar alterações
+            if (ModelState.IsValid)
+            {
+                _context.Update(livroExistente);
+                await _context.SaveChangesAsync();
+                return Redirect("/Pages/PainelBibliotecario"); // Redirecionar após salvar
+            }
+
+            // Se algo falhar, retornar o modelo com os dados
+            return View(livroExistente);
         }
 
         public IActionResult Pesquisa(string termo)
@@ -224,8 +311,15 @@ namespace SiteBiblioteca.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> adicionarAutorNovo(Autor autor, IFormFile Imagem)
+        public async Task<IActionResult> adicionarAutorNovo(string Nome, string Bibliografia, IFormFile Imagem)
         {
+            var _autor = new Autor
+            {
+                Nome = Nome,
+                Bibliografia = Bibliografia,
+                Imagem = "/img/" + Guid.NewGuid().ToString() + Path.GetExtension(Imagem.FileName)
+            };
+
             if (ModelState.IsValid)
             {
                 if (Imagem != null && Imagem.Length > 0)
@@ -239,16 +333,14 @@ namespace SiteBiblioteca.Controllers
                     {
                         await Imagem.CopyToAsync(stream);
                     }
-
-                    autor.Imagem = "/img/" + nomeFicheiro;
                 }
 
-                _context.autores.Add(autor);
+                _context.autores.Add(_autor);
                 await _context.SaveChangesAsync();
-                return RedirectToAction("Index");
+                return Redirect("/Pages/PainelBibliotecario");
             }
 
-            return View(autor);
+            return View(_autor);
         }
 
         //[Authorize(Roles = "Administrador")]
@@ -370,6 +462,26 @@ namespace SiteBiblioteca.Controllers
             }
 
             return View(livros);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> RemoverLivros(List<string> ids)
+        {
+            if (ids != null && ids.Any())
+            {
+                var livrosParaRemover = _context.livros.Where(l => ids.Contains(l.ISBN)).ToList();
+
+                foreach (var livro in livrosParaRemover)
+                {
+                    _context.livros.Remove(livro);
+                }
+
+                await _context.SaveChangesAsync();
+
+                return Json(new { success = true });
+            }
+
+            return Json(new { success = false });
         }
 
         public IActionResult Bloquear(int id)

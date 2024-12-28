@@ -29,7 +29,7 @@
             <!-- Se o autor tiver uma imagem associada, ela será exibida -->
             @if (!string.IsNullOrEmpty(Model.Imagem))
             {
-                <img src="~/img/@Model.Imagem" class="img-fluid rounded shadow-lg" alt="Foto do Autor: @Model.Nome" style="width: 350px; height: 500px;" />
+                <img src="@Model.Imagem" class="img-fluid rounded shadow-lg" alt="Foto do Autor: @Model.Nome" style="width: 350px; height: 500px;" />
             }
             else
             {

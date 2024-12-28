@@ -52,18 +52,6 @@ namespace SiteBiblioteca.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "AdministradoresCriados",
-                columns: table => new
-                {
-                    idCriador = table.Column<int>(type: "int", nullable: false),
-                    idCriado = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_AdministradoresCriados", x => new { x.idCriador, x.idCriado });
-                });
-
-            migrationBuilder.CreateTable(
                 name: "autores",
                 columns: table => new
                 {
@@ -90,21 +78,6 @@ namespace SiteBiblioteca.Data.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_bloqueios", x => new { x.userId, x.adminId, x.dataBloqueio });
-                });
-
-            migrationBuilder.CreateTable(
-                name: "CRUDs",
-                columns: table => new
-                {
-                    id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    id_Bibliotecario = table.Column<int>(type: "int", nullable: false),
-                    operationType = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ISBN = table.Column<string>(type: "nvarchar(max)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_CRUDs", x => x.id);
                 });
 
             migrationBuilder.CreateTable(
@@ -197,13 +170,7 @@ namespace SiteBiblioteca.Data.Migrations
                 name: "_dadosBiblioteca");
 
             migrationBuilder.DropTable(
-                name: "AdministradoresCriados");
-
-            migrationBuilder.DropTable(
                 name: "bloqueios");
-
-            migrationBuilder.DropTable(
-                name: "CRUDs");
 
             migrationBuilder.DropTable(
                 name: "requisicoes");

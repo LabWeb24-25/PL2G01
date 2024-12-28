@@ -87,31 +87,33 @@
     </style>
 </head>
 <body>
-    <form asp-action="adicionarAutorNovo" method="post" enctype="multipart/form-data">
+    <form asp-action="GuardarEdicaoAutor" method="post" enctype="multipart/form-data">
         <div class="main-container">
             <div class="form-fields">
                 <h2 style="margin: 10px">Adicionar Autor</h2>
                 <br />
                 <div class="form-container">
+                    <input type="number" id="id" name="id" value="@Model.Id" style="display: none" required/>
+
                     <label for="nome">Nome:</label>
-                    <input type="text" id="nome" name="Nome" required />
+                    <input type="text" id="nome" name="Nome" value="@Model.Nome" required />
 
                     <label for="bibliografia">Bibliografia:</label>
-                    <textarea id="bibliografia" name="Bibliografia" rows="5" required></textarea>
+                    <textarea id="bibliografia" name="Bibliografia" rows="5" required>@Model.Bibliografia</textarea>
                 </div>
             </div>
 
             <div class="profile-section">
                 <div class="profile-picture">
-                    <img src="~/img/user.png" alt="Foto do Autor" id="previewImagem" style="max-width: 150px"/>
+                    <img src="@Model.Imagem" alt="Foto do Autor" id="previewImagem" style="max-width: 150px" />
                     <p>
                         <input type="file" id="carregarImagem" name="Imagem" accept="image/*" style="display: none;" />
-                        <button class="button" style="display: flex; justify-content: center; padding: 10px 20px; align-items: center" onclick="document.getElementById('carregarImagem').click(); return false;">Carregar Foto</button>
+                        <button class="button" style="display: flex; justify-content: center; padding: 10px 20px; align-items: center" onclick="document.getElementById('carregarImagem').click(); return false;">Alterar Foto</button>
                     </p>
                 </div>
                 <div class="button-container">
-                    <button type="button" class="button" onclick="window.history.back();">Cancelar</button>
-                    <button type="submit" class="button">Criar</button>
+                    <button type="button" class="button" onclick="location.href='/Pages/PainelBibliotecario'">Cancelar</button>
+                    <button type="submit" class="button">Guardar</button>
                 </div>
             </div>
         </div>
@@ -122,7 +124,7 @@
 @section Scripts
 {
     <script>
-        document.getElementById('carregarImagem').addEventListener('change', function (event) 
+        document.getElementById('carregarImagem').addEventListener('change', function (event)
         {
             const file = event.target.files[0];
             if (file) {
