@@ -104,13 +104,13 @@
     </style>
 </head>
 <body>
-    <form action="adicionarLivro" method="POST">
+    <form asp-action="adicionarLivro" method="POST" enctype="multipart/form-data">
         <!-- Container Principal -->
         <div class="main-container">
             <!-- Div de Campos -->
             <div class="form-fields">
                 <div style="display: flex; align-items: center; gap: 10px;">
-                    <button class="btn btn-primary w-10" onclick="window.location.href='/'">&lt;</button>
+                    <button class="btn btn-primary w-10" onclick="window.location.href='/Pages/PainelBibliotecario'">&lt;</button>
                     <h2 style="margin: 0;">Adicionar Livro</h2>
                 </div>
                 <br />
@@ -122,21 +122,24 @@
                            maxlength="13"
                            pattern="^(\d{9}[\dXx]|\d{13})$"
                            title="Digite um ISBN válido: ISBN-10 (9 dígitos seguidos de um dígito ou 'X') ou ISBN-13 (13 dígitos)"
-                           required>
+                           required />
 
                     <label for="titulo">Título:</label>
-                    <input type="text" id="titulo" required/>
+                    <input type="text" id="titulo" name="titulo" required />
+
+                    <label for="sinopse">Sinopse:</label>
+                    <textarea id="sinopse" name="sinopse" required></textarea>
 
                     <label for="autor">Autor:</label>
-                    <select type="text" id="autor" required>
-                        @foreach(var autor in Model)
+                    <select id="autor" name="autor" required>
+                        @foreach (var autor in Model)
                         {
                             <option value="@autor.Id">@autor.Nome</option>
                         }
                     </select>
-                
+
                     <label for="genero-livro">Género:</label>
-                    <select id="genero-livro" name="genero-livro" required>
+                    <select id="genero-livro" name="generolivro" required>
                         <option value="" selected disabled></option>
                         <!-- Géneros de Ficção -->
                         <option selected disabled>Escolha um género</option>
@@ -185,7 +188,7 @@
                     <input type="number" id="preco" name="preco" min="0" step="0.01" placeholder="0.00" required />
 
                     <label for="numexemplares">Número de Exemplares:</label>
-                    <input type="number" id="numexemplares" min="0" step="1" placeholder="0" required/>
+                    <input type="number" id="numexemplares" name="numexemplares" min="0" step="1" placeholder="0" required />
                 </div>
             </div>
 
@@ -193,7 +196,7 @@
             <div class="profile-section">
                 <div class="profile-picture">
                     <img src="~/img/book-placeholder.png" alt="Foto do Livro" id="previewImagem" style="max-width: 200px; max-height: 300px" />
-                    <input type="file" id="carregarImagem" accept="image/*" style="display: none;" />
+                    <input type="file" id="carregarImagem" name="Capa" accept="image/*" style="display: none;" required/>
                     <button class="button" onclick="document.getElementById('carregarImagem').click(); return false;">Carregar Capa do Livro</button>
                 </div>
                 <div class="button-container">

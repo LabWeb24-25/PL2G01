@@ -46,7 +46,7 @@
         {
             <button class="button" onclick="location.href='Pages/PainelBibliotecario'">Meu Painel</button>
         }
-        <button class="button" onclick="location.href='Identity/Account/Manage/PersonalData'">Perfil</button>
+        <button class="button" onclick="location.href='Identity/Account/PersonalData'">Perfil</button>
         <img src="@Url.Content($"{ViewData["ProfileImage"] as string}")" alt="User" class="profile-image" />
         <form asp-action="Logout" asp-controller="Pages" method="post" style="margin: 0;">
             <button type="submit" class="btn btn-danger" style="height: 40px;">Logout</button>

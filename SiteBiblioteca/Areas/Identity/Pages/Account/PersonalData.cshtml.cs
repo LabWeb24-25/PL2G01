@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using SiteBiblioteca.Models;
 using SiteBiblioteca.Data;
 
-namespace SiteBiblioteca.Areas.Identity.Pages.Account.Manage
+namespace SiteBiblioteca.Areas.Identity.Pages.Account
 {
     public class PersonalDataModel : PageModel
     {

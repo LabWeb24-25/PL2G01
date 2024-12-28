@@ -101,8 +101,21 @@ namespace SiteBiblioteca.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> adicionarLivro(Livro livro, IFormFile Capa)
+        public async Task<IActionResult> adicionarLivro(string isbn, string titulo, int autor, string generolivro, decimal preco, 
+            int numexemplares, string sinopse, IFormFile Capa)
         {
+            var _livro = new Livro
+            {
+                imagem = "/img/" + Guid.NewGuid().ToString() + Path.GetExtension(Capa.FileName),
+                ISBN = isbn,
+                titulo = titulo,
+                sinopse = sinopse,
+                autor = _context.autores.First(x => x.Id == autor),
+                genero = generolivro,
+                preco = preco,
+                numExemplares = numexemplares
+            };
+
             if (ModelState.IsValid)
             {
                 // Processar upload da imagem, se necessário
@@ -117,21 +130,18 @@ namespace SiteBiblioteca.Controllers
                     {
                         await Capa.CopyToAsync(stream);
                     }
-
-                    // Armazenar o caminho no banco de dados
-                    livro.imagem = "/img/" + nomeFicheiro;
                 }
 
                 // Salvar no banco de dados
-                _context.livros.Add(livro);
+                _context.livros.Add(_livro);
                 await _context.SaveChangesAsync();
 
                 // Redirecionar após sucesso
-                return RedirectToAction("Index");
+                return Redirect("/Pages/PainelBibliotecario");
             }
 
             // Caso os dados não sejam válidos, retornar o formulário com os erros
-            return View(livro);
+            return View(_livro);
         }
 
         [Authorize(Roles = "Bibliotecário")]
@@ -472,7 +482,7 @@ namespace SiteBiblioteca.Controllers
             await _signInManager.SignInAsync(useraspnet, isPersistent: false);  // Logar novamente o utilizador
 
             // Redirecionar para a página PersonalData
-            return Redirect("/Identity/Account/Manage/PersonalData");
+            return Redirect("/Identity/Account/PersonalData");
         }
 
         public IActionResult EmailConfirmado()

@@ -1,5 +1,5 @@
 ﻿@page
-@model SiteBiblioteca.Areas.Identity.Pages.Account.Manage.PersonalDataModel
+@model PersonalDataModel
 <!DOCTYPE html>
 <html lang="pt">
 <head>
@@ -143,7 +143,7 @@
 
                 <!-- Imagem de perfil -->
                 <div class="profile-picture-container">
-                    <img src="@Model.Image" class="profile-picture" />
+                    <img src="@Model.Image" class="profile-picture" style="object-fit: cover;" />
                 </div>
             </div>
 
@@ -152,7 +152,7 @@
                 <button class="button" onclick="window.location.href='/Pages/EditarPerfil'">Editar Perfil</button>
                 @if(!Model.Confirmado)
                 {
-                    <button class="button" onclick="window.location.href='../ConfirmEmail'">Confirmar Email</button>
+                    <button class="button" onclick="window.location.href='./ConfirmEmail'">Confirmar Email</button>
                 }
             </div>
         </div>
