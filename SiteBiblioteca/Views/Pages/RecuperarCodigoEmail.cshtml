@@ -86,8 +86,22 @@
         <button class="btn-primary" onclick="window.location.href='/Identity/Account/Login'">&lt;</button>
 
         <h2>Recuperar Código de Acesso</h2>
-        <input type="email" placeholder="Email">
-        <button class="recuperar">Recuperar Código de Acesso</button>
+
+        <form asp-action="RecuperarCodigoAcessoEmail" method="post" onsubmit="alterarTextoBotao()">
+            <div>
+                <input type="email" id="email" name="email" required placeholder="Digite seu e-mail" />
+            </div>
+            <div>
+                <button type="submit" class="recuperar" id="botaoRecuperar">Recuperar Código de Acesso</button>
+            </div>
+        </form>
     </div>
 </body>
 </html>
+
+<script>
+    function alterarTextoBotao() {
+        var botao = document.getElementById("botaoRecuperar");
+        botao.innerHTML = "Enviando..."; // Altera o texto do botão
+    }
+</script>
