@@ -486,25 +486,39 @@ namespace SiteBiblioteca.Controllers
         {
             if (ids != null && ids.Any())
             {
-                // Obter todos os livros para remoção com os autores associados.
-                var livrosParaRemover = _context.livros.Where(l => ids.Contains(l.ISBN)).Include(x => x.autor).ToList();
-
-                // Coletar os autores a serem removidos com base nos livros a serem removidos
-                var autoresParaRemoverId = livrosParaRemover
-                    .GroupBy(l => l.autor.Id)
-                    .Where(group => !_context.livros.Any(x => x.autor.Id == group.Key)) // Verificar se o autor ainda tem livros
-                    .Select(group => group.Key)
+                var livrosParaRemover = _context.livros
+                    .Where(l => ids.Contains(l.ISBN))
+                    .Include(x => x.autor)
                     .ToList();
 
-                // Remover os livros
-                _context.livros.RemoveRange(livrosParaRemover);
+                var autoresParaRemover = new List<int>();
 
-                // Remover os autores que não têm mais livros
-                var autoresParaRemover = _context.autores.Where(a => autoresParaRemoverId.Contains(a.Id)).ToList();
-                _context.autores.RemoveRange(autoresParaRemover);
+                foreach (var livro in livrosParaRemover)
+                {
+                    _context.livros.Remove(livro);
 
-                // Salvar as mudanças
-                await _context.SaveChangesAsync();  
+                    // Guardar após cada remoção de livro para persistir a mudança
+                    await _context.SaveChangesAsync(); // Persistir a remoção do livro
+
+                    var autor = livro.autor;
+                    if (!_context.livros.Any(l => l.autor.Id == autor.Id))  // Se o autor não tem mais livros
+                    {
+                        autoresParaRemover.Add(autor.Id);
+                    }
+                }
+
+                // Guardar os autores a serem removidos
+                foreach (var autorId in autoresParaRemover)
+                {
+                    var autor = _context.autores.FirstOrDefault(a => a.Id == autorId);
+                    if (autor != null)
+                    {
+                        _context.autores.Remove(autor);
+                    }
+                }
+
+                // Guardar as mudanças finais
+                await _context.SaveChangesAsync(); // Persistir a remoção do autor
 
                 return Json(new { success = true });
             }
