@@ -204,7 +204,7 @@ namespace SiteBiblioteca.Controllers
                 // Caminho para guardar a imagem
                 var caminhoPasta = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/img");
 
-                // Gerar nome único para o arquivo de imagem
+                // Gerar nome único para o ficheiro de imagem
                 var nomeFicheiro = Guid.NewGuid().ToString() + Path.GetExtension(Imagem.FileName);
                 var caminhoCompleto = Path.Combine(caminhoPasta, nomeFicheiro);
 
@@ -218,7 +218,7 @@ namespace SiteBiblioteca.Controllers
                     }
                 }
 
-                // Salvar a nova imagem
+                // Guardar a nova imagem
                 using (var stream = new FileStream(caminhoCompleto, FileMode.Create))
                 {
                     await Imagem.CopyToAsync(stream);
@@ -243,7 +243,7 @@ namespace SiteBiblioteca.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> GuardarEdicaoLivro(string ISBNatual, string ISBN, string Titulo, int AutorId, string Genero, decimal Preco, int numexemplares, IFormFile Imagem)
+        public async Task<IActionResult> GuardarEdicaoLivro(string ISBNatual, string ISBN, string Titulo, int AutorId, string Genero, string Preco, int numexemplares, IFormFile Imagem)
         {
             var livroExistente = _context.livros.First(l => l.ISBN == ISBNatual);
 
@@ -252,13 +252,13 @@ namespace SiteBiblioteca.Controllers
             livroExistente.titulo = Titulo;
             livroExistente.autor = _context.autores.First(x => x.Id == AutorId);
             livroExistente.genero = Genero;
-            livroExistente.preco = Preco;
+            livroExistente.preco = Convert.ToDecimal(Preco.Replace('.', ','));
             livroExistente.numExemplares = numexemplares;
 
             // Verificar se há nova imagem
             if (Imagem != null && Imagem.Length > 0)
             {
-                // Caminho para salvar a imagem
+                // Caminho para guardar a imagem
                 var caminhoPasta = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/img");
                 var nomeFicheiro = Guid.NewGuid().ToString() + Path.GetExtension(Imagem.FileName);
                 var caminhoCompleto = Path.Combine(caminhoPasta, nomeFicheiro);
@@ -486,14 +486,25 @@ namespace SiteBiblioteca.Controllers
         {
             if (ids != null && ids.Any())
             {
-                var livrosParaRemover = _context.livros.Where(l => ids.Contains(l.ISBN)).ToList();
+                // Obter todos os livros para remoção com os autores associados.
+                var livrosParaRemover = _context.livros.Where(l => ids.Contains(l.ISBN)).Include(x => x.autor).ToList();
 
-                foreach (var livro in livrosParaRemover)
-                {
-                    _context.livros.Remove(livro);
-                }
+                // Coletar os autores a serem removidos com base nos livros a serem removidos
+                var autoresParaRemoverId = livrosParaRemover
+                    .GroupBy(l => l.autor.Id)
+                    .Where(group => !_context.livros.Any(x => x.autor.Id == group.Key)) // Verificar se o autor ainda tem livros
+                    .Select(group => group.Key)
+                    .ToList();
 
-                await _context.SaveChangesAsync();
+                // Remover os livros
+                _context.livros.RemoveRange(livrosParaRemover);
+
+                // Remover os autores que não têm mais livros
+                var autoresParaRemover = _context.autores.Where(a => autoresParaRemoverId.Contains(a.Id)).ToList();
+                _context.autores.RemoveRange(autoresParaRemover);
+
+                // Salvar as mudanças
+                await _context.SaveChangesAsync();  
 
                 return Json(new { success = true });
             }

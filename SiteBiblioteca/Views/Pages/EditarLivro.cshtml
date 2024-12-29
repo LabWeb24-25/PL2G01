@@ -2,6 +2,7 @@
 @inject SiteBiblioteca.Data.ApplicationDbContext _context
 @{
     var autores = _context.autores.ToList();
+    var precoString = Model.preco.ToString("0.00", System.Globalization.CultureInfo.InvariantCulture);
 }
 <!DOCTYPE html>
 <html lang="pt">
@@ -177,10 +178,10 @@
                     </select>
 
                     <label for="preco">Preço:</label>
-                    <input type="number" id="preco" name="Preco" value="@Convert.ToDouble(Model.preco)" step="0.01" required />
+                    <input type="number" id="preco" name="Preco" value="@precoString" min="0.00" step="0.01" required />
 
                     <label for="numexemplares">Número de Exemplares:</label>
-                    <input type="number" id="numexemplares" name="NumExemplares" value="@Model.numExemplares" required />
+                    <input type="number" id="numexemplares" name="NumExemplares" value="@Model.numExemplares" min="0" step="1" required />
                 </div>
             </div>
 
@@ -188,7 +189,7 @@
             <div class="profile-section">
                 <div class="profile-picture">
                     <img src="@Model.imagem" alt="Foto do Livro" id="previewImagem" />
-                    <input type="file" id="carregarImagem" name="Capa" accept="image/*" style="display: none;" />
+                    <input type="file" id="carregarImagem" name="Imagem" accept="image/*" style="display: none;" />
                     <button class="button" onclick="document.getElementById('carregarImagem').click(); return false;">Alterar Capa do Livro</button>
                 </div>
                 <br >

@@ -65,6 +65,7 @@
             border-radius: 0%;
             background-color: #cccccc;
             object-fit: cover;
+            margin: 20px;
         }
 
         .button-container {
@@ -90,7 +91,7 @@
     <form asp-action="GuardarEdicaoAutor" method="post" enctype="multipart/form-data">
         <div class="main-container">
             <div class="form-fields">
-                <h2 style="margin: 10px">Adicionar Autor</h2>
+                <h2 style="margin: 10px">Editar Autor</h2>
                 <br />
                 <div class="form-container">
                     <input type="number" id="id" name="id" value="@Model.Id" style="display: none" required/>
@@ -106,9 +107,10 @@
             <div class="profile-section">
                 <div class="profile-picture">
                     <img src="@Model.Imagem" alt="Foto do Autor" id="previewImagem" />
+                    <br >
                     <p>
                         <input type="file" id="carregarImagem" name="Imagem" accept="image/*" style="display: none;" />
-                        <button class="button" style="display: flex; justify-content: center; padding: 10px 20px; align-items: center" onclick="document.getElementById('carregarImagem').click(); return false;">Alterar Foto</button>
+                        <button class="button" style="display: flex; justify-content: center; padding: 10px 20px; align-items: center; margin-left: 35px" onclick="document.getElementById('carregarImagem').click(); return false;">Alterar Foto</button>
                     </p>
                 </div>
                 <div class="button-container">
