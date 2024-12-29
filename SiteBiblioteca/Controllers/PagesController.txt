@@ -376,7 +376,7 @@ namespace SiteBiblioteca.Controllers
                 _context._dadosBiblioteca.Add(dados);
             }
 
-            // Guardar a nova imagem, se fornecida
+            // Guardar a imagem
             if (image != null && image.Length > 0)
             {
                 var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/img", image.FileName);
@@ -384,10 +384,8 @@ namespace SiteBiblioteca.Controllers
                 {
                     await image.CopyToAsync(stream);
                 }
-                dados.image = image.FileName; // Atualizar com o novo nome da imagem
+                dados.image = image.FileName;
             }
-            // Caso contrário, manter a imagem atual
-
 
             // Atualizar os dados restantes
             dados.contactos = contactos;
