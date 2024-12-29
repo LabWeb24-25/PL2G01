@@ -30,6 +30,7 @@ namespace SiteBiblioteca.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public async Task<IActionResult> Logout()
         {
             await _signInManager.SignOutAsync(); // Desconectar o utilizador
@@ -285,6 +286,7 @@ namespace SiteBiblioteca.Controllers
             return Redirect("/Pages/PainelBibliotecario"); // Redirecionar após salvar
         }
 
+        [Authorize]
         public IActionResult Pesquisa(string termo)
         {
             if (string.IsNullOrWhiteSpace(termo))
@@ -356,7 +358,7 @@ namespace SiteBiblioteca.Controllers
             return View(_autor);
         }
 
-        //[Authorize(Roles = "Administrador")]
+        [Authorize(Roles = "Administrador")]
         public IActionResult EditarDadosBiblioteca()
         {
             var dados = _context._dadosBiblioteca.FirstOrDefault(); // Busca a única linha da base de dados na tabela _dadosBiblioteca
@@ -403,7 +405,7 @@ namespace SiteBiblioteca.Controllers
             return Redirect("/Pages/PainelAdministrador");
         }
 
-        //[Authorize(Roles = "Administrador")]
+        [Authorize(Roles = "Administrador")]
         public IActionResult PainelAdministrador()
         {
             HttpContext.Session.SetString("Source", "PainelAdministrador");
@@ -457,7 +459,7 @@ namespace SiteBiblioteca.Controllers
             return Redirect("/Pages/PainelAdministrador");
         }
 
-        //[Authorize(Roles = "Bibliotecário")]
+        [Authorize(Roles = "Bibliotecário")]
         public IActionResult PainelBibliotecario(string? termo)
         {
             var livros = new List<Livro>();
@@ -497,6 +499,7 @@ namespace SiteBiblioteca.Controllers
             return Json(new { success = false });
         }
 
+        [Authorize(Roles = "Administrador")]
         public IActionResult Bloquear(int id)
         {
             var utilizador = _context.Adicional.First(x => x.Id == id);
@@ -504,7 +507,7 @@ namespace SiteBiblioteca.Controllers
             return View(utilizador);
         }
 
-        //[Authorize(Roles = "Administrador")]
+        [Authorize(Roles = "Administrador")]
         public IActionResult NotificacoesAdministrador()
         {
             var bibliotecariosPorConfirmar = _context.Adicional.Where(x => x.confirmado == false); 
@@ -541,6 +544,7 @@ namespace SiteBiblioteca.Controllers
             return RedirectToAction("NotificacoesAdministrador");
         }
 
+        [Authorize]
         public IActionResult EditarPerfil()
         {
             var username = User.Identity.Name; // obtenção do username do utilizador
@@ -642,6 +646,7 @@ namespace SiteBiblioteca.Controllers
             return Redirect("/Identity/Account/Login");
         }
 
+        [Authorize]
         public IActionResult UtilizadorBloqueado()
         {
             var username = User.Identity.Name; // obtenção do username do utilizador
@@ -688,7 +693,7 @@ namespace SiteBiblioteca.Controllers
             return View(requisicoes);
         }
 
-        //[Authorize(Roles = "Bibliotecário")]
+        [Authorize(Roles = "Bibliotecário")]
         public async Task<IActionResult> NotificacoesBibliotecario()
         {
             var requisicoes = await _context.requisicoes

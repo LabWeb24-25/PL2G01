@@ -15,6 +15,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 using SiteBiblioteca.Data;
+using AspNetCoreGeneratedDocument;
 
 namespace SiteBiblioteca.Areas.Identity.Pages.Account
 {
@@ -116,15 +117,7 @@ namespace SiteBiblioteca.Areas.Identity.Pages.Account
 
                 var adicional = _context.Adicional.FirstOrDefault(x => x.Email == Input.Email);
 
-                var Confirm = adicional.confirmado;
-
-                if(Confirm == false)
-                {
-                    ModelState.AddModelError(string.Empty, "Conta não confirmado por Administrador.");
-                    return Page();
-                }
-
-                if (user != null && adicional != null && Confirm == true)
+                if (user != null && adicional != null && adicional.confirmado == true)
                 {
                     var result = await _signInManager.PasswordSignInAsync(user, Input.Password, Input.RememberMe, lockoutOnFailure: false);
 
@@ -163,9 +156,14 @@ namespace SiteBiblioteca.Areas.Identity.Pages.Account
                         return Page();
                     }
                 }
-                else
+                else if (user == null && adicional == null)
                 {
-                    ModelState.AddModelError(string.Empty, "Login Inválido.");
+                    ModelState.AddModelError(string.Empty, "Login inválido.");
+                    return Page();
+                }
+                else if (adicional.confirmado == false)
+                {
+                    ModelState.AddModelError(string.Empty, "Conta não confirmada por administrador.");
                     return Page();
                 }
             }
