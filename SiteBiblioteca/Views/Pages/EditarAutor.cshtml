@@ -61,10 +61,10 @@
 
         .profile-picture img {
             width: 150px;
-            height: 150px;
-            border-radius: 50%;
+            height: 200px;
+            border-radius: 0%;
             background-color: #cccccc;
-            margin-bottom: 10px;
+            object-fit: cover;
         }
 
         .button-container {
@@ -105,7 +105,7 @@
 
             <div class="profile-section">
                 <div class="profile-picture">
-                    <img src="@Model.Imagem" alt="Foto do Autor" id="previewImagem" style="max-width: 150px" />
+                    <img src="@Model.Imagem" alt="Foto do Autor" id="previewImagem" />
                     <p>
                         <input type="file" id="carregarImagem" name="Imagem" accept="image/*" style="display: none;" />
                         <button class="button" style="display: flex; justify-content: center; padding: 10px 20px; align-items: center" onclick="document.getElementById('carregarImagem').click(); return false;">Alterar Foto</button>

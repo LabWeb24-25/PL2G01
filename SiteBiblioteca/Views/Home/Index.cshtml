@@ -137,7 +137,7 @@
         <partial name="_LoginPartial"/>
     </div>
 
-    <div class="relative bg-gray-800 min-h-screen">
+    <div class="relative bg-gray-800 min-h-screen rounded-lg">
         <!-- Conteúdo dos Livros -->
         <div class="relative z-10 p-6">
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
@@ -148,7 +148,7 @@
                         <div class="bg-gray-700 rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
                             <!-- Imagem da Capa -->
                             <div>
-                                <img src="@livro.imagem" alt="@livro.titulo" class="w-full h-64 object-contain bg-white" onerror="this.src='/img/book-placeholder.png'">
+                                <img src="@livro.imagem" alt="@livro.titulo" class="w-full h-64 object-contain bg-gray-700 mt-4">
                             </div>
 
                             <!-- Informações do Livro -->

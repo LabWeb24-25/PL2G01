@@ -46,9 +46,20 @@ builder.Services.AddScoped<RoleManager<IdentityRole>>();
 
 builder.Services.AddTransient<IEmailSender, EmailSender>();
 
+builder.Services.AddTransient<DataLoaderService>();
+
 builder.Services.AddSession();
 
 var app = builder.Build();
+
+// Carregar dados se a base de dados estiver vazia
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    var context = services.GetRequiredService<ApplicationDbContext>();
+    var dataLoader = services.GetRequiredService<DataLoaderService>();
+    dataLoader.LoadDataIfEmpty();
+}
 
 using (var scope = app.Services.CreateScope())
 {

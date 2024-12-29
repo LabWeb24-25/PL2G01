@@ -138,7 +138,6 @@ namespace SiteBiblioteca.Controllers
         {
             var _livro = new Livro
             {
-                imagem = "/img/" + Guid.NewGuid().ToString() + Path.GetExtension(Capa.FileName),
                 ISBN = isbn,
                 titulo = titulo,
                 sinopse = sinopse,
@@ -162,6 +161,8 @@ namespace SiteBiblioteca.Controllers
                     {
                         await Capa.CopyToAsync(stream);
                     }
+
+                    _livro.imagem = "/img/" + nomeFicheiro;
                 }
 
                 // Guardar no banco de dados
@@ -200,7 +201,7 @@ namespace SiteBiblioteca.Controllers
             // Verificar se há nova imagem
             if (Imagem != null && Imagem.Length > 0)
             {
-                // Caminho para salvar a imagem
+                // Caminho para guardar a imagem
                 var caminhoPasta = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/img");
 
                 // Gerar nome único para o arquivo de imagem
@@ -332,7 +333,6 @@ namespace SiteBiblioteca.Controllers
             {
                 Nome = Nome,
                 Bibliografia = Bibliografia,
-                Imagem = "/img/" + Guid.NewGuid().ToString() + Path.GetExtension(Imagem.FileName)
             };
 
             if (ModelState.IsValid)
@@ -348,6 +348,8 @@ namespace SiteBiblioteca.Controllers
                     {
                         await Imagem.CopyToAsync(stream);
                     }
+
+                    _autor.Imagem = "/img/" + nomeFicheiro;
                 }
 
                 _context.autores.Add(_autor);
@@ -758,8 +760,12 @@ namespace SiteBiblioteca.Controllers
 
             var userAdicional = _context.Adicional.First(x => x.Email == user.Email);
 
+            var livro = _context.livros.First(x => x.ISBN == requisicao.livroISBN);
+
             requisicao.biblioEntrega = userAdicional;
             requisicao.biblioEntregaId = userAdicional.Id;
+
+            livro.numExemplares -= 1;
 
             await _context.SaveChangesAsync();
 
@@ -775,8 +781,12 @@ namespace SiteBiblioteca.Controllers
 
             var userAdicional = _context.Adicional.First(x => x.Email == user.Email);
 
+            var livro = _context.livros.First(x => x.ISBN == requisicao.livroISBN);
+
             requisicao.biblioRecebe = userAdicional;
             requisicao.biblioRecebeId = userAdicional.Id;
+
+            livro.numExemplares += 1;
 
             await _context.SaveChangesAsync();
 
