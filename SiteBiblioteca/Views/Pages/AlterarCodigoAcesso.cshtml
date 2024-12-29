@@ -1,39 +1,112 @@
-﻿@model string
+﻿@model AlterarCodigoAcessoViewModel
 
-<div style="display: flex; justify-content: center; align-items: center; height: 100vh; background-color: #666666;">
-    <div style="width: 400px; padding: 20px; background-color: #ffffff; border-radius: 5px; text-align: center;">
+<style>
+    body {
+        margin: 0;
+        padding: 0;
+        height: 100vh;
+        overflow: hidden;
+        background-color: #404040;
+    }
+
+    .container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+    }
+
+    .form-box {
+        width: 400px;
+        padding: 20px;
+        background-color: #ffffff;
+        border-radius: 8px;
+        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+        text-align: center;
+    }
+
+        .form-box h2 {
+            margin-bottom: 20px;
+            color: #007BFF;
+            font-size: 24px;
+        }
+
+        .form-box label {
+            display: block;
+            margin-bottom: 5px;
+            color: #555555;
+            font-size: 14px;
+            text-align: left;
+        }
+
+        .form-box input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #cccccc;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        .form-box button {
+            padding: 10px 20px;
+            background-color: #007BFF;
+            color: #ffffff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+        }
+</style>
+
+<div class="container">
+    <div class="form-box">
         <h2>Alterar Código de Acesso</h2>
 
-        <form method="post" asp-action="AplicarCodigoAcesso" onsubmit="return validarCodigos()">
-            <input style="display: none" type="text" id="UserId" value="@Model" name="userId" />
+        <form method="post" asp-action="AplicarCodigoAcesso">
+            <input type="hidden" value="@Model.Token" name="Token" />
+            <input type="hidden" value="@Model.Email" name="Email" />
 
             <div style="margin-bottom: 15px;">
-                <label for="novoCodigo" style="display: block; margin-bottom: 5px;">Novo Código de Acesso</label>
-                <input type="password" id="novoCodigo" name="NovoCodigo" style="width: 100%; padding: 8px;" required/>
+                <label for="@Model.NovoCodigo">Novo Código de Acesso</label>
+                <input type="password" id="novoCodigo" name="NovoCodigo" required />
             </div>
 
             <div style="margin-bottom: 15px;">
-                <label for="confirmarCodigo" style="display: block; margin-bottom: 5px;">Confirmar Código de Acesso</label>
-                <input type="password" id="confirmarCodigo" name="ConfirmarCodigo" style="width: 100%; padding: 8px;" required/>
+                <label for="@Model.ConfirmarCodigo">Confirmar Código de Acesso</label>
+                <input type="password" id="confirmarCodigo" name="ConfirmarCodigo" required />
             </div>
 
-            <button type="submit" style="padding: 10px 20px; background-color: #333333; color: #ffffff; border: none; border-radius: 5px;">
-                Aplicar
-            </button>
+            <button type="submit" id="botaoAplicar">Aplicar</button>
         </form>
     </div>
 </div>
 
 <script>
-    function validarCodigos() {
-        var novoCodigo = document.getElementById('novoCodigo').value;
-        var confirmarCodigo = document.getElementById('confirmarCodigo').value;
-
-        if (novoCodigo !== confirmarCodigo) {
-            alert('Os códigos de acesso não coincidem.');
-            return false; // Não submeter o formulário
-        }
-
-        return true; // Submeter o formulário
+    function alterarTextoBotao() {
+        var botao = document.getElementById("botaoAplicar");
+        botao.innerHTML = "Alterando...";
+        botao.disabled = true; // Desativa o botão para evitar múltiplos envios
     }
 </script>
+
+<script>
+    function validarCodigos(event) {
+        var novoCodigo = document.getElementById("novoCodigo").value;
+        var confirmarCodigo = document.getElementById("confirmarCodigo").value;
+
+        if (novoCodigo !== confirmarCodigo) {
+            alert("Os códigos de acesso não coincidem. Tente novamente.");
+            event.preventDefault(); // Impede o envio do formulário
+            return false; 
+        }
+        alterarTextoBotao() // Invoca o método para o utilizador observar que está a alterar o código de acesso
+        return true; // Permite o envio do formulário
+    }
+
+    // Adiciona o evento de validação ao formulário
+    document.querySelector("form").addEventListener("submit", function(event) {
+        validarCodigos(event); // Chama a função de validação
+    });
+</script>
+

@@ -89,29 +89,29 @@ namespace SiteBiblioteca.Controllers
         public async Task<IActionResult> RecuperarCodigoAcessoEmail(string email)
         {
             // Verificar se o e-mail está registado no sistema
-            var userAdicional = _context.Adicional.FirstOrDefault(x => x.Email == email);
-
-            if (userAdicional == null)
+            var user = await _userManager.FindByEmailAsync(email);
+            
+            if (user == null)
+            {
                 return Redirect("/Pages/RecuperarCodigoEmail");
+            }
 
-            var user = _context.Users.First(x => x.Email == email);
+            // Gerar um token para redefinir código de acesso
+            var token = await _userManager.GeneratePasswordResetTokenAsync(user);
 
-            // Gerar um código único ou token para o utilizador
-            var codigoRecuperacao = Guid.NewGuid().ToString();
-            HttpContext.Session.SetString("Codigo", codigoRecuperacao);
-            HttpContext.Session.SetString("UserId", user.Id);
-
-            // Gerar o link com o código de recuperação
-            var linkRecuperacao = Url.Action("AlterarCodigoAcesso", "Pages", new { codigo = codigoRecuperacao }, protocol: Request.Scheme) + "??codigo=" + codigoRecuperacao;
+            // Criar um link para redefinir código de acesso
+            var callbackUrl = Url.Action("AlterarCodigoAcesso", "Pages",
+                new { token, email = user.Email }, protocol: Request.Scheme);
 
             // Enviar o e-mail com o link
             var assunto = "Recuperação de Código de Acesso";
-            var corpoEmail = $"<p>Olá,</p><p>Recebemos um pedido para recuperar o seu código de acesso. Para prosseguir, clique no link abaixo:</p><p><a href='{linkRecuperacao}'>Recuperar Código de Acesso</a></p><p>Se você não solicitou isso, por favor, ignore este e-mail.</p>";
+            var mensagem = $"<p>Olá,</p><p>Recebemos um pedido para recuperar o seu código de acesso. Para prosseguir, clique no link abaixo:</p><p><a href='{callbackUrl}'>Recuperar Código de Acesso</a></p><p>Se você não solicitou isso, por favor, ignore este e-mail.</p>";
 
-            await _emailSender.SendEmailAsync(email, assunto, corpoEmail);
+            await _emailSender.SendEmailAsync(email, assunto, mensagem);
 
             return Redirect("/Identity/Account/Login");
         }
+
 
         public IActionResult SobreLivro(string ISBN)
         {
@@ -615,28 +615,23 @@ namespace SiteBiblioteca.Controllers
         }
 
         [HttpGet]
-        public IActionResult AlterarCodigoAcesso(string codigo)
+        public IActionResult AlterarCodigoAcesso(string token, string email)
         {
-            if (codigo.ToString() != HttpContext.Session.GetString("Codigo").ToString())
-            {
-                return Redirect("/Pages/RecuperarCodigoEmail");
-            }
-
-            return View(HttpContext.Session.GetString("UserId"));
+            // Enviar token e email para a view
+            var model = new AlterarCodigoAcessoViewModel { Token = token, Email = email };
+            return View(model);
         }
 
         [HttpPost]
-        public async Task<IActionResult> AplicarCodigoAcesso(string userId, string NovoCodigo, string ConfirmarCodigo)
+        public async Task<IActionResult> AplicarCodigoAcesso(string NovoCodigo, string Token, string Email)
         {
-            var user = await _userManager.FindByIdAsync(userId);
+            var model = new AlterarCodigoAcessoViewModel { Token = Token, Email = Email, NovoCodigo = NovoCodigo, ConfirmarCodigo = NovoCodigo };
 
-            await _userManager.ChangePasswordAsync(user, user.PasswordHash, NovoCodigo);
+            var user = await _userManager.FindByEmailAsync(model.Email);
 
-            // Limpar o código da sessão após alteração
-            HttpContext.Session.Remove("Codigo");
-            HttpContext.Session.Remove("UserId");
+            await _userManager.ResetPasswordAsync(user, model.Token, model.NovoCodigo);
 
-            return Redirect("/Identity/Account/Login");  // Página de sucesso após a alteração
+            return Redirect("/Identity/Account/Login");
         }
 
         public IActionResult UtilizadorBloqueado()

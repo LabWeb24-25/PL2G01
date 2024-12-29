@@ -103,5 +103,6 @@
     function alterarTextoBotao() {
         var botao = document.getElementById("botaoRecuperar");
         botao.innerHTML = "Enviando..."; // Altera o texto do botão
+        botao.disabled = true; // Desativa o botão para evitar múltiplos envios
     }
 </script>
