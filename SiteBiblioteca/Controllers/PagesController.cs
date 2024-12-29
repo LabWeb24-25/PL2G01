@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.DataProtection.XmlEncryption;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Shared;
 using SiteBiblioteca.Areas.Identity.Pages.Account;
 using SiteBiblioteca.Data;
 using SiteBiblioteca.Models;
@@ -365,18 +366,18 @@ namespace SiteBiblioteca.Controllers
 
         [HttpPost]
         public async Task<IActionResult> GuardarDadosBiblioteca(IFormFile image, string contactos, string horario, string mapa, string facebook, 
-            string twitter, string instagram, string youtube, string tiktok)
+            string x, string instagram, string youtube, string tiktok)
         {
             var dados = _context._dadosBiblioteca.FirstOrDefault();
 
             if (dados == null)
             {
                 dados = new DadosBiblioteca();
-                dados.Id = "1";
+                dados.Id = "Unique";
                 _context._dadosBiblioteca.Add(dados);
             }
 
-            // Guardar a nova imagem, se fornecida
+            // Guardar a imagem
             if (image != null && image.Length > 0)
             {
                 var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/img", image.FileName);
@@ -384,22 +385,20 @@ namespace SiteBiblioteca.Controllers
                 {
                     await image.CopyToAsync(stream);
                 }
-                dados.image = image.FileName; // Atualizar com o novo nome da imagem
+                dados.image = image.FileName;
             }
-            // Caso contrário, manter a imagem atual
-
 
             // Atualizar os dados restantes
             dados.contactos = contactos;
             dados.horario = horario;
             dados.mapa = mapa;
             dados.facebook = facebook;
-            dados.x = twitter;
+            dados.x = x;
             dados.instagram = instagram;
             dados.youtube = youtube;
             dados.tiktok = tiktok;
 
-            await _context.SaveChangesAsync(); // Salvar mudanças na tabela DadosBiblioteca
+            await _context.SaveChangesAsync(); // Guardar mudanças na tabela DadosBiblioteca
 
             return Redirect("/Pages/PainelAdministrador");
         }
@@ -611,8 +610,15 @@ namespace SiteBiblioteca.Controllers
             return Redirect("/Identity/Account/PersonalData");
         }
 
-        public IActionResult EmailConfirmado()
+        [HttpGet]
+        public async Task<IActionResult> EmailConfirmado(string userId, string code)
         {
+            // Encontrar o utilizador com base no ID
+            var aspnetuser = await _userManager.FindByIdAsync(userId);
+
+            // Confirmar o e-mail do utilizador com o código
+            var result = await _userManager.ConfirmEmailAsync(aspnetuser, code);
+
             return View();
         }
 

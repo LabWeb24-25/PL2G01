@@ -23,9 +23,6 @@ namespace SiteBiblioteca.Areas.Identity.Pages.Account
 
         public async Task<IActionResult> OnGetAsync()
         {
-            if (_emailsender == null)
-                return Redirect("/");
-
             // Obter o nome de utilizador da sessão
             var username = User.Identity.Name;
 
@@ -33,44 +30,28 @@ namespace SiteBiblioteca.Areas.Identity.Pages.Account
             var aspnetuser = await _userManager.FindByNameAsync(username);
             if (aspnetuser == null)
             {
-                StatusMessage = "utilizador não encontrado.";
+                StatusMessage = "Utilizador não encontrado.";
                 return Page();
             }
 
-            // Gerar um código de confirmação aleatório
-            string confirmationCode = GenerateConfirmationCode();
+            // Gerar o token de confirmação de email
+            var token = await _userManager.GenerateEmailConfirmationTokenAsync(aspnetuser);
 
-            // Confirmar o e-mail do utilizador com o código gerado
-            var result = await _userManager.ConfirmEmailAsync(aspnetuser, confirmationCode);
-
-            // Criar um link de confirmação que será enviado por e-mail
-            var callbackUrl = Url.Page(
-                "/EmailConfirmado", // Página onde o utilizador será redirecionado após a confirmação
-                pageHandler: null,
-                values: new { userId = aspnetuser.Id, code = confirmationCode },
+            // Criar um link de confirmação com o token gerado
+            var callbackUrl = Url.Action("EmailConfirmado", "Pages",
+                new { userId = aspnetuser.Id, code = token },
                 protocol: Request.Scheme);
 
-            // Enviar o código de confirmação ao utilizador por e-mail
-            await _emailsender.SendEmailAsync(aspnetuser.Email, "Confirme seu e-mail", $"Clique no link para confirmar seu e-mail: {callbackUrl}");
+            var mensagem = $"<p>Olá,</p>" +
+               "<p>Recebemos um pedido para confirmar o seu endereço de e-mail. Para prosseguir, clique no link abaixo:</p>" +
+               $"<p><a href='{callbackUrl}'>Clique aqui para confirmar seu e-mail</a></p>" +
+               "<p>Se você não solicitou isso, por favor, ignore este e-mail.</p>";
 
-            // Definir a mensagem de status com base no resultado da confirmação
-            StatusMessage = result.Succeeded ? "Obrigado por confirmar seu e-mail." : "Erro ao confirmar seu e-mail.";
+            await _emailsender.SendEmailAsync(aspnetuser.Email, "Confirme seu e-mail", mensagem);
+
+            // Definir a mensagem de status
+            StatusMessage = "Verifique seu e-mail para confirmar seu endereço de e-mail.";
             return Page();
-        }
-
-        // Função para gerar um código de confirmação aleatório
-        private string GenerateConfirmationCode()
-        {
-            var random = new Random();
-            var builder = new StringBuilder();
-            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-
-            // Gerar um código de 32 caracteres
-            for (int i = 0; i < 32; i++)
-            {
-                builder.Append(chars[random.Next(chars.Length)]);
-            }
-            return builder.ToString();
         }
     }
 }

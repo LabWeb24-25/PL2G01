@@ -1,9 +1,5 @@
 ﻿@model SiteBiblioteca.Models.DadosBiblioteca
 
-@{
-    ViewData["Title"] = "Editar Dados da Biblioteca";
-}
-
 <style>
     html, body {
         height: 100%;
@@ -93,10 +89,10 @@
 <div>
     <h2>Editar Dados da Biblioteca</h2>
 
-    <form asp-action="GuardarDadosBiblioteca" method="post" enctype="multipart/form-data">
+    <form asp-action="GuardarDadosBiblioteca" method="post" enctype="multipart/form-data" onsubmit="desabilitar()">
         <div class="form-group">
             <label asp-for="image">Imagem</label>
-            <input asp-for="image" type="file" accept="image/*">
+            <input asp-for="image" type="file" id="imageInput" accept="image/*">
             <span asp-validation-for="image" class="text-danger"></span>
         </div>
 
@@ -152,4 +148,15 @@
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
+
+    <script>
+        // Lógica para desabilitar a imagem se já existir uma URL de imagem
+        function desabilitar() {
+            var imageUrl = '@Model.image'; // Assume que a URL da imagem já esteja no modelo.
+            if (imageUrl) {
+                // Se já houver URL de imagem, desabilite o campo de imagem.
+                $('#imageInput').prop('disabled', true);
+            }
+        };
+    </script>
 }

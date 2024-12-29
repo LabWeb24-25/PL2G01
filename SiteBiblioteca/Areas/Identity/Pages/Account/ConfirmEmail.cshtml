@@ -1,8 +1,5 @@
 ﻿@page
 @model SiteBiblioteca.Areas.Identity.Pages.Account.ConfirmEmailModel
-@{
-    ViewData["Title"] = "Confirmar Email";
-}
 
 <style>
     /* Garante que o fundo ocupe toda a área da página */
@@ -10,27 +7,97 @@
         height: 100%;
         width: 100%;
         margin: 0;
-        background-color: #404040;
+        background-color: #444;
+        font-family: Arial, sans-serif;
     }
 
     .button {
-        padding: 10px;
-        background-color: #cccccc;
-        color: #000;
+        padding: 12px 20px;
+        background-color: #007bff;
+        color: #fff;
         border: none;
         border-radius: 5px;
         cursor: pointer;
+        font-size: 16px;
+        transition: background-color 0.3s, transform 0.2s;
     }
+
+        .button:hover {
+            background-color: #0056b3;
+            transform: scale(1.05);
+        }
+
+    .header {
+        display: flex;
+        align-items: center;
+        margin-bottom: 20px;
+    }
+
+    .btn-primary {
+        margin-right: 20px;
+        padding: 8px 15px;
+        background-color: #6c757d;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+
+        .btn-primary:hover {
+            background-color: #495057;
+        }
+
+    .content-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        background-color: #444;
+    }
+
+    .content-box {
+        width: 100%;
+        max-width: 600px;
+        padding: 30px;
+        background-color: #ffffff;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        text-align: center;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .header h2 {
+        font-weight: normal;
+        color: #333;
+    }
+
+    .message {
+        font-size: 16px;
+        color: #666;
+        margin-bottom: 30px;
+    }
+
+    .button-container {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 30px;
+    }
+
+        .button-container .button {
+            width: 48%;
+        }
 </style>
 
-<div style="display: flex; justify-content: center; align-items: center; height: 100vh; background-color: #404040;">
-    <div style="width: 400px; text-align: center; padding: 20px; background-color: #ffffff; border: 1px solid #000;">
+<div class="content-container">
+    <div class="content-box">
+        <!-- Botão ao lado do título -->
         <div class="header">
-            <img src="/img/logo.png" onclick="location.href='/'" alt="Logotipo" />
-            <h2 style="font-weight: normal;">Por favor, confirme o seu email</h2>
+            <button class="btn-primary" onclick="window.location.href='/Identity/Account/PersonalData'">&lt;</button>
+            <h2>Por favor, confirme o seu email</h2>
         </div>
 
-        <p style="font-size: 16px; margin-bottom: 30px; color: #404040;">
+        <p class="message">
             Aceda à sua conta de email para concluir <br /> o processo de confirmação
         </p>
 
