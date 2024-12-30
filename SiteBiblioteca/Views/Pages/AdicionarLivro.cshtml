@@ -127,6 +127,7 @@
 
                     <label for="autor">Autor:</label>
                     <select id="autor" name="autor" required>
+                        <option value="" selected disabled>Escolha um autor</option>
                         @foreach (var autor in Model)
                         {
                             <option value="@autor.Id">@autor.Nome</option>

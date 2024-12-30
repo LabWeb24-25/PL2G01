@@ -38,5 +38,15 @@ public class DataLoaderService
 
             _context.SaveChanges();
         }
+
+        if (!_context._dadosBiblioteca.Any())
+        {
+            // Carregar dados do arquivo de configuração
+            var dadosBibliotecaDefault = _configuration.GetSection("DadosBiblioteca").Get<DadosBiblioteca>();
+
+            _context._dadosBiblioteca.Add(dadosBibliotecaDefault);
+
+            _context.SaveChanges();
+        }
     }
 }

@@ -209,7 +209,8 @@ namespace SiteBiblioteca.Controllers
                 var caminhoCompleto = Path.Combine(caminhoPasta, nomeFicheiro);
 
                 // Remover imagem antiga, se existir
-                if (!string.IsNullOrEmpty(autorExistente.Imagem))
+                if (!string.IsNullOrEmpty(autorExistente.Imagem) && !autorExistente.Imagem.Contains("dan_brown.jpg")
+                    && !autorExistente.Imagem.Contains("orwell.jpg") && !autorExistente.Imagem.Contains("tolkien.jpg"))
                 {
                     var caminhoAntigo = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", autorExistente.Imagem.TrimStart('/'));
                     if (System.IO.File.Exists(caminhoAntigo))
@@ -264,7 +265,8 @@ namespace SiteBiblioteca.Controllers
                 var caminhoCompleto = Path.Combine(caminhoPasta, nomeFicheiro);
 
                 // Remover imagem antiga, se existir
-                if (!string.IsNullOrEmpty(livroExistente.imagem))
+                if (!string.IsNullOrEmpty(livroExistente.imagem) && !livroExistente.imagem.Contains("codigo_da_vinci.jpg")
+                    && !livroExistente.imagem.Contains("senhor_dos_aneis.jpg") && !livroExistente.imagem.Contains("1984.jpg"))
                 {
                     var caminhoAntigo = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", livroExistente.imagem.TrimStart('/'));
                     if (System.IO.File.Exists(caminhoAntigo))
@@ -376,13 +378,6 @@ namespace SiteBiblioteca.Controllers
         {
             var dados = _context._dadosBiblioteca.FirstOrDefault();
 
-            if (dados == null)
-            {
-                dados = new DadosBiblioteca();
-                dados.Id = "Unique";
-                _context._dadosBiblioteca.Add(dados);
-            }
-
             // Guardar a imagem
             if (image != null && image.Length > 0)
             {
@@ -391,6 +386,17 @@ namespace SiteBiblioteca.Controllers
                 {
                     await image.CopyToAsync(stream);
                 }
+
+                // Remover imagem antiga, se existir
+                if (!string.IsNullOrEmpty(dados.image) && dados.image != "biblioteca.png")
+                {
+                    var caminhoAntigo = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/img", dados.image.TrimStart('/'));
+                    if (System.IO.File.Exists(caminhoAntigo))
+                    {
+                        System.IO.File.Delete(caminhoAntigo);
+                    }
+                }
+
                 dados.image = image.FileName;
             }
 

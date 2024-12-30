@@ -150,13 +150,30 @@
     <partial name="_ValidationScriptsPartial" />
 
     <script>
-        // Lógica para desabilitar a imagem se já existir uma URL de imagem
         function desabilitar() {
             var imageUrl = '@Model.image'; // Assume que a URL da imagem já esteja no modelo.
-            if (imageUrl) {
-                // Se já houver URL de imagem, desabilite o campo de imagem.
-                $('#imageInput').prop('disabled', true);
+            var imageInput = $('#imageInput'); // O campo de entrada de imagem.
+
+            // Caso 1: imageInput sem imagem e Model.image com imagem
+            if (!imageInput.val() && imageUrl) {
+                // Se imageInput não tem imagem e Model.image tem imagem, desabilitar o campo.
+                imageInput.prop('disabled', true);
             }
-        };
+            // Caso 2: imageInput com imagem e Model.image com imagem
+            else if (imageInput.val() && imageUrl) {
+                // Se ambos imageInput e Model.image têm imagens, habilitar o campo.
+                imageInput.prop('disabled', false);
+            }
+            // Caso 3: imageInput com imagem e Model.image sem imagem
+            else if (imageInput.val() && !imageUrl) {
+                // Se imageInput tem imagem e Model.image não tem imagem, habilitar o campo.
+                imageInput.prop('disabled', false);
+            }
+            // Caso 4: imageInput sem imagem e Model.image sem imagem
+            else if (!imageInput.val() && !imageUrl) {
+                // Se ambos imageInput e Model.image não têm imagem, habilitar o campo.
+                imageInput.prop('disabled', false);
+            }
+        }
     </script>
 }
