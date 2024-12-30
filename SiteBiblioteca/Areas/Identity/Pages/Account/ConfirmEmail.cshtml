@@ -80,13 +80,10 @@
 
     .button-container {
         display: flex;
-        justify-content: space-between;
         margin-top: 30px;
+        align-self: center;
+        margin-left: 185px;
     }
-
-        .button-container .button {
-            width: 48%;
-        }
 </style>
 
 <div class="content-container">
@@ -103,7 +100,6 @@
 
         <div class="button-container">
             <button class="button" onclick="window.location.href='./ConfirmEmail'">Enviar novamente</button>
-            <button class="button" onclick="window.location.href='@Url.Action("EditarPerfil", "Pages")'">Alterar endereço de email</button>
         </div>
     </div>
 </div>
