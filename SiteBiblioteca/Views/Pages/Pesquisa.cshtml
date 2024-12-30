@@ -120,7 +120,7 @@
         <!-- Barra de pesquisa -->
         <div class="search-bar">
             <form action="/Pages/Pesquisa" method="get" class="search-bar d-flex">
-                <input type="text" name="termo" placeholder="Procure um livro" class="form-control me-2" />
+                <input type="text" name="termo" value="@ViewData["termo"]" placeholder="Procure um livro" class="form-control me-2" />
                 <button type="submit" class="btn btn-primary">Pesquisar</button>
             </form>
         </div>

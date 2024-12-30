@@ -310,6 +310,8 @@ namespace SiteBiblioteca.Controllers
                 .Include(l => l.autor)
                 .ToList();
 
+            ViewData["termo"] = termo;
+
             return View(livros);
         }
 
